@@ -23,7 +23,10 @@
 				"unmaximize": true,
 				"unminimize": true,
 				"startDragging": true
-			}
+			},
+      "os": {
+        "all": true
+      }
 		},
     "systemTray": {
       "iconPath": "icons/icon.png",

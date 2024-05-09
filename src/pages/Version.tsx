@@ -18,7 +18,7 @@ export default function Version() {
 			await unSubscribe()
 		}
 		b()
-	})
+	}, [])
 
 	return (
 		<div>
