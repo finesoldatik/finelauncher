@@ -1,0 +1,29 @@
+[package]
+name = "finelauncher"
+version = "0.0.1"
+description = "finelauncher"
+authors = ["finesoldatik"]
+license = "MPL"
+repository = "https://github.com/darvin7531/VoxelEngine-Launcher"
+default-run = "finelauncher"
+edition = "2021"
+rust-version = "1.60"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.5.1", features = [] }
+
+[dependencies]
+zip-extract = "0.1.3"
+downloader = "0.2.7"
+directories = "5.0.1"
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.5.4", features = [ "system-tray", "cli", "window-minimize", "window-close", "window-unminimize", "window-set-fullscreen", "window-hide", "window-show", "window-unmaximize", "window-start-dragging", "window-maximize"] }
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.
+# If you use cargo directly instead of tauri's cli you can use this feature flag to switch between tauri's `dev` and `build` modes.
+# DO NOT REMOVE!!
+custom-protocol = [ "tauri/custom-protocol" ]
