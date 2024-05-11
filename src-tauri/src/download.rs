@@ -13,7 +13,7 @@ use downloader::Downloader;
 use tauri::Window;
 
 use std::path::Path;
-use std::thread;
+use std::{env, thread};
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
@@ -92,7 +92,12 @@ pub async fn download_version(window: Window, url: String, name: String) {
     thread::scope(|s| {
       s.spawn(move || {
         println!("ЗАГРУЗКА ВЕРСИИ НАЧАТА");
-        let filename = format!("{name}.zip");
+        let mut filename: String = format!("version.zip");
+        if env::consts::OS == "windows" {
+          filename = format!("version.zip");
+        } else if env::consts::OS == "linux" {
+          filename = format!("version.AppImage");
+        }
         let path = format!("versions\\{name}");
         let save_path = Path::new(&get_path().unwrap()).join(format!("finelauncher\\{path}"));
         mkdir(&path);
@@ -130,8 +135,11 @@ pub async fn download_version(window: Window, url: String, name: String) {
             Err(e) => println!("Error: {}", e.to_string()),
             Ok(s) => {
               println!("Success: {}", &s);
-              let file = save_path.join(format!("{name}.zip"));
-              unzip(&file.display().to_string(), save_path.clone());
+              println!("{}", env::consts::OS); // Prints the current OS.
+              if env::consts::OS == "windows" {
+                let file = save_path.join(format!("{name}.zip"));
+                unzip(&file.display().to_string(), save_path.clone());
+              }
             },
           };
         }

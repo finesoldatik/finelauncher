@@ -24,6 +24,10 @@
 				"unminimize": true,
 				"startDragging": true
 			},
+      "fs": {
+				"readDir": true,
+				"scope": ["$DOCUMENT/finelauncher/*"]
+			},
       "os": {
         "all": true
       }
@@ -64,7 +68,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.finelauncher",
       "longDescription": "",
       "macOS": {
         "entitlements": null,

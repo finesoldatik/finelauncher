@@ -1,53 +1,55 @@
-import { useState, useEffect, useRef } from 'react'
+import { useParams } from 'react-router-dom'
 import api from '../api.ts'
 
 export default function Version() {
-	const progressBarRef = useRef(null)
+	const params = useParams()
 
-	const [installed, setInstalled] = useState(false)
+	let image
 
-	useEffect(() => {
-		const a = async () => {
-			const result = await api.checkVersion('v18')
-			setInstalled(result)
-		}
-		a()
+	// if (params.version.split(' ')[0] === 'VE') image = '/images/ve-512.png'
+	// else if (params.version.split(' ')[0] === 'RVE') image = '/images/rve-512.png'
 
-		const b = async () => {
-			const unSubscribe = await api.getProgress(progressBarRef)
-			await unSubscribe()
-		}
-		b()
-	}, [])
+	console.log('VE' in params.version.split(' '))
+	console.log(params)
+
+	if ('VE' in params.version.split(' ')) image = '/images/ve-512.png'
+	else if ('RVE' in params.version.split(' ')) image = '/images/rve-512.png'
+
 
 	return (
-		<div>
-			<h1>Version</h1>
-			{installed ? (
-				<>
-					<button className='default' onClick={() => api.runVersion('v18')}>
-						Редактировать
-					</button>
-					<button className='default' onClick={() => api.runVersion('v18')}>
-						Играть
-					</button>
-				</>
-			) : (
-				<>
-					<p ref={progressBarRef}>Прогресс Бар</p>
-					<button
-						className='btn'
-						onClick={() =>
-							api.installVersion(
-								'https://github.com/MihailRis/VoxelEngine-Cpp/releases/download/v18/voxelengine_v18_win64.zip',
-								'v18'
-							)
-						}
-					>
-						Установить
-					</button>
-				</>
-			)}
+		<div
+			className='default'
+			style={{
+				backgroundColor: '#111',
+				width: 300,
+				cursor: 'default',
+				margin: 'auto',
+			}}
+		>
+			<img
+				src={image}
+				width={160}
+				height={160}
+				alt='image'
+				style={{ padding: 10, textAlign: 'center' }}
+			/>
+			<h3>Имя версии: {params.name}</h3>
+			<div style={{ marginTop: 20, textAlign: 'center' }}>
+				<button
+					className='default'
+					style={{ width: 170, marginRight: 10 }}
+					onClick={() => api.openDirOfVersion(params.name)}
+				>
+					Открыть папку
+				</button>
+				<button
+					className='default'
+					style={{ backgroundColor: '#34653A', width: 115 }}
+					onClick={() => api.runVersion(params.name)}
+				>
+					Играть
+				</button>
+			</div>
 		</div>
 	)
 }

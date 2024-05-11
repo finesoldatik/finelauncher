@@ -4,7 +4,7 @@ import './VersionSelect.scss'
 import Util from '../../utils/version/index'
 import { os } from '@tauri-apps/api'
 
-export default function VersionSelect() {
+export default function VersionSelect({ setVersion, ...props }) {
 	const [isLoading, setIsLoading] = useState(true)
 	const [currentVersion, setCurrentVersion] = useState('')
 	const [versions, setVersions] = useState([])
@@ -22,7 +22,7 @@ export default function VersionSelect() {
 
 			versions = versions.map(version => ({
 				...version,
-				label: `${version.repository.toUpperCase()} ${version.name}`,
+				label: `${version.repository} ${version.name}`,
 				value: version.url,
 			}))
 
@@ -35,10 +35,14 @@ export default function VersionSelect() {
 	const getValue = () =>
 		currentVersion ? versions.find(c => c.value === currentVersion) : ''
 
-	const onChange = (newValue: any) => setCurrentVersion(newValue.value)
+	const onChange = (newValue: any) => {
+		setCurrentVersion(newValue.value)
+		setVersion(newValue.value)
+	}
 
 	return (
 		<ReactSelect
+			{...props}
 			classNamePrefix='version-select'
 			onChange={onChange}
 			value={getValue()}

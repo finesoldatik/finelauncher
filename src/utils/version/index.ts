@@ -14,11 +14,11 @@ type platformCheckCallback = (asset: Asset) => boolean;
 
 const defaultRepos = [
   {
-    name: "ve",
+    name: "VE",
     url: "https://api.github.com/repos/MihailRis/VoxelEngine-Cpp/releases"
   },
   {
-    name: "rve",
+    name: "RVE",
     url: "https://api.github.com/repos/wampal/RustyVoxelEngine/releases"
   }
 ];
@@ -74,7 +74,7 @@ export default class VersionWrapper {
         });
       });
     });
-    console.log("versions", versions);
+    console.log("versions:", versions);
     return versions;
   };
 

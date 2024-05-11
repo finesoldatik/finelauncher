@@ -18,7 +18,7 @@ const router = createBrowserRouter([
 				element: <Pages.Versions />,
 			},
 			{
-				path: '/version',
+				path: '/versions/:name/:version',
 				element: <Pages.Version />,
 			},
 			{

@@ -12,8 +12,8 @@ pub fn get_path() -> Result<String, io::Error> {
   }
 }
 
-pub fn mkdir(_path: &str) {
-  let docs: String = get_path().unwrap() + "\\finelauncher\\" + _path;
+pub fn mkdir(path: &str) {
+  let docs: String = get_path().unwrap() + "\\finelauncher\\" + path;
   let path = Path::new(&docs);
   if exists(path) == false {
     let _ = fs::create_dir(docs);
@@ -22,6 +22,12 @@ pub fn mkdir(_path: &str) {
 
 pub fn exists(path: &Path) -> bool {
   fs::metadata(path).is_ok()
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn get_launcher_path() -> String {
+  let launcher_path: String = get_path().unwrap() + "\\finelauncher\\";
+  launcher_path.into()
 }
 
 #[tauri::command(rename_all = "snake_case")]

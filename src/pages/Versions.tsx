@@ -1,47 +1,43 @@
+import { useEffect, useState } from 'react'
 import NewVersion from '../components/newVersion/NewVersion'
 import Version from '../components/version/Version'
+import api from '../api'
 
-const versions = [
-	{
-		title: '1114',
-		version: 'VoxelEngine v12',
-	},
-	{
-		title: '2223',
-		version: 'VoxelEngine v13',
-	},
-	{
-		title: '2222',
-		version: 'VoxelEngine v14',
-	},
-	{
-		title: '2221',
-		version: 'VoxelEngine v17',
-	},
-	{
-		title: '1114',
-		version: 'VoxelEngine v12',
-	},
-	{
-		title: '2223',
-		version: 'VoxelEngine v13',
-	},
-	{
-		title: '2222',
-		version: 'VoxelEngine v14',
-	},
-	{
-		title: '2221',
-		version: 'VoxelEngine v17',
-	},
-]
+interface IVersion {
+	name: string
+	version: string
+	isVersion: boolean
+}
 
 export default function Versions() {
+	const [versions, setVersions] = useState<IVersion[]>([
+		{ name: 'Загрузка версий', version: 'VE Пожалуйста подождите', isVersion: false },
+	])
+	useEffect(() => {
+		api.getInstalledVersions().then(value => {
+			const entries: IVersion[] = value.map(version => ({
+				name: version.name,
+				version: 'VE v12',
+			}))
+			console.log(entries)
+			setVersions(entries)
+		})
+	}, [])
 	return (
 		<>
 			<div className='versions'>
 				<NewVersion />
-				{versions.map((el, idx) => Version(el.title, el.version, idx))}
+				{versions.length ? (
+					versions.map((el, idx) => <Version props={{ ...el, isVersion: true }} key={idx} />)
+				) : (
+					<Version
+						props={{
+							name: 'Версий не найдено',
+							version: 'VE или RVE, вот в чем вопрос',
+							isVersion: false
+						}}
+					/>
+				)}
 			</div>
 		</>
 	)
