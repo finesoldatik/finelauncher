@@ -1,5 +1,5 @@
 export interface IVersion {
-	name: string
+	name: string | undefined
 	version: string
 	isVersion: boolean
 }

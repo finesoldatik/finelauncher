@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/tauri'
 import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs'
 
-type installVersion = (url: string, name: string) => void
+type installVersion = (url: string, name: string) => Promise<never>
 type runVersion = (version: string) => void
 type openDirOfVersion = (version: string) => void
 type checkVersion = (version: string) => Promise<boolean>

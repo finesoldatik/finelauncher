@@ -10,6 +10,10 @@ const defaultRepos = [
 		name: 'RVE',
 		url: 'https://api.github.com/repos/wampal/RustyVoxelEngine/releases',
 	},
+	{
+		name: 'DERBIS',
+		url: 'https://api.github.com/repos/R0STUS/VoxelEngine-Cpp-DEBRIS/releases',
+	},
 ]
 
 export interface IVersion {

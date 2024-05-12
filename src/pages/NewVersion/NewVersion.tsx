@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
-import VersionSelect from '../../components/version-select/VersionSelect'
+import VersionSelect from '../../components/versionSelect/VersionSelect'
 import api from '../../api'
 import { useState, useEffect, useRef } from 'react'
 import { INewVersion } from './interface'
@@ -12,6 +12,7 @@ export default function NewVersion() {
 	const [version, setVersion] = useState<string>('')
 	const [versionChanged, setVersionChanged] = useState<boolean>(true)
 	const progressBarRef = useRef<HTMLParagraphElement>(null)
+	const createBtnRef = useRef<HTMLParagraphElement>(null)
 	const {
 		register,
 		handleSubmit,
@@ -34,7 +35,10 @@ export default function NewVersion() {
 			setVersionChanged(false)
 		} else {
 			api.checkVersion(data.name).then(value => {
-				if (!value) api.installVersion(version, data.name)
+				if (!value) createBtnRef.current.disabled = true
+				api.installVersion(version, data.name).then(() => {
+					createBtnRef.current.disabled = false
+				})
 				setExistsVersion(value)
 			})
 			setVersionChanged(true)
@@ -81,7 +85,11 @@ export default function NewVersion() {
 				Прогресс Бар
 			</p>
 
-			<button className={'black-style ' + styles['create-btn']} type='submit'>
+			<button
+				className={'black-style ' + styles['create-btn']}
+				ref={createBtnRef}
+				type='submit'
+			>
 				Создать
 			</button>
 		</form>

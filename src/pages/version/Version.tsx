@@ -8,14 +8,8 @@ export default function Version() {
 
 	let image
 
-	if (params.version.split(' ')[0] === 'VE') image = '/images/ve-512.png'
-	else if (params.version.split(' ')[0] === 'RVE') image = '/images/rve-512.png'
-
-	// console.log('VE' in params.version.split(' '))
-	// console.log(params)
-
-	// if ('VE' in params.version.split(' ')) image = '/images/ve-512.png'
-	// else if ('RVE' in params.version.split(' ')) image = '/images/rve-512.png'
+	if (params.version?.split(' ')[0] === 'VE') image = '/images/ve-512.png'
+	else if (params.version?.split(' ')[0] === 'RVE') image = '/images/rve-512.png'
 
 	return (
 		<div className={'black-style ' + styles['container']}>
@@ -32,7 +26,7 @@ export default function Version() {
 					className={'black-style ' + styles['opendir-btn']}
 					onClick={() => api.openDirOfVersion(params.name)}
 				>
-					Открыть папку
+					Открыть в проводнике
 				</button>
 				<button
 					className={'black-style green-bg ' + styles['play-btn']}
