@@ -1,32 +1,32 @@
 import { useEffect, useState } from 'react'
 import ReactSelect from 'react-select'
 import './VersionSelect.scss'
-import Util from '../../utils/version/index'
+import Util, { IVersion } from '../../utils/version/index'
 import { os } from '@tauri-apps/api'
+import { IProps, ISelectableVersion, CurrentVersion } from './interface.ts'
 
-export default function VersionSelect({ setVersion, ...props }) {
-	const [isLoading, setIsLoading] = useState(true)
-	const [currentVersion, setCurrentVersion] = useState('')
-	const [versions, setVersions] = useState([])
+export default function VersionSelect(props: IProps) {
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [currentVersion, setCurrentVersion] = useState<CurrentVersion>('')
+	const [versions, setVersions] = useState<ISelectableVersion[]>([])
 
 	useEffect(() => {
 		const versionWrapper = new Util()
 
 		const getVersions = async () => {
 			const platform = await os.platform()
-			let versions: object[]
+			let releases: IVersion[] = []
 
-			if (platform === 'win32') versions = versionWrapper.getWindowsVersions()
+			if (platform === 'win32') releases = versionWrapper.getWindowsVersions()
 			else if (platform === 'linux')
-				versions = versionWrapper.getLinuxVersions()
+				releases = versionWrapper.getLinuxVersions()
 
-			versions = versions.map(version => ({
-				...version,
+			const versionList = releases.map(version => ({
 				label: `${version.repository} ${version.name}`,
 				value: version.url,
 			}))
 
-			setVersions(versions)
+			setVersions(versionList)
 			setIsLoading(false)
 		}
 		versionWrapper.getRepositories().then(() => getVersions())
@@ -35,14 +35,13 @@ export default function VersionSelect({ setVersion, ...props }) {
 	const getValue = () =>
 		currentVersion ? versions.find(c => c.value === currentVersion) : ''
 
-	const onChange = (newValue: any) => {
+	const onChange = (newValue: ISelectableVersion) => {
 		setCurrentVersion(newValue.value)
-		setVersion(newValue.value)
+		props.setVersion(newValue.value)
 	}
 
 	return (
 		<ReactSelect
-			{...props}
 			classNamePrefix='version-select'
 			onChange={onChange}
 			value={getValue()}

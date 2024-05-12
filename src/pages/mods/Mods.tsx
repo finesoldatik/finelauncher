@@ -1,8 +1,10 @@
+import styles from './Mods.module.scss'
+
 export default function Mods() {
 	return (
-		<div className='default' style={{ cursor: 'default', textAlign: 'center' }}>
+		<div className={'black-style ' + styles['container']}>
 			Пока-что здесь ничего нет, но в следующих обновлениях все будет! Нужно
-			всего-лишь немного подождать..
+			всего-лишь немножко подождать..
 		</div>
 	)
 }

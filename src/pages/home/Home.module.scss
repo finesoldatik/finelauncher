@@ -1,0 +1,22 @@
+.container {
+	text-align: center;
+	margin: auto;
+	margin-top: 100px;
+
+	.btn-container {
+		margin-top: 30px;
+	}
+
+	.play-btn {
+		width: 115px;
+	}
+
+	.versions-btn {
+		width: 115px;
+		margin-right: 5px;
+	}
+
+	.inline {
+		display: inline-block;
+	}
+}

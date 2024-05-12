@@ -94,9 +94,13 @@ pub async fn download_version(window: Window, url: String, name: String) {
         println!("ЗАГРУЗКА ВЕРСИИ НАЧАТА");
         let mut filename: String = format!("version.zip");
         if env::consts::OS == "windows" {
+          println!("os: windows");
           filename = format!("version.zip");
+          println!("{:?}", filename)
         } else if env::consts::OS == "linux" {
+          println!("os: linux");
           filename = format!("version.AppImage");
+          println!("{:?}", filename)
         }
         let path = format!("versions\\{name}");
         let save_path = Path::new(&get_path().unwrap()).join(format!("finelauncher\\{path}"));
@@ -137,7 +141,7 @@ pub async fn download_version(window: Window, url: String, name: String) {
               println!("Success: {}", &s);
               println!("{}", env::consts::OS); // Prints the current OS.
               if env::consts::OS == "windows" {
-                let file = save_path.join(format!("{name}.zip"));
+                let file = save_path.join(format!("version.zip"));
                 unzip(&file.display().to_string(), save_path.clone());
               }
             },

@@ -2,7 +2,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import VersionSelect from '../../components/version-select/VersionSelect'
 import api from '../../api'
 import { useState, useEffect, useRef } from 'react'
-import { INewVersion } from './NewVersion.interface'
+import { INewVersion } from './interface'
+import styles from './NewVersion.module.scss'
 
 import { listen } from '@tauri-apps/api/event'
 
@@ -18,23 +19,11 @@ export default function NewVersion() {
 	} = useForm<INewVersion>()
 
 	useEffect(() => {
-		// api.getProgress(progressBarRef).then(unSubscribe => {
-		// 	unSubscribe()
-		// })
-
-		// // Подписываемся на событие
-		// const getProgress = async progressBarRef => {
 		const unSubscribe = listen('update-progress', event => {
 			console.log('Событие update_process:', event.payload)
-			progressBarRef.current.innerText = event.payload.message // Вопросительный знак убрал
+			progressBarRef.current.innerText = event.payload.message
 		})
-		// return unSubscribe
-		// }
 
-		// getProgress(progressBarRef).then(unsub => {
-		// 	console.log(unsub)
-		// 	unsub()
-		// })
 		return () => {
 			unSubscribe.then(unsub => unsub())
 		}
@@ -54,16 +43,10 @@ export default function NewVersion() {
 
 	return (
 		<form
-			className='default'
-			style={{
-				backgroundColor: '#111',
-				width: 300,
-				cursor: 'default',
-				margin: 'auto',
-			}}
+			className={'black-style ' + styles['container']}
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<p style={{ marginTop: 10 }}>* Обязательное поле</p>
+			<p className={styles['mt-10']}>* Обязательное поле</p>
 			<p className='violet-text'>Не длинее 12 символов</p>
 
 			<input
@@ -71,9 +54,8 @@ export default function NewVersion() {
 					required: 'Заполните это поле!',
 					maxLength: 12,
 				})}
-				className='default'
+				className={'black-style ' + styles['name-input']}
 				type='text'
-				style={{ cursor: 'text', marginTop: 10 }}
 				placeholder='Введите имя версии'
 			/>
 
@@ -85,39 +67,21 @@ export default function NewVersion() {
 				<></>
 			)}
 
-			<p style={{ marginTop: 10 }}>* Обязательное поле</p>
-			<p className='violet-text' style={{ marginBottom: 10 }}>
-				Выберите версию
-			</p>
+			<p className={styles['mt-10']}>* Обязательное поле</p>
+			<p className={'violet-text ' + styles['mb-10']}>Выберите версию</p>
 
-			<div>
-				<VersionSelect setVersion={setVersion} />
-			</div>
+			<VersionSelect setVersion={setVersion} />
 
 			{versionChanged ? <></> : <p className='error-text'>Выберите версию!</p>}
 
 			<p
-				className='default'
-				style={{
-					backgroundColor: '#514B9E',
-					marginTop: 20,
-					textAlign: 'center',
-				}}
+				className={'black-style ' + styles['progressbar']}
 				ref={progressBarRef}
 			>
 				Прогресс Бар
 			</p>
 
-			<button
-				className='default'
-				style={{
-					backgroundColor: '#34653A',
-					width: '100%',
-					marginTop: 15,
-					marginBottom: 10,
-				}}
-				type='submit'
-			>
+			<button className={'black-style ' + styles['create-btn']} type='submit'>
 				Создать
 			</button>
 		</form>

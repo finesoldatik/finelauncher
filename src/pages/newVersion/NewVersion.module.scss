@@ -1,0 +1,32 @@
+.container {
+	background-color: #111;
+	width: 300px;
+	cursor: default;
+	margin: auto;
+
+	.name-input {
+		cursor: text;
+		margin-top: 10px;
+	}
+
+	.mb-10 {
+		margin-bottom: 10px;
+	}
+
+	.mt-10 {
+		margin-top: 10px;
+	}
+
+	.progressbar {
+		background-color: #514b9e;
+		margin-top: 20px;
+		text-align: center;
+	}
+
+	.create-btn {
+		background-color: #34653a;
+		width: 100%;
+		margin-top: 15px;
+		margin-bottom: 10px;
+	}
+}

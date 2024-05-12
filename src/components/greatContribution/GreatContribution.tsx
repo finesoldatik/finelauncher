@@ -1,6 +1,8 @@
-export default function Settings() {
+import styles from './GreatContribution.module.scss'
+
+export default function GreatContribution() {
 	return (
-		<div className='default' style={{ cursor: 'default', textAlign: 'center' }}>
+		<div className={'black-style ' + styles['container']}>
 			<p>Большой вклад внесли:</p>
 			<p className='violet-text'>@kotisoff</p>
 			<p className='violet-text'>@booleanfalse</p>

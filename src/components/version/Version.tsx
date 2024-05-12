@@ -1,15 +1,8 @@
-import styles from './Version.module.css'
+import styles from './Version.module.scss'
 import { useNavigate } from 'react-router-dom'
+import { IProps } from './interface.ts'
 
-interface IVersionProp {
-	props: {
-		name: string
-		version: string
-		isVersion: boolean
-	}
-}
-
-export default function Version(props: IVersionProp) {
+export default function Version(props: IProps) {
 	const navigate = useNavigate()
 
 	const properties = props.props
@@ -22,8 +15,7 @@ export default function Version(props: IVersionProp) {
 
 	return (
 		<button
-			style={{ borderRadius: 0, margin: 1 }}
-			className='default box'
+			className={'black-style ' + styles['container']}
 			onClick={() =>
 				properties.isVersion
 					? navigate(`/versions/${properties.name}/${properties.version}`)
@@ -35,20 +27,10 @@ export default function Version(props: IVersionProp) {
 				width={96}
 				height={96}
 				alt='image'
-				className={styles.image}
+				className={styles['image']}
 			/>
-			<h2
-				className={styles.title}
-				style={{ margin: 'auto', textAlign: 'center' }}
-			>
-				{properties.name}
-			</h2>
-			<p
-				className={styles.version}
-				style={{ margin: 'auto', textAlign: 'center' }}
-			>
-				{properties.version}
-			</p>
+			<h2 className={styles['text']}>{properties.name}</h2>
+			<p className={styles['text']}>{properties.version}</p>
 		</button>
 	)
 }

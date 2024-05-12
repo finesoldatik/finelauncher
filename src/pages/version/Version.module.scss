@@ -1,0 +1,25 @@
+.container {
+	background-color: #111;
+	width: 300px;
+	cursor: default;
+	margin: auto;
+
+	.image {
+		padding: 10px;
+		text-align: center;
+	}
+
+	.opendir-btn {
+		width: 170px;
+		margin-right: 10px;
+	}
+
+	.play-btn {
+		width: 115px;
+	}
+
+	.btn-container {
+		margin-top: 20px;
+		text-align: center;
+	}
+}

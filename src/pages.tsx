@@ -1,9 +1,9 @@
-import Home from './pages/Home'
-import Versions from './pages/Versions'
-import NewVersion from './pages/NewVersion/NewVersion'
-import Mods from './pages/Mods'
-import Settings from './pages/Settings'
-import Version from './pages/Version'
+import Home from './pages/home/Home'
+import Versions from './pages/versions/Versions'
+import NewVersion from './pages/newVersion/NewVersion'
+import Mods from './pages/mods/Mods'
+import Settings from './pages/settings/Settings'
+import Version from './pages/version/Version'
 
 export default {
 	Home,

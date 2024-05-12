@@ -1,5 +1,5 @@
 import { appWindow } from '@tauri-apps/api/window'
-import styles from './Titlebar.module.css'
+import styles from './Titlebar.module.scss'
 
 export default function Titlebar() {
 	const minimize = () => appWindow.minimize()
@@ -7,10 +7,10 @@ export default function Titlebar() {
 	const close = () => appWindow.close()
 	return (
 		<>
-			<div data-tauri-drag-region className={styles.titlebar}>
+			<div data-tauri-drag-region className={styles['container']}>
 				<div data-tauri-drag-region>finelauncher</div>
-				<div className={styles.titlebarBox}>
-					<div className={styles.btn} onClick={minimize}>
+				<div className={styles['btn-container']}>
+					<div className={styles['btn']} onClick={minimize}>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							width='1em'
@@ -20,7 +20,7 @@ export default function Titlebar() {
 							<path fill='currentColor' d='M20 14H4v-4h16' />
 						</svg>
 					</div>
-					<div className={styles.btn} onClick={toggleMaximize}>
+					<div className={styles['btn']} onClick={toggleMaximize}>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							width='1em'
@@ -30,7 +30,7 @@ export default function Titlebar() {
 							<path fill='currentColor' d='M4 4h16v16H4zm2 4v10h12V8z' />
 						</svg>
 					</div>
-					<div className={styles.btnClose} onClick={close}>
+					<div className={styles['btn-close']} onClick={close}>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							width='1em'

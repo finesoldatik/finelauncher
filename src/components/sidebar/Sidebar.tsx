@@ -1,20 +1,21 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './Sidebar.module.css'
+import styles from './Sidebar.module.scss'
 
 const topItems = [
 	{
-		image: '/images/gamepad-64.png',
+		image: '/images/home-96.png',
 		link: '/',
 	},
 	{
-		image: '/images/box-128-2.png',
+		image: '/images/gamepad-64.png',
 		link: '/versions',
 	},
 	{
-		image: '/images/mod.png',
+		image: '/images/box-128-2.png',
 		link: '/mods',
 	},
 ]
+
 const bottomItems = [
 	{
 		image: '/images/settings-96.png',
@@ -22,27 +23,27 @@ const bottomItems = [
 	},
 ]
 
-export default function Home() {
+export default function Sidebar() {
 	const navigate = useNavigate()
 	return (
 		<>
-			<div className={styles.sidebar}>
-				<div className={styles.top_items}>
+			<div className={styles['container']}>
+				<div className={styles['top-items']}>
 					{topItems.map((el, idx) => (
 						<div
 							key={idx}
-							className={styles.item}
+							className={styles['item']}
 							onClick={() => navigate(el.link)}
 						>
 							<img src={el.image} alt='image' width='30px' />
 						</div>
 					))}
 				</div>
-				<div className={styles.bottom_items}>
+				<div className={styles['bottom-items']}>
 					{bottomItems.map((el, idx) => (
 						<div
 							key={idx}
-							className={styles.item}
+							className={styles['item']}
 							onClick={() => navigate(el.link)}
 						>
 							<img src={el.image} alt='image' width='30px' />
