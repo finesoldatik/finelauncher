@@ -19,7 +19,7 @@ export default function Mod(props: IProps) {
 	const mod: IMod = props.mod
 	const modWrapper = new ModWrapper()
 	return (
-		<button
+		<div
 			className={'black-style ' + styles['container']}
 			onClick={() => navigate(`/mods/${mod.id}`)}
 		>
@@ -47,6 +47,6 @@ export default function Mod(props: IProps) {
 					</button>
 				))}
 			</div>
-		</button>
+		</div>
 	)
 }
