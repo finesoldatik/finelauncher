@@ -1,15 +1,18 @@
 import { useParams } from 'react-router-dom'
 import api from '../../api.ts'
 import styles from './Version.module.scss'
-import { IParams } from './interface.ts'
 
 export default function Version() {
-	const params: IParams = useParams()
+	const params = useParams()
+	const version: string = String(params.version)
+	const name: string = String(params.name)
+
+	console.log(params)
 
 	let image
 
-	if (params.version?.split(' ')[0] === 'VE') image = '/images/ve-512.png'
-	else if (params.version?.split(' ')[0] === 'RVE') image = '/images/rve-512.png'
+	if (version.split(' ')[0] === 'VE') image = '/images/ve-512.png'
+	else if (version.split(' ')[0] === 'RVE') image = '/images/rve-512.png'
 
 	return (
 		<div className={'black-style ' + styles['container']}>
@@ -24,13 +27,13 @@ export default function Version() {
 			<div className={styles['btn-container']}>
 				<button
 					className={'black-style ' + styles['opendir-btn']}
-					onClick={() => api.openDirOfVersion(params.name)}
+					onClick={() => api.openDirOfVersion(name)}
 				>
 					Открыть в проводнике
 				</button>
 				<button
 					className={'black-style green-bg ' + styles['play-btn']}
-					onClick={() => api.runVersion(params.name)}
+					onClick={() => api.runVersion(name)}
 				>
 					Играть
 				</button>

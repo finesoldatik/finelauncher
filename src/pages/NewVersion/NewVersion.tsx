@@ -11,8 +11,10 @@ export default function NewVersion() {
 	const [existsVersion, setExistsVersion] = useState<boolean>(false)
 	const [version, setVersion] = useState<string>('')
 	const [versionChanged, setVersionChanged] = useState<boolean>(true)
-	const progressBarRef = useRef<HTMLParagraphElement>(null)
-	const createBtnRef = useRef<HTMLParagraphElement>(null)
+
+	const progressBarRef = useRef<HTMLParagraphElement>()
+	const createBtnRef = useRef<HTMLButtonElement>(null)
+
 	const {
 		register,
 		handleSubmit,
@@ -22,7 +24,7 @@ export default function NewVersion() {
 	useEffect(() => {
 		const unSubscribe = listen('update-progress', event => {
 			console.log('Событие update_process:', event.payload)
-			progressBarRef.current.innerText = event.payload.message
+			progressBarRef.current.innerText = payload.message
 		})
 
 		return () => {

@@ -5,20 +5,20 @@ import { IProps } from './interface.ts'
 export default function Version(props: IProps) {
 	const navigate = useNavigate()
 
-	const properties = props.props
+	const version = props.version
 
 	let image
 
-	if (properties.version.split(' ')[0] === 'VE') image = '/images/ve-512.png'
-	else if (properties.version.split(' ')[0] === 'RVE')
+	if (version.version.split(' ')[0] === 'VE') image = '/images/ve-512.png'
+	else if (version.version.split(' ')[0] === 'RVE')
 		image = '/images/rve-512.png'
 
 	return (
 		<button
 			className={'black-style ' + styles['container']}
 			onClick={() =>
-				properties.isVersion
-					? navigate(`/versions/${properties.name}/${properties.version}`)
+				version.isVersion
+					? navigate(`/versions/${version.name}/${version.version}`)
 					: console.log('Пустая версия')
 			}
 		>
@@ -29,8 +29,8 @@ export default function Version(props: IProps) {
 				alt='image'
 				className={styles['image']}
 			/>
-			<h2 className={styles['text']}>{properties.name}</h2>
-			<p className={styles['text']}>{properties.version}</p>
+			<h2 className={styles['text']}>{version.name}</h2>
+			<p className={styles['text']}>{version.version}</p>
 		</button>
 	)
 }

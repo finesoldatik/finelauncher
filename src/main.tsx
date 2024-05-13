@@ -30,6 +30,10 @@ const router = createBrowserRouter([
 				element: <Pages.Mods />,
 			},
 			{
+				path: '/mods/:id',
+				element: <Pages.Mod />,
+			},
+			{
 				path: '/settings',
 				element: <Pages.Settings />,
 			},

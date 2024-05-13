@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import ReactSelect from 'react-select'
+import ReactSelect, { SingleValue } from 'react-select'
 import './VersionSelect.scss'
 import Util, { IVersion } from '../../utils/version/index'
 import { os } from '@tauri-apps/api'
@@ -35,9 +35,10 @@ export default function VersionSelect(props: IProps) {
 	const getValue = () =>
 		currentVersion ? versions.find(c => c.value === currentVersion) : ''
 
-	const onChange = (newValue: ISelectableVersion) => {
-		setCurrentVersion(newValue.value)
-		props.setVersion(newValue.value)
+	const onChange = (newValue: SingleValue<string> | ISelectableVersion) => {
+		const value: string = String(newValue.value)
+		setCurrentVersion(value)
+		props.setVersion(value)
 	}
 
 	return (

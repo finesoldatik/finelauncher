@@ -1,6 +1,6 @@
 export interface IProps {
-	props: {
-		name: string
+	version: {
+		name: string | undefined
 		version: string
 		isVersion: boolean
 	}

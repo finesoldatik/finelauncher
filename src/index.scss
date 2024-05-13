@@ -108,6 +108,7 @@ h1 {
 
 	main {
 		flex: auto;
+		overflow: auto;
 		height: calc(100vh - 24px);
 	}
 

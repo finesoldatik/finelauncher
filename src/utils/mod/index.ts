@@ -4,11 +4,11 @@ const defaultUrl: string = 'https://voxelworld.ru/api/mods'
 
 export interface ModsConfig {
 	params: {
-		title: string
-		tag_id: number[]
-		page: number
-		sort: number
-		item_count: number
+		title?: string
+		tag_id?: number[]
+		page?: number
+		sort?: number
+		item_count?: number
 	}
 }
 

@@ -44,4 +44,6 @@ typings/
 .env.*
 !.env.example
 src-tauri/settings.toml
+src-tauri/settings.json
 src-tauri/controls.json
+src-tauri/worlds

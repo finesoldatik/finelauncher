@@ -28,10 +28,10 @@ export default function Versions() {
 			<div className='versions'>
 				<NewVersion />
 				{versions.length ? (
-					versions.map((el, idx) => <Version props={el} key={idx} />)
+					versions.map((el, idx) => <Version version={el} key={idx} />)
 				) : (
 					<Version
-						props={{
+						version={{
 							name: 'Версий не найдено',
 							version: 'VE или RVE, вот в чем вопрос',
 							isVersion: false,

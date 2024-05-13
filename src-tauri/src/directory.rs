@@ -3,6 +3,7 @@ use std::io;
 use std::fs;
 use std::path::Path;
 use std::process::Command;
+use glob::glob;
 
 pub fn get_path() -> Result<String, io::Error> {
   let user_dirs = UserDirs::new().ok_or(io::Error::new(io::ErrorKind::Other, "Unable to retrieve user directories"))?;
@@ -44,4 +45,18 @@ pub async fn open_directory(version: String) {
   if exists(path) {
     Command::new("explorer").arg(&version_path).spawn().unwrap();
   }
+}
+
+pub fn get_exe(p: &str) -> Option<String> {
+  let source_file_glob = p;
+
+  for entry in glob(format!("{}/{}", source_file_glob, "*.exe").as_str())
+    .unwrap() {
+      if let Ok(path) = entry {
+        if let Some(path) = path.to_str() {
+          return Some(path.to_string());
+        }
+      }
+    }
+  None
 }
