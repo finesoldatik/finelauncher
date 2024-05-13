@@ -1,26 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './Mods.module.scss'
-import ModWrapper, { ModsConfig } from '../../utils/mod'
+import ModWrapper from '../../utils/mod'
 import { IMods } from './interface'
 import Mod from '../../components/mod/Mod'
-import { setMods } from '../../components/mod/interface'
-
-const getModsBySearchQuery = (
-	modWrapper: ModWrapper,
-	setMods: setMods,
-	searchQuery: string
-) => {
-	console.log(searchQuery)
-	let config: ModsConfig = { params: { item_count: 1000 } }
-	if (searchQuery !== '') config = { params: { title: searchQuery } }
-	modWrapper.getMods(config).then(response => {
-		if (response.data.data.content.length) setMods(response.data.data)
-		else {
-			const error: IMods = {}
-			setMods(error)
-		}
-	})
-}
+import api from '../../api'
 
 export default function Mods() {
 	const [mods, setMods] = useState<IMods>(Object)
@@ -34,6 +17,7 @@ export default function Mods() {
 			setMods(response.data.data)
 		})
 	}, [])
+
 	return (
 		<div className={'black-style ' + styles['container']}>
 			<div className={styles['search-container']}>
@@ -46,7 +30,7 @@ export default function Mods() {
 				<button
 					className={'black-style ' + styles['search-btn']}
 					onClick={() =>
-						getModsBySearchQuery(
+						api.getModsBySearchQuery(
 							modWrapper,
 							setMods,
 							searchInputRef.current.value

@@ -1,18 +1,8 @@
 import styles from './Mod.module.scss'
-import { IMod, IProps, setMods } from './interface'
+import { IMod, IProps } from './interface'
 import ModWrapper from '../../utils/mod'
 import { useNavigate } from 'react-router-dom'
-
-const getModsByTag = (
-	modWrapper: ModWrapper,
-	setMods: setMods,
-	tag_id: number[]
-) => {
-	modWrapper.getMods({ params: { tag_id } }).then(response => {
-		console.log(response.data.data)
-		setMods(response.data.data)
-	})
-}
+import api from '../../api'
 
 export default function Mod(props: IProps) {
 	const navigate = useNavigate()
@@ -29,18 +19,22 @@ export default function Mod(props: IProps) {
 				src={'https://voxelworld.ru' + mod.pathLogo}
 				alt='Лого мода'
 			/>
-			<div className={styles['title-container']}>
-				<h2 className={styles['title']}>{mod.title}</h2>
-				<h4 className={'violet-text ' + styles['author']}>
+			<h2 className={styles['title']}>{mod.title}</h2>
+			<div className={styles['author-container']}>
+				<h4 className='violet-text'>
 					Автор: {mod.author.name}
 				</h4>
+				<h4 className='violet-text'>Скачиваний: {mod.downloads}</h4>
 			</div>
+
 			<p className={styles['description']}>{mod.description}</p>
 			<div className={styles['tags']}>
 				{mod.tags.map(tag => (
 					<button
 						className={'black-style ' + styles['tag']}
-						onClick={() => getModsByTag(modWrapper, props.setMods, [tag.id])}
+						onClick={() =>
+							api.getModsByTag(modWrapper, props.setMods, [tag.id])
+						}
 						key={tag.id}
 					>
 						{tag.title}

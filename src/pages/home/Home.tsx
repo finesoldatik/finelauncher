@@ -22,9 +22,9 @@ export default function Home() {
 				</button>
 				<button
 					className={'black-style green-bg ' + styles['play-btn']}
-					onClick={() => navigate('/versions')}
+					onClick={() => navigate('/mods')}
 				>
-					Играть
+					Моды
 				</button>
 			</div>
 		</div>

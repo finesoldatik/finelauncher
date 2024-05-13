@@ -6,18 +6,14 @@
 	background-color: #171717;
 	border-radius: 0px;
 
-	.title-container {
+	.title {
+		color: rgb(125, 125, 231);
+	}
+
+	.author-container {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-
-		.title {
-			color: rgb(125, 125, 231);
-		}
-
-		.author {
-			margin-top: 7px;
-		}
 	}
 
 	.description {
