@@ -2,13 +2,23 @@ import { invoke } from '@tauri-apps/api/tauri'
 import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs'
 
 import ModWrapper, { ModsConfig } from './utils/mod'
-import { setMods } from './components/mod/interface'
-import { IMods } from './pages/mods/interface'
+import { setMods } from './components/Mod/interface'
+import { IMods } from './pages/ModsPage/interface'
 
-type installVersion = (url: string, name: string) => Promise<never>
+type installVersion = (
+	url: string,
+	name: string,
+	version: string
+) => Promise<never>
+type installMod = (
+	url: string,
+	name: string,
+	mod_name: string
+) => Promise<never>
 type runVersion = (version: string) => void
 type openDirOfVersion = (version: string) => void
 type checkVersion = (version: string) => Promise<boolean>
+type checkMod = (version: string, mod_name: string) => Promise<boolean>
 type getLauncherPath = () => Promise<string>
 type getInstalledVersions = () => Promise<FileEntry[]>
 type getModsByTag = (
@@ -23,8 +33,18 @@ type getModsBySearchQuery = (
 ) => void
 
 // Устанавливаем версию
-const installVersion: installVersion = async (url: string, name: string) =>
-	await invoke('download_version', { url, name })
+const installVersion: installVersion = async (
+	url: string,
+	name: string,
+	version: string
+) => await invoke('download_version', { url, name, version })
+
+// Устанавливаем мод
+const installMod: installMod = async (
+	url: string,
+	version: string,
+	mod_name: string
+) => await invoke('download_mod', { url, version, mod_name })
 
 // Запускаем версию
 const runVersion: runVersion = async (version: string) =>
@@ -38,11 +58,15 @@ const openDirOfVersion: openDirOfVersion = async (version: string) =>
 const checkVersion: checkVersion = async (version: string) =>
 	await invoke('version_exists', { version })
 
+// Проверяем наличие мода
+const checkMod: checkMod = async (version: string, mod_name: string) =>
+	await invoke('mod_exists', { version, mod_name })
+
 const getLauncherPath: getLauncherPath = async () =>
 	await invoke('get_launcher_path')
 
 const getInstalledVersions: getInstalledVersions = async () =>
-	await readDir('finelauncher\\versions', {
+	await readDir('finelauncher/versions', {
 		dir: BaseDirectory.Document,
 		recursive: true,
 	})
@@ -77,8 +101,10 @@ const getModsBySearchQuery: getModsBySearchQuery = (
 
 export default {
 	installVersion,
+	installMod,
 	runVersion,
 	checkVersion,
+	checkMod,
 	openDirOfVersion,
 	getLauncherPath,
 	getInstalledVersions,

@@ -13,7 +13,7 @@ use downloader::Downloader;
 use tauri::Window;
 
 use std::path::Path;
-use std::{env, thread};
+use std::thread;
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
@@ -65,7 +65,7 @@ impl downloader::progress::Reporter for SimpleReporter {
           "test file: {} of {} bytes. [{}]",
           current, max_bytes, p.message
         );
-        self.window.emit("update-progress", Payload { message: progress.into() }).unwrap();
+        self.window.emit("update-mod-download-progress", Payload { message: progress.into() }).unwrap();
         p.last_update = std::time::Instant::now();
       }
     }
@@ -73,37 +73,30 @@ impl downloader::progress::Reporter for SimpleReporter {
 
   fn set_message(&self, message: &str) {
     println!("test file: Message changed to: {}", message);
-    self.window.emit("update-progress", Payload { message: message.into() }).unwrap();
+    self.window.emit("update-mod-download-progress", Payload { message: message.into() }).unwrap();
   }
 
   fn done(&self) {
     let mut guard = self.private.lock().unwrap();
     *guard = None;
     println!("test file: [DONE]");
-    self.window.emit("update-progress", Payload { message: "[DONE]".into() }).unwrap();
+    self.window.emit("update-mod-download-progress", Payload { message: "[DONE]".into() }).unwrap();
   }
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub async fn download_version(window: Window, url: String, name: String) {
-  let version_path: String = get_path().unwrap() + "\\finelauncher\\versions\\" + &name;
-  let path = Path::new(&version_path);
-  if exists(path) == false {
+pub async fn download_mod(window: Window, url: String, version: String, mod_name: String) {
+  let mod_path: String = get_path().unwrap() + "/finelauncher/versions/" + &version + "/res/content/" + &mod_name;
+  let path = Path::new(&mod_path);
+  if !exists(path) {
     thread::scope(|s| {
       s.spawn(move || {
         println!("ЗАГРУЗКА ВЕРСИИ НАЧАТА");
-        let mut filename: String = format!("version.zip");
-        if env::consts::OS == "windows" {
-          println!("os: windows");
-          filename = format!("version.zip");
-          println!("{:?}", filename)
-        } else if env::consts::OS == "linux" {
-          println!("os: linux");
-          filename = format!("version.AppImage");
-          println!("{:?}", filename)
-        }
-        let path = format!("versions\\{name}");
-        let save_path = Path::new(&get_path().unwrap()).join(format!("finelauncher\\{path}"));
+
+        let filename: String = format!("mod.zip");
+        println!("{:?}", filename);
+        let path = format!("versions/{version}/res/content/{mod_name}/");
+        let save_path = Path::new(&get_path().unwrap()).join(format!("finelauncher/{path}"));
         mkdir(&path);
 
         let mut downloader = Downloader::builder()
@@ -139,19 +132,15 @@ pub async fn download_version(window: Window, url: String, name: String) {
             Err(e) => println!("Error: {}", e.to_string()),
             Ok(s) => {
               println!("Success: {}", &s);
-              println!("{}", env::consts::OS); // Prints the current OS.
-              if env::consts::OS == "windows" {
-                let file = save_path.join(format!("version.zip"));
-                unzip(&file.display().to_string(), save_path.clone());
-              }
+              let file = save_path.join(format!("mod.zip"));
+              unzip(&file.display().to_string(), save_path.clone());
             },
           };
         }
-        println!("ЗАГРУЗКА ВЕРСИИ ЗАВЕРШЕНА");
+        println!("ЗАГРУЗКА МОДА ЗАВЕРШЕНА");
       });
     });
   } else {
-    println!("ВЕРСИЯ ИГРЫ УЖЕ УСТАНОВЛЕНА")
+    println!("МОД УЖЕ УСТАНОВЛЕН")
   }
 }
-

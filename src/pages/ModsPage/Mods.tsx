@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import styles from './Mods.module.scss'
 import ModWrapper from '../../utils/mod'
 import { IMods } from './interface'
-import Mod from '../../components/mod/Mod'
+import Mod from '../../components/Mod/Mod'
 import api from '../../api'
 
 export default function Mods() {
@@ -29,13 +29,14 @@ export default function Mods() {
 				/>
 				<button
 					className={'black-style ' + styles['search-btn']}
-					onClick={() =>
-						api.getModsBySearchQuery(
-							modWrapper,
-							setMods,
-							searchInputRef.current.value
-						)
-					}
+					onClick={() => {
+						if (searchInputRef.current)
+							api.getModsBySearchQuery(
+								modWrapper,
+								setMods,
+								searchInputRef.current.value
+							)
+					}}
 				>
 					Искать
 				</button>

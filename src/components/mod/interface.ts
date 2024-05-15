@@ -1,4 +1,4 @@
-import { IMods } from "../../pages/mods/interface"
+import { IMods } from '../../pages/ModsPage/interface'
 
 export type setMods = React.Dispatch<React.SetStateAction<IMods>>
 

@@ -14,7 +14,7 @@ pub fn get_path() -> Result<String, io::Error> {
 }
 
 pub fn mkdir(path: &str) {
-  let docs: String = get_path().unwrap() + "\\finelauncher\\" + path;
+  let docs: String = get_path().unwrap() + "/finelauncher/" + path;
   let path = Path::new(&docs);
   if exists(path) == false {
     let _ = fs::create_dir(docs);
@@ -27,20 +27,27 @@ pub fn exists(path: &Path) -> bool {
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_launcher_path() -> String {
-  let launcher_path: String = get_path().unwrap() + "\\finelauncher\\";
+  let launcher_path: String = get_path().unwrap() + "/finelauncher/";
   launcher_path.into()
 }
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn version_exists(version: &str) -> bool {
-  let docs: String = get_path().unwrap() + "\\finelauncher\\versions\\" + version;
-  let path = Path::new(&docs);
+  let version_path: String = get_path().unwrap() + "/finelauncher/versions/" + version;
+  let path = Path::new(&version_path);
+  exists(path).into()
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn mod_exists(version: &str, mod_name: &str) -> bool {
+  let mod_path: String = get_path().unwrap() + "/finelauncher/versions/" + version + "/res/content/" + mod_name;
+  let path = Path::new(&mod_path);
   exists(path).into()
 }
 
 #[tauri::command(rename_all = "snake_case")]
 pub async fn open_directory(version: String) {
-  let version_path: String = get_path().unwrap() + "\\finelauncher\\versions\\" + &version;
+  let version_path: String = get_path().unwrap() + "/finelauncher/versions/" + &version;
   let path = Path::new(&version_path);
   if exists(path) {
     Command::new("explorer").arg(&version_path).spawn().unwrap();

@@ -1,4 +1,4 @@
-.version-select {
+.new-version-select {
 	&__control {
 		border-radius: 8px !important;
 		border: 1px solid #1a1a1a !important;
@@ -8,7 +8,7 @@
 		font-family: inherit !important;
 		background-color: #1a1a1a !important;
 		transition: border-color 0.25s !important;
-		width: 360px !important;
+		width: 240px !important;
 		box-shadow: none !important;
 
 		&:hover {

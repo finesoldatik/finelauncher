@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import NewVersion from '../../components/newVersion/NewVersion'
-import Version from '../../components/version/Version'
+import NewVersion from '../../components/NewVersion/NewVersion.tsx'
+import Version from '../../components/Version/Version.tsx'
 import api from '../../api'
 import { IVersion } from './interface.ts'
 
