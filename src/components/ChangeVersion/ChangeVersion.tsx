@@ -1,15 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import VersionSelect from '../VersionSelect/VersionSelect'
 import styles from './ChangeVersion.module.scss'
-import { IMod, IProps, setActive } from './interface'
+import { ChangeVersionProps } from './interface'
 import { listen } from '@tauri-apps/api/event'
 import api from '../../api'
 
-export default function ChangeVersion(props: IProps) {
-	const active: boolean = props.active
-	const mod: IMod = props.mod
-	const setActive: setActive = props.setActive
-
+const ChangeVersion: FC<ChangeVersionProps> = ({ active, mod, setActive }) => {
 	const [existsMod, setExistsMod] = useState<boolean>(false)
 	const [version, setVersion] = useState<string>('')
 	const [versionChanged, setVersionChanged] = useState<boolean>(true)
@@ -102,3 +98,5 @@ export default function ChangeVersion(props: IProps) {
 		</div>
 	)
 }
+
+export default ChangeVersion

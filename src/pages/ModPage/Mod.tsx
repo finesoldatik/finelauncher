@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import ModWrapper from '../../utils/mod'
 import { useParams } from 'react-router-dom'
 import { IMod } from './interface'
 import styles from './Mod.module.scss'
 import ChangeVersion from '../../components/ChangeVersion/ChangeVersion'
 
-export default function Mod() {
+const Mod: FC = () => {
 	const [mod, setMod] = useState<IMod>(Object)
 	const [modalActive, setModalActive] = useState<boolean>(false)
 	const [modDownloadUrl, setModDownloadUrl] = useState<string>('')
@@ -62,7 +62,9 @@ export default function Mod() {
 									<div
 										className={'black-style ' + styles['version']}
 										onClick={() => {
-											setModDownloadUrl(`https://voxelworld.ru/mods/${mod.content.id}/version/${version.id}/download`)
+											setModDownloadUrl(
+												`https://voxelworld.ru/mods/${mod.content.id}/version/${version.id}/download`
+											)
 											setModalActive(true)
 										}}
 										key={version.id}
@@ -95,3 +97,5 @@ export default function Mod() {
 		</>
 	)
 }
+
+export default Mod

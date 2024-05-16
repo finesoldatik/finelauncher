@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import NewVersion from '../../components/NewVersion/NewVersion.tsx'
 import Version from '../../components/Version/Version.tsx'
 import api from '../../api'
 import { IVersion } from './interface.ts'
 
-export default function Versions() {
+const Versions: FC = () => {
 	const [versions, setVersions] = useState<IVersion[]>([
 		{
 			name: 'Загрузка версий',
@@ -28,17 +28,24 @@ export default function Versions() {
 			<div className='versions'>
 				<NewVersion />
 				{versions.length ? (
-					versions.map((el, idx) => <Version version={el} key={idx} />)
+					versions.map((el, idx) => (
+						<Version
+							name={el.name}
+							version={el.version}
+							isVersion={el.isVersion}
+							key={idx}
+						/>
+					))
 				) : (
 					<Version
-						version={{
-							name: 'Версий не найдено',
-							version: 'VE или RVE, вот в чем вопрос',
-							isVersion: false,
-						}}
+						name='Версий не найдено'
+						version={'VE или RVE, вот в чем вопрос'}
+						isVersion={false}
 					/>
 				)}
 			</div>
 		</>
 	)
 }
+
+export default Versions

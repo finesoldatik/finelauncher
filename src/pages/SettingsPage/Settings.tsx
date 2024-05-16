@@ -1,7 +1,8 @@
+import { FC } from 'react'
 import GreatContribution from '../../components/GreatContribution/GreatContribution'
 
-export default function Settings() {
-	return (
-		<GreatContribution />
-	)
+const Settings: FC = () => {
+	return <GreatContribution />
 }
+
+export default Settings

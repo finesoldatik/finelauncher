@@ -15,8 +15,8 @@ type installMod = (
 	name: string,
 	mod_name: string
 ) => Promise<never>
-type runVersion = (version: string) => void
-type openDirOfVersion = (version: string) => void
+type runGame = (version: string) => void
+type ShowInFolder = (version: string) => void
 type checkVersion = (version: string) => Promise<boolean>
 type checkMod = (version: string, mod_name: string) => Promise<boolean>
 type getLauncherPath = () => Promise<string>
@@ -47,12 +47,12 @@ const installMod: installMod = async (
 ) => await invoke('download_mod', { url, version, mod_name })
 
 // Запускаем версию
-const runVersion: runVersion = async (version: string) =>
-	await invoke('run_version', { version })
+const runGame: runGame = async (version_name: string) =>
+	await invoke('run_game', { version_name })
 
 // Открываем папку с версией
-const openDirOfVersion: openDirOfVersion = async (version: string) =>
-	await invoke('open_directory', { version })
+const ShowInFolder: ShowInFolder = async (version: string) =>
+	await invoke('show_in_folder', { version })
 
 // Проверяем наличие версии
 const checkVersion: checkVersion = async (version: string) =>
@@ -102,10 +102,10 @@ const getModsBySearchQuery: getModsBySearchQuery = (
 export default {
 	installVersion,
 	installMod,
-	runVersion,
+	runGame,
 	checkVersion,
 	checkMod,
-	openDirOfVersion,
+	ShowInFolder,
 	getLauncherPath,
 	getInstalledVersions,
 	getModsByTag,

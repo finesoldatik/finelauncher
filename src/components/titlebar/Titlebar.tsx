@@ -1,10 +1,11 @@
 import { appWindow } from '@tauri-apps/api/window'
 import styles from './Titlebar.module.scss'
 
-export default function Titlebar() {
-	const minimize = () => appWindow.minimize()
-	const toggleMaximize = () => appWindow.toggleMaximize()
-	const close = () => appWindow.close()
+const minimize = () => appWindow.minimize()
+const toggleMaximize = () => appWindow.toggleMaximize()
+const close = () => appWindow.close()
+
+const Titlebar = () => {
 	return (
 		<>
 			<div data-tauri-drag-region className={styles['container']}>
@@ -48,3 +49,5 @@ export default function Titlebar() {
 		</>
 	)
 }
+
+export default Titlebar

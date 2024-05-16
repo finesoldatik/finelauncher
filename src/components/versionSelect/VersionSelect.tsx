@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import ReactSelect, { SingleValue } from 'react-select'
 import './VersionSelect.scss'
-import { IProps, ISelectableVersion, CurrentVersion } from './interface.ts'
+import {
+	VersionSelectProps,
+	ISelectableVersion,
+	CurrentVersion,
+} from './interface.ts'
 import api from '../../api.ts'
 
-export default function VersionSelect(props: IProps) {
+const VersionSelect: FC<VersionSelectProps> = ({ setVersion }) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [currentVersion, setCurrentVersion] = useState<CurrentVersion>('')
 	const [versions, setVersions] = useState<ISelectableVersion[]>([])
@@ -28,7 +32,7 @@ export default function VersionSelect(props: IProps) {
 		// @ts-expect-error newValue.value: any хотя должно быть string
 		const value: string = String(newValue.value)
 		setCurrentVersion(value)
-		props.setVersion(value)
+		setVersion(value)
 	}
 
 	return (
@@ -43,3 +47,5 @@ export default function VersionSelect(props: IProps) {
 		/>
 	)
 }
+
+export default VersionSelect

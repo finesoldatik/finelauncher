@@ -1,10 +1,10 @@
 import { INewVersion } from '../../pages/NewVersionPage/interface'
 
-export type setVersion = React.Dispatch<
+type setVersion = React.Dispatch<
 	React.SetStateAction<INewVersion | undefined>
 >
 
-export interface IProps {
+export interface NewVersionSelectProps {
 	setVersion: setVersion
 }
 

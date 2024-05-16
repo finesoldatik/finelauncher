@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom'
 import api from '../../api.ts'
 import styles from './Version.module.scss'
+import { FC } from 'react'
 
-export default function Version() {
+const Version: FC = () => {
 	const params = useParams()
 	const version: string = String(params.version)
 	const name: string = String(params.name)
@@ -27,13 +28,13 @@ export default function Version() {
 			<div className={styles['btn-container']}>
 				<button
 					className={'black-style ' + styles['opendir-btn']}
-					onClick={() => api.openDirOfVersion(name)}
+					onClick={() => api.ShowInFolder(name)}
 				>
 					Открыть в проводнике
 				</button>
 				<button
 					className={'black-style green-bg ' + styles['play-btn']}
-					onClick={() => api.runVersion(name)}
+					onClick={() => api.runGame(name)}
 				>
 					Играть
 				</button>
@@ -41,3 +42,5 @@ export default function Version() {
 		</div>
 	)
 }
+
+export default Version

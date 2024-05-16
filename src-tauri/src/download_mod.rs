@@ -87,8 +87,7 @@ impl downloader::progress::Reporter for SimpleReporter {
 #[tauri::command(rename_all = "snake_case")]
 pub async fn download_mod(window: Window, url: String, version: String, mod_name: String) {
   let mod_path: String = get_path().unwrap() + "/finelauncher/versions/" + &version + "/res/content/" + &mod_name;
-  let path = Path::new(&mod_path);
-  if !exists(path) {
+  if !exists(&mod_path) {
     thread::scope(|s| {
       s.spawn(move || {
         println!("ЗАГРУЗКА ВЕРСИИ НАЧАТА");

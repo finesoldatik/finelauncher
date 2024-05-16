@@ -1,6 +1,6 @@
 import styles from './GreatContribution.module.scss'
 
-export default function GreatContribution() {
+const GreatContribution = () => {
 	return (
 		<div className={'black-style ' + styles['container']}>
 			<p>Большой вклад внесли:</p>
@@ -13,3 +13,5 @@ export default function GreatContribution() {
 		</div>
 	)
 }
+
+export default GreatContribution

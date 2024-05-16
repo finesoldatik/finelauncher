@@ -23,7 +23,7 @@ const bottomItems = [
 	},
 ]
 
-export default function Sidebar() {
+const Sidebar = () => {
 	const navigate = useNavigate()
 	return (
 		<>
@@ -54,3 +54,5 @@ export default function Sidebar() {
 		</>
 	)
 }
+
+export default Sidebar

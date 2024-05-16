@@ -1,13 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import NewVersionSelect from '../../components/NewVersionSelect/NewVersionSelect'
 import api from '../../api'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, FC } from 'react'
 import { INewVersion } from './interface'
 import styles from './NewVersion.module.scss'
-
 import { listen } from '@tauri-apps/api/event'
 
-export default function NewVersion() {
+const NewVersion: FC = () => {
 	const [existsVersion, setExistsVersion] = useState<boolean>(false)
 	const [version, setVersion] = useState<INewVersion>()
 	const [versionChanged, setVersionChanged] = useState<boolean>(true)
@@ -110,3 +109,5 @@ export default function NewVersion() {
 		</div>
 	)
 }
+
+export default NewVersion

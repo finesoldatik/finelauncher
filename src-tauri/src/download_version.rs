@@ -7,7 +7,7 @@
 
 use crate::directory::{mkdir, get_path, exists};
 use crate::unzipper::unzip;
-// use crate::json_handler::save_json_file;
+use crate::json_handler::save_json_file;
 
 use downloader::Downloader;
 
@@ -86,10 +86,9 @@ impl downloader::progress::Reporter for SimpleReporter {
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub async fn download_version(window: Window, url: String, name: String) {//, version: String
+pub async fn download_version(window: Window, url: String, name: String, version: String) {
   let version_path: String = get_path().unwrap() + "/finelauncher/versions/" + &name;
-  let path = Path::new(&version_path);
-  if exists(path) == false {
+  if !exists(&version_path) {
     thread::scope(|s| {
       s.spawn(move || {
         println!("ЗАГРУЗКА ВЕРСИИ НАЧАТА");
@@ -144,7 +143,7 @@ pub async fn download_version(window: Window, url: String, name: String) {//, ve
               if env::consts::OS == "windows" {
                 let file = save_path.join(format!("version.zip"));
                 unzip(&file.display().to_string(), save_path.clone());
-                // save_json_file(save_path.display().to_string(), "{\"version\": ".to_owned() + &version + "}").unwrap()
+                save_json_file(save_path.display().to_string(), "{\"version\": ".to_owned() + &version + "}").unwrap()
               }
             },
           };

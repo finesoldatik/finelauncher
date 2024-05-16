@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import ReactSelect, { SingleValue } from 'react-select'
 import './NewVersionSelect.scss'
 import Util, { IVersion } from '../../utils/version/index'
 import { os } from '@tauri-apps/api'
-import { IProps, ISelectableVersion, CurrentVersion } from './interface.ts'
+import { NewVersionSelectProps, ISelectableVersion, CurrentVersion } from './interface.ts'
 
-export default function NewVersionSelect(props: IProps) {
+const NewVersionSelect: FC<NewVersionSelectProps> = (props) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [currentVersion, setCurrentVersion] = useState<CurrentVersion>('')
 	const [versions, setVersions] = useState<ISelectableVersion[]>([])
@@ -54,3 +54,5 @@ export default function NewVersionSelect(props: IProps) {
 		/>
 	)
 }
+
+export default NewVersionSelect

@@ -1,12 +1,12 @@
 import styles from './Mod.module.scss'
-import { IMod, IProps } from './interface'
+import { ModProps } from './interface'
 import ModWrapper from '../../utils/mod'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api'
+import { FC } from 'react'
 
-export default function Mod(props: IProps) {
+const Mod: FC<ModProps> = ({mod, setMods}) => {
 	const navigate = useNavigate()
-	const mod: IMod = props.mod
 	const modWrapper = new ModWrapper()
 	return (
 		<div
@@ -33,7 +33,7 @@ export default function Mod(props: IProps) {
 					<button
 						className={'black-style ' + styles['tag']}
 						onClick={() =>
-							api.getModsByTag(modWrapper, props.setMods, [tag.id])
+							api.getModsByTag(modWrapper, setMods, [tag.id])
 						}
 						key={tag.id}
 					>
@@ -44,3 +44,5 @@ export default function Mod(props: IProps) {
 		</div>
 	)
 }
+
+export default Mod

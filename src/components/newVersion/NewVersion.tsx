@@ -1,7 +1,7 @@
 import styles from './NewVersion.module.scss'
 import { useNavigate } from 'react-router-dom'
 
-export default function NewVersion() {
+const NewVersion = () => {
 	const navigate = useNavigate()
 	return (
 		<button className='black-style' onClick={() => navigate('/new-version')}>
@@ -16,3 +16,5 @@ export default function NewVersion() {
 		</button>
 	)
 }
+
+export default NewVersion

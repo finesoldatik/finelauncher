@@ -1,6 +1,6 @@
 export type setVersion = React.Dispatch<React.SetStateAction<string>>
 
-export interface IProps {
+export interface VersionSelectProps {
 	setVersion: setVersion
 }
 

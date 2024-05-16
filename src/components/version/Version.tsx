@@ -1,24 +1,23 @@
 import styles from './Version.module.scss'
 import { useNavigate } from 'react-router-dom'
-import { IProps } from './interface.ts'
+import { VersionProps } from './interface.ts'
+import { FC } from 'react'
 
-export default function Version(props: IProps) {
+const Version: FC<VersionProps> = ({version, name, isVersion}) => {
 	const navigate = useNavigate()
-
-	const version = props.version
 
 	let image
 
-	if (version.version.split(' ')[0] === 'VE') image = '/images/ve-512.png'
-	else if (version.version.split(' ')[0] === 'RVE')
+	if (version.split(' ')[0] === 'VE') image = '/images/ve-512.png'
+	else if (version.split(' ')[0] === 'RVE')
 		image = '/images/rve-512.png'
 
 	return (
 		<button
 			className={'black-style ' + styles['container']}
 			onClick={() =>
-				version.isVersion
-					? navigate(`/versions/${version.name}/${version.version}`)
+				isVersion
+					? navigate(`/versions/${name}/${version}`)
 					: console.log('Пустая версия')
 			}
 		>
@@ -29,8 +28,10 @@ export default function Version(props: IProps) {
 				alt='image'
 				className={styles['image']}
 			/>
-			<h2 className={styles['text']}>{version.name}</h2>
-			<p className={styles['text']}>{version.version}</p>
+			<h2 className={styles['text']}>{name}</h2>
+			<p className={styles['text']}>{version}</p>
 		</button>
 	)
 }
+
+export default Version

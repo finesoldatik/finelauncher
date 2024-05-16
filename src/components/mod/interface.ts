@@ -1,13 +1,6 @@
 import { IMods } from '../../pages/ModsPage/interface'
 
-export type setMods = React.Dispatch<React.SetStateAction<IMods>>
-
-export interface IProps {
-	mod: IMod
-	setMods: setMods
-}
-
-export interface IMod {
+interface IMod {
 	author: {
 		id: number
 		name: string
@@ -28,4 +21,11 @@ export interface IMod {
 	}[]
 
 	title: string
+}
+
+export type setMods = React.Dispatch<React.SetStateAction<IMods>>
+
+export interface ModProps {
+	mod: IMod
+	setMods: setMods
 }

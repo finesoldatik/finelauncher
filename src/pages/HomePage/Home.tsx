@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './Home.module.scss'
+import { FC } from 'react'
 
-export default function Home() {
+const Home: FC = () => {
 	const navigate = useNavigate()
 	return (
 		<div className={styles['container']}>
@@ -30,3 +31,5 @@ export default function Home() {
 		</div>
 	)
 }
+
+export default Home
