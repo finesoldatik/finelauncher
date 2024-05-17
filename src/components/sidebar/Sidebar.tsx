@@ -1,16 +1,20 @@
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import styles from './Sidebar.module.scss'
+import Item from './components/Item/Item'
 
 const topItems = [
 	{
+		id: 0,
 		image: '/images/home-96.png',
 		link: '/',
 	},
 	{
+		id: 1,
 		image: '/images/gamepad-64.png',
 		link: '/versions',
 	},
 	{
+		id: 2,
 		image: '/images/box-128-2.png',
 		link: '/mods',
 	},
@@ -18,36 +22,39 @@ const topItems = [
 
 const bottomItems = [
 	{
+		id: 3,
 		image: '/images/settings-96.png',
 		link: '/settings',
 	},
 ]
 
 const Sidebar = () => {
-	const navigate = useNavigate()
+	const [activeTab, setActiveTab] = useState(0)
 	return (
 		<>
 			<div className={styles['container']}>
 				<div className={styles['top-items']}>
-					{topItems.map((el, idx) => (
-						<div
-							key={idx}
-							className={styles['item']}
-							onClick={() => navigate(el.link)}
-						>
-							<img src={el.image} alt='image' width='30px' />
-						</div>
+					{topItems.map(el => (
+						<Item
+							element={{
+								...el,
+								active: activeTab,
+								setActive: setActiveTab,
+							}}
+							key={el.id}
+						/>
 					))}
 				</div>
 				<div className={styles['bottom-items']}>
-					{bottomItems.map((el, idx) => (
-						<div
-							key={idx}
-							className={styles['item']}
-							onClick={() => navigate(el.link)}
-						>
-							<img src={el.image} alt='image' width='30px' />
-						</div>
+					{bottomItems.map(el => (
+						<Item
+							element={{
+								...el,
+								active: activeTab,
+								setActive: setActiveTab,
+							}}
+							key={el.id}
+						/>
 					))}
 				</div>
 			</div>

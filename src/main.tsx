@@ -1,46 +1,5 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.scss'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Pages from './pages'
 
-const router = createBrowserRouter([
-	{
-		path: '',
-		element: <App />,
-		children: [
-			{
-				path: '/',
-				element: <Pages.Home />,
-			},
-			{
-				path: '/versions',
-				element: <Pages.Versions />,
-			},
-			{
-				path: '/versions/:name/:version',
-				element: <Pages.Version />,
-			},
-			{
-				path: '/new-version',
-				element: <Pages.NewVersion />,
-			},
-			{
-				path: '/mods',
-				element: <Pages.Mods />,
-			},
-			{
-				path: '/mods/:id',
-				element: <Pages.Mod />,
-			},
-			{
-				path: '/settings',
-				element: <Pages.Settings />,
-			},
-		],
-	},
-])
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
-	<RouterProvider router={router} />
-)
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />)

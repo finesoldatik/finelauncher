@@ -16,16 +16,16 @@ const Home: FC = () => {
 			</h1>
 			<div className={styles['btn-container']}>
 				<button
-					className={'black-style violet-bg ' + styles['versions-btn']}
-					onClick={() => navigate('/versions')}
-				>
-					Версии
-				</button>
-				<button
-					className={'black-style green-bg ' + styles['play-btn']}
+					className={'black-style violet-bg ' + styles['mods-btn']}
 					onClick={() => navigate('/mods')}
 				>
 					Моды
+				</button>
+				<button
+					className={'black-style green-bg ' + styles['versions-btn']}
+					onClick={() => navigate('/versions')}
+				>
+					Версии
 				</button>
 			</div>
 		</div>

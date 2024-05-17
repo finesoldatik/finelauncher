@@ -8,32 +8,6 @@
 		}
 	}
 
-	.item {
-		border-radius: 8px;
-		border: 0.15em solid transparent;
-		padding: 10px;
-		margin: 0.2em 0.3em 0.2em 0.3em;
-		font-size: 1em;
-		font-weight: 500;
-		font-family: inherit;
-		background-color: #1a1a1a;
-		cursor: pointer;
-		transition: border-color 0.4s;
-		justify-content: center;
-		-webkit-user-select: none;
-		user-select: none;
-	}
-
-	.item:hover {
-		border-color: #646cff;
-		border-width: 0.15em;
-	}
-
-	.item:focus,
-	.item:focus-visible {
-		outline: 4px auto -webkit-focus-ring-color;
-	}
-
 	.top-items {
 		flex-direction: column;
 	}

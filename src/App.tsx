@@ -1,19 +1,46 @@
-import Titlebar from './components/Titlebar/Titlebar'
-import { Outlet } from 'react-router-dom'
-import Sidebar from './components/Sidebar/Sidebar'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import Layout from './Layout'
+import Pages from './pages'
 
-export default function App() {
-	return (
-		<>
-			<Titlebar />
-			<div className='container'>
-				<main>
-					<div className='content'>
-						<Outlet />
-					</div>
-				</main>
-				<Sidebar />
-			</div>
-		</>
-	)
+const router = createBrowserRouter([
+	{
+		path: '',
+		element: <Layout />,
+		children: [
+			{
+				path: '/',
+				element: <Pages.Home />,
+			},
+			{
+				path: '/versions',
+				element: <Pages.Versions />,
+			},
+			{
+				path: '/versions/:name/:version',
+				element: <Pages.Version />,
+			},
+			{
+				path: '/new-version',
+				element: <Pages.NewVersion />,
+			},
+			{
+				path: '/mods',
+				element: <Pages.Mods />,
+			},
+			{
+				path: '/mods/:id',
+				element: <Pages.Mod />,
+			},
+			{
+				path: '/settings',
+				element: <Pages.Settings />,
+			},
+		],
+	},
+])
+
+const App = () => {
+	return <RouterProvider router={router} />
 }
+
+export default App
