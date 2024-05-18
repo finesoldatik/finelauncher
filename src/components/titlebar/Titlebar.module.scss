@@ -1,14 +1,3 @@
-@mixin btn-style() {
-	flex: 1 1 auto;
-	padding: 0 5px;
-	height: 24px;
-	-webkit-app-region: no-drag;
-}
-
-@mixin bg-color($color) {
-	background-color: #{$color};
-}
-
 .container {
 	background-color: #1b1d23;
 
@@ -25,26 +14,5 @@
 	.btn-container {
 		display: flex;
 		margin: 0px -5px;
-
-		.btn,
-		.btn-close {
-			@include btn-style();
-		}
-
-		.btn:hover {
-			@include bg-color(#646cff);
-		}
-
-		.btn:active {
-			@include bg-color(#444df4);
-		}
-
-		.btn-close:hover {
-			@include bg-color(#ee4f4f);
-		}
-
-		.btn-close:active {
-			@include bg-color(#c53d3d);
-		}
 	}
 }

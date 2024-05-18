@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom'
 import api from '../../api.ts'
-import styles from './Version.module.scss'
+import styles from './VersionPage.module.scss'
 import { FC } from 'react'
 
-const Version: FC = () => {
+const VersionPage: FC = () => {
 	const params = useParams()
 	const version: string = String(params.version)
 	const name: string = String(params.name)
@@ -43,4 +43,4 @@ const Version: FC = () => {
 	)
 }
 
-export default Version
+export default VersionPage

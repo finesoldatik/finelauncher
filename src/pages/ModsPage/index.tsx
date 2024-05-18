@@ -1,11 +1,11 @@
 import { FC, useEffect, useRef, useState } from 'react'
-import styles from './Mods.module.scss'
+import styles from './ModsPage.module.scss'
 import ModWrapper from '../../utils/mod'
-import { IMods } from './interface'
-import Mod from '../../components/Mod/Mod'
+import { IMods } from './ModsPage.interface'
+import Mod from './components/Mod'
 import api from '../../api'
 
-const Mods: FC = () => {
+const ModsPage: FC = () => {
 	const [mods, setMods] = useState<IMods>(Object)
 	const searchInputRef = useRef<HTMLInputElement>(null)
 
@@ -57,4 +57,4 @@ const Mods: FC = () => {
 	)
 }
 
-export default Mods
+export default ModsPage

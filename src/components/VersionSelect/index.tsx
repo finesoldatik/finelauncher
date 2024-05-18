@@ -1,29 +1,19 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import ReactSelect, { SingleValue } from 'react-select'
 import './VersionSelect.scss'
 import {
 	VersionSelectProps,
 	ISelectableVersion,
 	CurrentVersion,
-} from './interface.ts'
-import api from '../../api.ts'
+} from './VersionSelect.interface'
+// import api from '../../api.ts'
 
-const VersionSelect: FC<VersionSelectProps> = ({ setVersion }) => {
-	const [isLoading, setIsLoading] = useState<boolean>(true)
+const VersionSelect: FC<VersionSelectProps> = ({
+	setVersion,
+	versions,
+	isLoading,
+}) => {
 	const [currentVersion, setCurrentVersion] = useState<CurrentVersion>('')
-	const [versions, setVersions] = useState<ISelectableVersion[]>([])
-
-	useEffect(() => {
-		api.getInstalledVersions().then(value => {
-			const entries: ISelectableVersion[] = value.map(version => ({
-				label: String(version.name),
-				value: String(version.name),
-			}))
-			console.log(entries)
-			setVersions(entries)
-			setIsLoading(false)
-		})
-	}, [])
 
 	const getValue = () =>
 		currentVersion ? versions.find(c => c.value === currentVersion) : ''
@@ -32,12 +22,17 @@ const VersionSelect: FC<VersionSelectProps> = ({ setVersion }) => {
 		// @ts-expect-error newValue.value: any хотя должно быть string
 		const value: string = String(newValue.value)
 		setCurrentVersion(value)
-		setVersion(value)
+		setVersion({ label: value, value: String(getValue()) })
 	}
 
 	return (
 		<ReactSelect
 			classNamePrefix='version-select'
+			styles={{
+				control: (baseStyles) => ({
+					...baseStyles,
+				}),
+			}}
 			onChange={onChange}
 			value={getValue()}
 			options={versions}

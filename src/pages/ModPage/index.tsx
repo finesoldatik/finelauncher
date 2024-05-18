@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import ModWrapper from '../../utils/mod'
 import { useParams } from 'react-router-dom'
-import { IMod } from './interface'
-import styles from './Mod.module.scss'
-import ChangeVersion from '../../components/ChangeVersion/ChangeVersion'
+import { IMod } from './ModPage.interface'
+import styles from './ModPage.module.scss'
+import ChangeVersion from '../../modals/ChangeVersionModal'
 
-const Mod: FC = () => {
+const ModPage: FC = () => {
 	const [mod, setMod] = useState<IMod>(Object)
 	const [modalActive, setModalActive] = useState<boolean>(false)
 	const [modDownloadUrl, setModDownloadUrl] = useState<string>('')
@@ -98,4 +98,4 @@ const Mod: FC = () => {
 	)
 }
 
-export default Mod
+export default ModPage

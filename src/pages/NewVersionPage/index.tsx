@@ -1,14 +1,16 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
-import NewVersionSelect from '../../components/NewVersionSelect/NewVersionSelect'
+import VersionSelect from '../../components/VersionSelect'
 import api from '../../api'
 import { useState, useEffect, useRef, FC } from 'react'
-import { INewVersion } from './interface'
-import styles from './NewVersion.module.scss'
+import styles from './NewVersionPage.module.scss'
 import { listen } from '@tauri-apps/api/event'
+import Util, { IVersion } from '../../utils/version/index'
+import { os } from '@tauri-apps/api'
+import { ISelectableVersion } from '../../components/VersionSelect/VersionSelect.interface'
 
 const NewVersion: FC = () => {
 	const [existsVersion, setExistsVersion] = useState<boolean>(false)
-	const [version, setVersion] = useState<INewVersion>()
+	const [version, setVersion] = useState<ISelectableVersion>(Object)
 	const [versionChanged, setVersionChanged] = useState<boolean>(true)
 
 	const progressBarRef = useRef<HTMLParagraphElement>(null)
@@ -18,7 +20,7 @@ const NewVersion: FC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<INewVersion>()
+	} = useForm<ISelectableVersion>()
 
 	useEffect(() => {
 		const unSubscribe = listen('update-version-download-progress', event => {
@@ -33,15 +35,40 @@ const NewVersion: FC = () => {
 		}
 	}, [])
 
-	const onSubmit: SubmitHandler<INewVersion> = data => {
+	const [versions, setVersions] = useState<ISelectableVersion[]>([])
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+
+	useEffect(() => {
+		const versionWrapper = new Util()
+
+		const getVersions = async () => {
+			const platform = await os.platform()
+			let releases: IVersion[] = []
+
+			if (platform === 'win32') releases = versionWrapper.getWindowsVersions()
+			else if (platform === 'linux')
+				releases = versionWrapper.getLinuxVersions()
+
+			const versionList = releases.map(version => ({
+				label: `${version.repository} ${version.name}`,
+				value: version.url,
+			}))
+
+			setVersions(versionList)
+			setIsLoading(false)
+		}
+		versionWrapper.getRepositories().then(() => getVersions())
+	}, [])
+
+	const onSubmit: SubmitHandler<ISelectableVersion> = data => {
 		if (!version) {
 			setVersionChanged(false)
 		} else {
-			api.checkVersion(data.name).then(value => {
+			api.checkVersion(data.label).then(value => {
 				if (!value)
 					if (createBtnRef.current) createBtnRef.current.disabled = true
 				api
-					.installVersion(version.name, data.name, version.version)
+					.installVersion(version.label, data.label, version.label)
 					.then(() => {
 						if (createBtnRef.current) createBtnRef.current.disabled = false
 					})
@@ -61,7 +88,7 @@ const NewVersion: FC = () => {
 				<p className='violet-text'>Не длинее 12 символов</p>
 
 				<input
-					{...register('name', {
+					{...register('label', {
 						required: 'Заполните это поле!',
 						maxLength: 12,
 					})}
@@ -70,8 +97,8 @@ const NewVersion: FC = () => {
 					placeholder='Введите имя версии'
 				/>
 
-				{errors?.name && (
-					<div className='error-text'>{errors.name.message}</div>
+				{errors?.label && (
+					<div className='error-text'>{errors.label.message}</div>
 				)}
 
 				{existsVersion ? (
@@ -83,7 +110,11 @@ const NewVersion: FC = () => {
 				<p className={styles['mt-10']}>* Обязательное поле</p>
 				<p className={'violet-text ' + styles['mb-10']}>Выберите версию</p>
 
-				<NewVersionSelect setVersion={setVersion} />
+				<VersionSelect
+					setVersion={setVersion}
+					versions={versions}
+					isLoading={isLoading}
+				/>
 
 				{versionChanged ? (
 					<></>

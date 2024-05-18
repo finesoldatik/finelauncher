@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ItemProps } from './interface.ts'
+import { ItemProps } from './Item.interface'
 import styles from './Item.module.scss'
 import { useNavigate } from 'react-router-dom'
 

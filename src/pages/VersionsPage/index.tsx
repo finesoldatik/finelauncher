@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react'
-import NewVersion from '../../components/NewVersion/NewVersion.tsx'
-import Version from '../../components/Version/Version.tsx'
+import NewVersion from './components/NewVersion/index.tsx'
+import Version from './components/Version/index.tsx'
 import api from '../../api'
-import { IVersion } from './interface.ts'
+import { IVersion } from './VersionsPage.interface.ts'
 
-const Versions: FC = () => {
+const VersionsPage: FC = () => {
 	const [versions, setVersions] = useState<IVersion[]>([
 		{
 			name: 'Загрузка версий',
@@ -39,7 +39,7 @@ const Versions: FC = () => {
 				) : (
 					<Version
 						name='Версий не найдено'
-						version={'VE или RVE, вот в чем вопрос'}
+						version={'VE или RVE, а может быть DERBIS?'}
 						isVersion={false}
 					/>
 				)}
@@ -48,4 +48,4 @@ const Versions: FC = () => {
 	)
 }
 
-export default Versions
+export default VersionsPage

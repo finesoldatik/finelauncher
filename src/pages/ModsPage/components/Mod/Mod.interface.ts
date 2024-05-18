@@ -1,4 +1,4 @@
-import { IMods } from '../../pages/ModsPage/interface'
+import { IMods } from '../../pages/ModsPage/ModsPage.interface'
 
 interface IMod {
 	author: {

@@ -1,10 +1,10 @@
-import Home from './pages/HomePage/Home'
-import Versions from './pages/VersionsPage/Versions'
-import NewVersion from './pages/NewVersionPage/NewVersion'
-import Mods from './pages/ModsPage/Mods'
-import Settings from './pages/SettingsPage/Settings'
-import Version from './pages/VersionPage/Version'
-import Mod from './pages/ModPage/Mod'
+import Home from './pages/HomePage'
+import Versions from './pages/VersionsPage'
+import NewVersion from './pages/NewVersionPage'
+import Mods from './pages/ModsPage'
+import Settings from './pages/SettingsPage'
+import Version from './pages/VersionPage'
+import Mod from './pages/ModPage'
 
 export default {
 	Home,

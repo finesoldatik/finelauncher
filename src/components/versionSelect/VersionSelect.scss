@@ -8,7 +8,7 @@
 		font-family: inherit !important;
 		background-color: #1a1a1a !important;
 		transition: border-color 0.25s !important;
-		width: 360px !important;
+		width: 100% !important;
 		box-shadow: none !important;
 
 		&:hover {
@@ -52,7 +52,7 @@
 	}
 
 	&__menu {
-		width: 240px !important;
+		width: 100% !important;
 		background-color: #1a1a1a !important;
 		color: rgba(255, 255, 255, 0.87) !important;
 	}
@@ -87,5 +87,5 @@
 }
 
 .css-b62m3t-container {
-	width: 300px;
+	width: 100%;
 }

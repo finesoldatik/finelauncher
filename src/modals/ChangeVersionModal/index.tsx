@@ -1,22 +1,29 @@
 import { FC, useEffect, useRef, useState } from 'react'
-import VersionSelect from '../VersionSelect/VersionSelect'
-import styles from './ChangeVersion.module.scss'
-import { ChangeVersionProps } from './interface'
+import VersionSelect from '../../components/VersionSelect'
+import styles from './ChangeVersionModal.module.scss'
+import { ChangeVersionProps } from './ChangeVersionModal.interface'
 import { listen } from '@tauri-apps/api/event'
 import api from '../../api'
+import { ISelectableVersion } from '../../components/VersionSelect/VersionSelect.interface'
 
-const ChangeVersion: FC<ChangeVersionProps> = ({ active, mod, setActive }) => {
+const ChangeVersionModal: FC<ChangeVersionProps> = ({
+	active,
+	mod,
+	setActive,
+}) => {
 	const [existsMod, setExistsMod] = useState<boolean>(false)
-	const [version, setVersion] = useState<string>('')
+	const [version, setVersion] = useState<ISelectableVersion>(Object)
 	const [versionChanged, setVersionChanged] = useState<boolean>(true)
 
 	const progressBarRef = useRef<HTMLParagraphElement>(null)
 	const addBtnRef = useRef<HTMLButtonElement>(null)
 
 	useEffect(() => {
-		api.checkMod(version, String(mod.id)).then(value => {
+		// Проверка, существует ли мод с таким id
+		api.checkMod(version.label, String(mod.id)).then(value => {
 			setExistsMod(value)
 		})
+		// Подписываемся на событие для получения прогресса загрузки мода
 		const unSubscribe = listen('update-mod-download-progress', event => {
 			console.log('Событие update_process:', event.payload)
 			if (progressBarRef.current)
@@ -24,25 +31,44 @@ const ChangeVersion: FC<ChangeVersionProps> = ({ active, mod, setActive }) => {
 				progressBarRef.current.innerText = event.payload.message
 		})
 
+		//Отписываемся от событий
 		return () => {
 			unSubscribe.then(unsub => unsub())
 		}
+	}, [])
+
+	// Подгрузка версий
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [versions, setVersions] = useState<ISelectableVersion[]>([])
+
+	useEffect(() => {
+		api.getInstalledVersions().then(value => {
+			const entries: ISelectableVersion[] = value.map(version => ({
+				label: String(version.name),
+				value: String(version.name),
+			}))
+			console.log('entries:', entries)
+			setVersions(entries)
+			setIsLoading(false)
+		})
 	}, [])
 
 	const onSubmit = () => {
 		if (!version) {
 			setVersionChanged(false)
 		} else {
-			api.checkMod(version, String(mod.id)).then(value => {
+			api.checkMod(version.label, String(mod.id)).then(value => {
 				console.log(value, version, mod.id, mod.downloadUrl)
 
 				if (addBtnRef.current) if (!value) addBtnRef.current.disabled = true
 
-				api.installMod(mod.downloadUrl, version, String(mod.id)).then(() => {
-					if (addBtnRef.current) addBtnRef.current.disabled = false
+				api
+					.installMod(mod.downloadUrl, version.label, String(mod.id))
+					.then(() => {
+						if (addBtnRef.current) addBtnRef.current.disabled = false
 
-					setActive(false)
-				})
+						setActive(false)
+					})
 				setExistsMod(value)
 			})
 			setVersionChanged(true)
@@ -70,7 +96,11 @@ const ChangeVersion: FC<ChangeVersionProps> = ({ active, mod, setActive }) => {
 							Выберите версию для установки мода:{' '}
 						</h3>
 
-						<VersionSelect setVersion={setVersion} />
+						<VersionSelect
+							setVersion={setVersion}
+							versions={versions}
+							isLoading={isLoading}
+						/>
 
 						{versionChanged ? (
 							<></>
@@ -99,4 +129,4 @@ const ChangeVersion: FC<ChangeVersionProps> = ({ active, mod, setActive }) => {
 	)
 }
 
-export default ChangeVersion
+export default ChangeVersionModal

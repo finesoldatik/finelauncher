@@ -1,6 +1,6 @@
 import styles from './Version.module.scss'
 import { useNavigate } from 'react-router-dom'
-import { VersionProps } from './interface.ts'
+import { VersionProps } from './Version.interface'
 import { FC } from 'react'
 
 const Version: FC<VersionProps> = ({version, name, isVersion}) => {

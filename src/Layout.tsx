@@ -1,6 +1,6 @@
-import Titlebar from './components/Titlebar/Titlebar'
+import Titlebar from './components/Titlebar'
 import { Outlet } from 'react-router-dom'
-import Sidebar from './components/Sidebar/Sidebar'
+import Sidebar from './components/Sidebar'
 
 const Layout = () => {
 	return (
