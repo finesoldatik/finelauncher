@@ -9,23 +9,38 @@
 	background-color: #{$color};
 }
 
-.btn,
+.btn-minimize {
+	@include btn-style();
+
+	&:hover {
+		@include bg-color(#605090);
+	}
+
+	&:active {
+		@include bg-color(#603090);
+	}
+}
+
+.btn-toggle-maximize {
+	@include btn-style();
+
+	&:hover {
+		@include bg-color(#405090);
+	}
+
+	&:active {
+		@include bg-color(#203090);
+	}
+}
+
 .btn-close {
 	@include btn-style();
-}
 
-.btn:hover {
-	@include bg-color(#646cff);
-}
+	&:hover {
+		@include bg-color(#903030);
+	}
 
-.btn:active {
-	@include bg-color(#444df4);
-}
-
-.btn-close:hover {
-	@include bg-color(#ee4f4f);
-}
-
-.btn-close:active {
-	@include bg-color(#c53d3d);
+	&:active {
+		@include bg-color(#992912);
+	}
 }

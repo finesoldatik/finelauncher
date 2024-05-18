@@ -2,14 +2,9 @@ import { FC } from 'react'
 import styles from './Button.module.scss'
 import { ButtonProps } from './Button.interface'
 
-const Button: FC<ButtonProps> = ({ onClick, btnClose, svgPath }) => {
+const Button: FC<ButtonProps> = ({ onClick, type, svgPath }) => {
 	return (
-		<div
-			className={
-				btnClose ? styles['btn-close'] : styles['btn']
-			}
-			onClick={onClick}
-		>
+		<div className={styles[type]} onClick={onClick}>
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
 				width='1em'

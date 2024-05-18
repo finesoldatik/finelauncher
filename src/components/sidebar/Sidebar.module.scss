@@ -1,7 +1,7 @@
 .container {
 	flex: auto;
 	flex-direction: column;
-	background-color: #141414;
+	background-color: #101010;
 	@media (min-width: 600px) {
 		& {
 			flex: 0 0 50px;
@@ -13,6 +13,6 @@
 	}
 
 	.bottom-items {
-		margin-top: calc(100vh - 280px);
+		margin-top: calc(100vh - 255px);
 	}
 }

@@ -1,5 +1,5 @@
 export interface ButtonProps {
   onClick: () => void
-  btnClose: boolean
+  type: string
   svgPath: string
 }

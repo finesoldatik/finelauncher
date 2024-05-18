@@ -11,7 +11,7 @@ const Titlebar = () => {
 					{btns.map((btn, idx) => (
 						<Button
 							onClick={btn.onClick}
-							btnClose={btn.btnClose}
+							type={btn.type}
 							svgPath={btn.svgPath}
 							key={idx}
 						/>
