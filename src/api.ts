@@ -2,7 +2,7 @@ import { invoke } from '@tauri-apps/api/tauri'
 import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs'
 
 import ModWrapper, { ModsConfig } from './utils/mod'
-import { setMods } from './components/Mod/Mod.interface'
+import { setMods } from './pages/ModsPage/components/Mod/Mod.interface'
 import { IMods } from './pages/ModsPage/ModsPage.interface'
 
 type installVersion = (
