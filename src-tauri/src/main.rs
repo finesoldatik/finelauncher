@@ -13,12 +13,12 @@ use crate::download_version::download_version;
 use crate::download_mod::download_mod;
 use crate::directory::{mkdir, version_exists, mod_exists, show_in_folder, get_launcher_path};
 
-#[cfg(target_os = "linux")]
+// #[cfg(target_os = "linux")]
 use std::sync::Mutex;
-#[cfg(target_os = "linux")]
+// #[cfg(target_os = "linux")]
 use tauri::Manager;
-#[cfg(target_os = "linux")]
-pub struct DbusState(Mutex<Option<dbus::blocking::SyncConnection>>);
+// #[cfg(target_os = "linux")]
+pub struct DbusState<'a>(Mutex<Option<zbus::connection::Builder<'a>>>);
 
 fn main() {
   mkdir("");
@@ -27,8 +27,8 @@ fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![run_game, terminate_game, download_version, version_exists, mod_exists, show_in_folder, get_launcher_path, download_mod])
     .setup(|app| Ok({
-      #[cfg(target_os = "linux")]
-      app.manage(DbusState(Mutex::new(dbus::blocking::SyncConnection::new_session().ok())));
+      // #[cfg(target_os = "linux")]
+      app.manage(DbusState(Mutex::new(zbus::connection::Builder::session().ok())));
     }))
     .run(tauri::generate_context!())
     .expect("error while running finelauncher");

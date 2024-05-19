@@ -15,7 +15,8 @@ type installMod = (
 	name: string,
 	mod_name: string
 ) => Promise<never>
-type runGame = (version: string) => void
+type runGame = (version_name: string) => Promise<never>
+type terminateGame = (pid: number) => void
 type ShowInFolder = (version: string) => void
 type checkVersion = (version: string) => Promise<boolean>
 type checkMod = (version: string, mod_name: string) => Promise<boolean>
@@ -49,6 +50,9 @@ const installMod: installMod = async (
 // Запускаем версию
 const runGame: runGame = async (version_name: string) =>
 	await invoke('run_game', { version_name })
+
+const terminateGame: terminateGame = async (pid: number) =>
+	await invoke('terminate_game', { pid })
 
 // Открываем папку с версией
 const ShowInFolder: ShowInFolder = async (version: string) =>
@@ -103,6 +107,7 @@ export default {
 	installVersion,
 	installMod,
 	runGame,
+	terminateGame,
 	checkVersion,
 	checkMod,
 	ShowInFolder,

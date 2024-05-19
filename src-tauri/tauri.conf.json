@@ -22,7 +22,8 @@
 				"minimize": true,
 				"unmaximize": true,
 				"unminimize": true,
-				"startDragging": true
+				"startDragging": true,
+				"setFocus": true
 			},
 			"fs": {
 				"readDir": true,

@@ -1,7 +1,9 @@
 import { useParams } from 'react-router-dom'
 import api from '../../api.ts'
 import styles from './VersionPage.module.scss'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { appWindow } from '@tauri-apps/api/window'
+import { listen } from '@tauri-apps/api/event'
 
 const VersionPage: FC = () => {
 	const params = useParams()
@@ -9,6 +11,41 @@ const VersionPage: FC = () => {
 	const name: string = String(params.name)
 
 	console.log(params)
+
+	const [gameProcessPid, setGameProcessPid] = useState<number | undefined>(
+		undefined
+	)
+	const [gameProcessEnded, setGameProcessEnded] = useState<boolean>(false)
+
+	useEffect(() => {
+		const unSubscribeLog = listen('log_message', event => {
+			console.log('Событие log_message:', event.payload)
+		})
+
+		const unSubscribeStart = listen('game_process_started', event => {
+			console.log('Событие game_process_started:', event.payload)
+			setGameProcessPid(Number(event.payload))
+			setGameProcessEnded(false)
+		})
+
+		const unSubscribeEnd = listen('game_process_ended', event => {
+			console.log('Событие game_process_ended:', event.payload)
+			setGameProcessEnded(true)
+		})
+
+		return () => {
+			unSubscribeLog.then(unsub => unsub())
+			unSubscribeStart.then(unsub => unsub())
+			unSubscribeEnd.then(unsub => unsub())
+		}
+	}, [])
+
+	useEffect(() => {
+		if (gameProcessEnded) {
+			appWindow.unminimize()
+			appWindow.setFocus()
+		}
+	}, [gameProcessEnded])
 
 	let image
 
@@ -32,12 +69,28 @@ const VersionPage: FC = () => {
 				>
 					Открыть в проводнике
 				</button>
-				<button
-					className={'black-style green-bg ' + styles['play-btn']}
-					onClick={() => api.runGame(name)}
-				>
-					Играть
-				</button>
+				{gameProcessEnded ? (
+					<button
+						className={'black-style green-bg ' + styles['play-btn']}
+						onClick={() => {
+							appWindow.minimize()
+							api.runGame(name)
+						}}
+					>
+						Играть
+					</button>
+				) : (
+					<button
+						className={'black-style red-bg ' + styles['play-btn']}
+						onClick={() => {
+							api.terminateGame(Number(gameProcessPid))
+							setGameProcessEnded(false)
+							setGameProcessPid(undefined)
+						}}
+					>
+						Остановить игру
+					</button>
+				)}
 			</div>
 		</div>
 	)
