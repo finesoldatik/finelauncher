@@ -94,7 +94,16 @@ pub async fn download_mod(window: Window, url: String, version: String, mod_name
 
         let filename: String = format!("mod.zip");
         println!("{:?}", filename);
-        let path = format!("versions/{version}/res/content/{mod_name}/");
+        //&(version_path.clone() + "/squashfs-root/usr/share/VoxelEngine/res")
+        let path: String;
+        #[cfg(target_os = "windows")]
+        {
+          path = format!("versions/{version}/res/content/{mod_name}/");
+        }
+        #[cfg(not(target_os = "windows"))]
+        {
+          path = format!("versions/{version}/squashfs-root/usr/share/VoxelEngine/res");
+        }
         let save_path = Path::new(&get_path().unwrap()).join(format!("finelauncher/{path}"));
         mkdir(&path);
 

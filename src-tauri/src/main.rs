@@ -18,7 +18,7 @@ pub struct DbusState(Mutex<Option<dbus::blocking::SyncConnection>>);
 
 fn main() {
   mkdir("");
-  mkdir("versions\\");
+  mkdir("versions");
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![run_game, terminate_game, download_version, version_exists, mod_exists, show_in_folder, get_launcher_path, download_mod])

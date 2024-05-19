@@ -1,6 +1,6 @@
 use crate::directory::{exists, get_path, get_exe};
 
-use tokio::process::Command;
+use tokio::process::{Child, Command};
 use tokio::io::{AsyncBufReadExt, BufReader};
 use std::process::Stdio;
 use serde::Serialize;
@@ -22,11 +22,24 @@ struct LogMessage {
 pub async fn run_game(window: tauri::Window, version_name: String) -> Result<(), String> {
   let version_path: String = get_path().unwrap() + "/finelauncher/versions/" + &version_name;
   if exists(&version_path) {
-    let mut child = Command::new(get_exe(&version_path).expect("Game executable not found"))
-      .current_dir(&version_path)
-      .stdout(Stdio::piped())
-      .spawn()
-      .map_err(|e| e.to_string())?;
+    let mut child: Child;
+    #[cfg(target_os = "windows")]
+    {
+      child = Command::new(get_exe(&version_path).expect("Game executable not found"))
+        .current_dir(&version_path)
+        .stdout(Stdio::piped())
+        .spawn()
+        .map_err(|e| e.to_string())?;
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+      child = Command::new(&version_path + "/version.AppImage --appimage-extract && " + &version_path + "/squashfs-root/AppRun")
+        .current_dir(&version_path + "/squashfs-root/")
+        .args(["--res", &(version_path.clone() + "/squashfs-root/usr/share/VoxelEngine/res")])
+        .stdout(Stdio::piped())
+        .spawn()
+        .map_err(|e| e.to_string())?;
+    }
 
     let pid = child.id().expect("Failed to get PID of the game process");
     window.emit("game_process_started", pid).expect("Failed to emit game process PID");

@@ -92,12 +92,15 @@ pub async fn download_version(window: Window, url: String, name: String, version
     thread::scope(|s| {
       s.spawn(move || {
         println!("ЗАГРУЗКА ВЕРСИИ НАЧАТА");
-        let mut filename: String = format!("version.zip");
-        if env::consts::OS == "windows" {
+        let filename: String;
+        #[cfg(target_os = "windows")]
+        {
           println!("os: windows");
           filename = format!("version.zip");
           println!("{:?}", filename)
-        } else if env::consts::OS == "linux" {
+        }
+        #[cfg(not(target_os = "windows"))]
+        {
           println!("os: linux");
           filename = format!("version.AppImage");
           println!("{:?}", filename)
@@ -140,9 +143,18 @@ pub async fn download_version(window: Window, url: String, name: String, version
             Ok(s) => {
               println!("Success: {}", &s);
               println!("{}", env::consts::OS); // Prints the current OS.
-              if env::consts::OS == "windows" {
+              #[cfg(target_os = "windows")]
+              {
                 let file = save_path.join(format!("version.zip"));
                 unzip(&file.display().to_string(), save_path.clone());
+                save_json_file(save_path.display().to_string(), "{\"version\": ".to_owned() + &version + "}").unwrap()
+              }
+              #[cfg(not(target_os = "windows"))]
+              {
+                child = tokio::process::Command::new(&version_path + "/version.AppImage --appimage-extract")
+                  .current_dir(&version_path + "/squashfs-root/")
+                  .spawn()
+                  .map_err(|e| e.to_string())?;
                 save_json_file(save_path.display().to_string(), "{\"version\": ".to_owned() + &version + "}").unwrap()
               }
             },
