@@ -105,6 +105,7 @@ pub async fn download_mod(window: Window, url: String, version: String, mod_name
           path = format!("versions/{version}/squashfs-root/usr/share/VoxelEngine/res");
         }
         let save_path = Path::new(&get_path().unwrap()).join(format!("finelauncher/{path}"));
+        println!("{}", save_path.display());
         mkdir(&path);
 
         let mut downloader = Downloader::builder()

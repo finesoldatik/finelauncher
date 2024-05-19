@@ -4,7 +4,7 @@ version = "0.0.1"
 description = "finelauncher"
 authors = ["finesoldatik"]
 license = "MPL"
-repository = "https://github.com/darvin7531/VoxelEngine-Launcher"
+repository = "https://github.com/finesoldatik/finelauncher"
 default-run = "finelauncher"
 edition = "2021"
 rust-version = "1.60"
@@ -24,6 +24,7 @@ tauri = { version = "1.5.4", features = [ "os-all", "fs-read-dir", "system-tray"
 glob = "0.3.1"
 tokio = { version = "1.37.0", features = ["full"] }
 nix = { version = "0.28.0", features = ["signal"] }
+dbus = "0.9.7"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

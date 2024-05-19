@@ -25,7 +25,7 @@ pub fn get_path() -> Result<String, io::Error> {
 pub fn mkdir(path: &str) {
   let docs: String = get_path().unwrap() + "/finelauncher/" + path;
   if exists(&docs) == false {
-    let _ = fs::create_dir(docs);
+    let _ = fs::create_dir_all(docs);
   }
 }
 
@@ -51,10 +51,10 @@ pub fn mod_exists(version: &str, mod_name: &str) -> bool {
   exists(&mod_path).into()
 }
 
-pub fn get_exe(p: &str) -> Option<String> {
+pub fn get_executable(p: &str, ext: Option<&str>) -> Option<String> {
   let source_file_glob = p;
 
-  for entry in glob(format!("{}/{}", source_file_glob, "*.exe").as_str())
+  for entry in glob(format!("{}/{}", source_file_glob, ext.unwrap_or("*.exe")).as_str())
     .unwrap() {
       if let Ok(path) = entry {
         if let Some(path) = path.to_str() {
@@ -68,7 +68,7 @@ pub fn get_exe(p: &str) -> Option<String> {
 #[cfg(target_os = "linux")]
 #[tauri::command]
 pub fn show_in_folder(version: String, dbus_state: State<DbusState>) -> Result<(), String> {
-  let version_path: String = get_path().unwrap() + "/finelauncher/versions/" + &version;
+  let version_path: String = get_path().unwrap() + "/finelauncher/versions" + &version;
   if exists(&version_path) {
     let dbus_guard = dbus_state.0.lock().map_err(|e| e.to_string())?;
 

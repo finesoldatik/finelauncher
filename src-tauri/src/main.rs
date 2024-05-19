@@ -14,6 +14,10 @@ use crate::download_mod::download_mod;
 use crate::directory::{mkdir, version_exists, mod_exists, show_in_folder, get_launcher_path};
 
 #[cfg(target_os = "linux")]
+use std::sync::Mutex;
+#[cfg(target_os = "linux")]
+use tauri::Manager;
+#[cfg(target_os = "linux")]
 pub struct DbusState(Mutex<Option<dbus::blocking::SyncConnection>>);
 
 fn main() {
@@ -22,7 +26,7 @@ fn main() {
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![run_game, terminate_game, download_version, version_exists, mod_exists, show_in_folder, get_launcher_path, download_mod])
-    .setup(|_app| Ok({
+    .setup(|app| Ok({
       #[cfg(target_os = "linux")]
       app.manage(DbusState(Mutex::new(dbus::blocking::SyncConnection::new_session().ok())));
     }))
