@@ -1,4 +1,4 @@
-use crate::directory::{exists, get_path, get_executable};
+use crate::directory::{exists, get_path, get_files_by_extension};
 
 use tokio::process::{Child, Command};
 use tokio::io::{AsyncBufReadExt, BufReader};
@@ -19,7 +19,7 @@ pub async fn run_game(window: tauri::Window, version_name: String) -> Result<(),
     let mut child: Child;
     #[cfg(target_os = "windows")]
     {
-      child = Command::new(get_executable(&version_path, Some("*.exe")).expect("Game executable not found"))
+      child = Command::new(get_files_by_extension(&version_path, Some("*.exe")).expect("Game executable not found"))
         .current_dir(&version_path)
         .stdout(Stdio::piped())
         .spawn()
@@ -27,7 +27,7 @@ pub async fn run_game(window: tauri::Window, version_name: String) -> Result<(),
     }
     #[cfg(not(target_os = "windows"))]
     {
-      let executable: &str = get_executable(&version_path, Some("*.AppImage")).expect("Game executable not found");
+      let executable: &str = get_files_by_extension(&version_path, Some("*.AppImage")).expect("Game executable not found");
       child = Command::new(&executable + " --appimage-extract && " + &version_path + "/squashfs-root/AppRun")
         .current_dir(&version_path + "/squashfs-root/")
         .args(["--res", &(version_path + "/squashfs-root/usr/share/VoxelEngine/res")])

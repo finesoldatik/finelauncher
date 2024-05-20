@@ -51,7 +51,7 @@ pub fn mod_exists(version: &str, mod_name: &str) -> bool {
   exists(&mod_path).into()
 }
 
-pub fn get_executable(p: &str, ext: Option<&str>) -> Option<String> {
+pub fn get_files_by_extension(p: &str, ext: Option<&str>) -> Option<String> {
   let source_file_glob = p;
 
   for entry in glob(format!("{}/{}", source_file_glob, ext.unwrap_or("*.exe")).as_str())
@@ -65,43 +65,63 @@ pub fn get_executable(p: &str, ext: Option<&str>) -> Option<String> {
   None
 }
 
+// use std::fs::rename;
+// use std::path::PathBuf;
+
+// pub fn get_mod(path: &str, mod_path: &str) {
+//   for file in glob(&(mod_path.to_owned() + "*")).expect("reason") {
+//     if let Ok(file_path) = file {
+//       if file_path {
+//         println!("НАШЕЛСЯ ПЕКЕЙДЖ ДЖСОН ==========================================================================================================")
+//       } else {
+//         if file_path.is_dir() {
+//           get_mod(file_path.to_str().expect("reason"), mod_path)
+//         } else {
+//           for file in glob(&(path.to_owned() + "*")).expect("reason") {}
+//         }
+//       }
+//     }
+//   }
+// }
+
 #[cfg(target_os = "linux")]
 #[tauri::command]
 pub fn show_in_folder(version: String, dbus_state: State<DbusState>) -> Result<(), String> {
   let version_path: String = get_path().unwrap() + "/finelauncher/versions" + &version;
   if exists(&version_path) {
-    let dbus_guard = dbus_state.0.lock().map_err(|e| e.to_string())?;
+    println("Не рабочая функция, линуксоидам привет")
+    // let dbus_guard = dbus_state.0.lock().map_err(|e| e.to_string())?;
 
-    // see https://gitlab.freedesktop.org/dbus/dbus/-/issues/76
-    if dbus_guard.is_none() || version_path.contains(",") {
-      let mut path_buf = PathBuf::from(&version_path);
-      let new_path = match path_buf.is_dir() {
-        true => version_path,
-        false => {
-          path_buf.pop();
-          path_buf.into_os_string().into_string().unwrap()
-        }
-      };
-      Command::new("xdg-open")
-        .arg(&new_path)
-        .spawn()
-        .map_err(|e| format!("{e:?}"))?;
-    } else {
-      // https://docs.rs/dbus/latest/dbus/
-      let dbus = dbus_guard.as_ref().unwrap();
-      let proxy = dbus.with_proxy(
-        "org.freedesktop.FileManager1",
-        "/org/freedesktop/FileManager1",
-        Duration::from_secs(5),
-      );
-      let (_,): (bool,) = proxy
-        .method_call(
-          "org.freedesktop.FileManager1",
-          "ShowItems",
-          (vec![version_path], ""),
-        )
-        .map_err(|e| e.to_string())?;
-    }
+    // // see https://gitlab.freedesktop.org/dbus/dbus/-/issues/76
+    // if dbus_guard.is_none() || version_path.contains(",") {
+    //   let mut path_buf = PathBuf::from(&version_path);
+    //   let new_path = match path_buf.is_dir() {
+    //     true => version_path,
+    //     false => {
+    //       path_buf.pop();
+    //       path_buf.into_os_string().into_string().unwrap()
+    //     }
+    //   };
+    //   Command::new("xdg-open")
+    //     .arg(&new_path)
+    //     .spawn()
+    //     .map_err(|e| format!("{e:?}"))?;
+    // } else {
+    //   // https://docs.rs/dbus/latest/dbus/
+    //   let dbus = dbus_guard.as_ref().unwrap();
+    //   let (_,): (bool,) = zbus::connection::Connection::call_method(
+    //       Some("org.freedesktop.FileManager1"),
+    //       Some("/org/freedesktop/FileManager1"),
+    //       Some("org.freedesktop.FileManager1"),
+    //       Some("GetId"),
+    //       &(),
+    //       &(),
+    //     )
+    //     .map_err(|e| e.to_string())?;
+    //   // "org.freedesktop.FileManager1",
+    //   // "ShowItems",
+    //   // (vec![version_path], ""),
+    // }
   }
   Ok(())
 }

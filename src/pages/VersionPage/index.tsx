@@ -41,11 +41,14 @@ const VersionPage: FC = () => {
 	}, [])
 
 	useEffect(() => {
-		if (settingsContext.gamePid === null) {
+		if (
+			settingsContext.gamePid === null &&
+			settingsContext.hideLauncherOnLaunchGame
+		) {
 			appWindow.unminimize()
 			appWindow.setFocus()
 		}
-	}, [settingsContext.gamePid])
+	}, [settingsContext.gamePid, settingsContext.hideLauncherOnLaunchGame])
 
 	let image
 
@@ -74,7 +77,8 @@ const VersionPage: FC = () => {
 					<button
 						className={'black-style green-bg ' + styles['play-btn']}
 						onClick={() => {
-							appWindow.minimize()
+							if (settingsContext.hideLauncherOnLaunchGame) appWindow.minimize()
+							console.log(settingsContext.hideLauncherOnLaunchGame)
 							settingsContext.startGame(name)
 						}}
 					>

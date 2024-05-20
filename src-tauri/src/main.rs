@@ -15,12 +15,14 @@ use crate::directory::{mkdir, version_exists, mod_exists, show_in_folder, get_la
 
 // #[cfg(target_os = "linux")]
 use std::sync::Mutex;
+// use directory::get_mod;
 // #[cfg(target_os = "linux")]
 use tauri::Manager;
 // #[cfg(target_os = "linux")]
 pub struct DbusState<'a>(Mutex<Option<zbus::connection::Builder<'a>>>);
 
 fn main() {
+  // get_mod("C:/Users/AMIN AMIR/Documents/finelauncher/versions/1111/res/content/4/", "C:/Users/AMIN AMIR/Documents/finelauncher/versions/1111/res/content/4/");
   mkdir("");
   mkdir("versions");
 
