@@ -1,36 +1,36 @@
 import { useParams } from 'react-router-dom'
-import api from '../../api.ts'
+import { ShowInFolder } from '../../utils/invokes.ts'
 import styles from './VersionPage.module.scss'
 import { FC, useEffect, useState } from 'react'
 import { appWindow } from '@tauri-apps/api/window'
 import { listen } from '@tauri-apps/api/event'
+import { useSettingsContext } from '../../contexts/SettingsProvider.tsx'
+import Console from './components/Console/index.tsx'
 
 const VersionPage: FC = () => {
 	const params = useParams()
 	const version: string = String(params.version)
 	const name: string = String(params.name)
 
-	console.log(params)
-
-	const [gameProcessPid, setGameProcessPid] = useState<number | undefined>(
-		undefined
-	)
-	const [gameProcessEnded, setGameProcessEnded] = useState<boolean>(false)
+	const settingsContext = useSettingsContext()
+	const [gameLogs, setGameLogs] = useState<Array<string>>([])
 
 	useEffect(() => {
 		const unSubscribeLog = listen('log_message', event => {
 			console.log('Событие log_message:', event.payload)
+			setGameLogs(prev => [...prev, String(event.payload)])
+			console.log('gameLogs:', gameLogs)
 		})
 
 		const unSubscribeStart = listen('game_process_started', event => {
 			console.log('Событие game_process_started:', event.payload)
-			setGameProcessPid(Number(event.payload))
-			setGameProcessEnded(false)
+			settingsContext.setGamePid(Number(event.payload))
 		})
 
 		const unSubscribeEnd = listen('game_process_ended', event => {
 			console.log('Событие game_process_ended:', event.payload)
-			setGameProcessEnded(true)
+			settingsContext.stopGame()
+			setGameLogs([])
 		})
 
 		return () => {
@@ -41,11 +41,11 @@ const VersionPage: FC = () => {
 	}, [])
 
 	useEffect(() => {
-		if (gameProcessEnded) {
+		if (settingsContext.gamePid === null) {
 			appWindow.unminimize()
 			appWindow.setFocus()
 		}
-	}, [gameProcessEnded])
+	}, [settingsContext.gamePid])
 
 	let image
 
@@ -53,46 +53,36 @@ const VersionPage: FC = () => {
 	else if (version.split(' ')[0] === 'RVE') image = '/images/rve-512.png'
 
 	return (
-		<div className={'black-style ' + styles['container']}>
-			<img
-				className={styles['img']}
-				src={image}
-				width={160}
-				height={160}
-				alt='image'
-			/>
-			<h3>Имя версии: {params.name}</h3>
-			<div className={styles['btn-container']}>
-				<button
-					className={'black-style ' + styles['opendir-btn']}
-					onClick={() => api.ShowInFolder(name)}
-				>
-					Открыть в проводнике
-				</button>
-				{gameProcessEnded ? (
+		<>
+			{settingsContext.gamePid && <Console logs={gameLogs}></Console>}
+			<div className={'black-style ' + styles['container']}>
+				<img
+					className={styles['img']}
+					src={image}
+					width={160}
+					height={160}
+					alt='image'
+				/>
+				<h3>Имя версии: {params.name}</h3>
+				<div className={styles['btn-container']}>
+					<button
+						className={'black-style ' + styles['opendir-btn']}
+						onClick={() => ShowInFolder(name)}
+					>
+						Открыть в проводнике
+					</button>
 					<button
 						className={'black-style green-bg ' + styles['play-btn']}
 						onClick={() => {
 							appWindow.minimize()
-							api.runGame(name)
+							settingsContext.startGame(name)
 						}}
 					>
 						Играть
 					</button>
-				) : (
-					<button
-						className={'black-style red-bg ' + styles['play-btn']}
-						onClick={() => {
-							api.terminateGame(Number(gameProcessPid))
-							setGameProcessEnded(false)
-							setGameProcessPid(undefined)
-						}}
-					>
-						Остановить игру
-					</button>
-				)}
+				</div>
 			</div>
-		</div>
+		</>
 	)
 }
 

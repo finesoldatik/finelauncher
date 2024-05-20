@@ -2,7 +2,7 @@ import styles from './Mod.module.scss'
 import { ModProps } from './Mod.interface'
 import ModWrapper from '../../../../utils/mod'
 import { useNavigate } from 'react-router-dom'
-import api from '../../../../api'
+import { getModsByTag } from '../../../../utils/invokes.ts'
 import { FC } from 'react'
 
 const Mod: FC<ModProps> = ({ mod, setMods }) => {
@@ -30,7 +30,7 @@ const Mod: FC<ModProps> = ({ mod, setMods }) => {
 				{mod.tags.map(tag => (
 					<button
 						className={'black-style ' + styles['tag']}
-						onClick={() => api.getModsByTag(modWrapper, setMods, [tag.id])}
+						onClick={() => getModsByTag(modWrapper, setMods, [tag.id])}
 						key={tag.id}
 					>
 						{tag.title}

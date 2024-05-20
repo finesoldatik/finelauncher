@@ -3,7 +3,11 @@ import VersionSelect from '../../components/VersionSelect'
 import styles from './ChangeVersionModal.module.scss'
 import { ChangeVersionProps } from './ChangeVersionModal.interface'
 import { listen } from '@tauri-apps/api/event'
-import api from '../../api'
+import {
+	checkMod,
+	getInstalledVersions,
+	installMod,
+} from '../../utils/invokes.ts'
 import { ISelectableVersion } from '../../components/VersionSelect/VersionSelect.interface'
 
 const ChangeVersionModal: FC<ChangeVersionProps> = ({
@@ -20,7 +24,7 @@ const ChangeVersionModal: FC<ChangeVersionProps> = ({
 
 	useEffect(() => {
 		// Проверка, существует ли мод с таким id
-		api.checkMod(version.label, String(mod.id)).then(value => {
+		checkMod(version.label, String(mod.id)).then(value => {
 			setExistsMod(value)
 		})
 		// Подписываемся на событие для получения прогресса загрузки мода
@@ -42,7 +46,7 @@ const ChangeVersionModal: FC<ChangeVersionProps> = ({
 	const [versions, setVersions] = useState<ISelectableVersion[]>([])
 
 	useEffect(() => {
-		api.getInstalledVersions().then(value => {
+		getInstalledVersions().then(value => {
 			const entries: ISelectableVersion[] = value.map(version => ({
 				label: String(version.name),
 				value: String(version.name),
@@ -57,18 +61,16 @@ const ChangeVersionModal: FC<ChangeVersionProps> = ({
 		if (!version) {
 			setVersionChanged(false)
 		} else {
-			api.checkMod(version.label, String(mod.id)).then(value => {
+			checkMod(version.label, String(mod.id)).then(value => {
 				console.log(value, version, mod.id, mod.downloadUrl)
 
 				if (addBtnRef.current) if (!value) addBtnRef.current.disabled = true
 
-				api
-					.installMod(mod.downloadUrl, version.label, String(mod.id))
-					.then(() => {
-						if (addBtnRef.current) addBtnRef.current.disabled = false
+				installMod(mod.downloadUrl, version.label, String(mod.id)).then(() => {
+					if (addBtnRef.current) addBtnRef.current.disabled = false
 
-						setActive(false)
-					})
+					setActive(false)
+				})
 				setExistsMod(value)
 			})
 			setVersionChanged(true)

@@ -3,7 +3,6 @@ use crate::directory::{exists, get_path, get_executable};
 use tokio::process::{Child, Command};
 use tokio::io::{AsyncBufReadExt, BufReader};
 use std::process::Stdio;
-use serde::Serialize;
 
 #[cfg(target_os = "windows")]
 use std::process::Command as StdCommand;
@@ -12,11 +11,6 @@ use std::process::Command as StdCommand;
 use nix::sys::signal::{kill, Signal};
 #[cfg(not(target_os = "windows"))]
 use nix::unistd::Pid;
-
-#[derive(Clone, Serialize)]
-struct LogMessage {
-    message: String,
-}
 
 #[tauri::command(rename_all = "snake_case")]
 pub async fn run_game(window: tauri::Window, version_name: String) -> Result<(), String> {
@@ -53,7 +47,7 @@ pub async fn run_game(window: tauri::Window, version_name: String) -> Result<(),
         let mut lines = reader.lines();
 
         while let Ok(Some(line)) = lines.next_line().await {
-          window_clone.emit("log_message", LogMessage { message: line }).expect("Failed to emit log message");
+          window_clone.emit("log_message", line).expect("Failed to emit log message");
         }
       }
 

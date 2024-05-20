@@ -3,7 +3,7 @@ import styles from './ModsPage.module.scss'
 import ModWrapper from '../../utils/mod'
 import { IMods } from './ModsPage.interface'
 import Mod from './components/Mod'
-import api from '../../api'
+import { getModsBySearchQuery } from '../../utils/invokes.ts'
 
 const ModsPage: FC = () => {
 	const [mods, setMods] = useState<IMods>(Object)
@@ -31,7 +31,7 @@ const ModsPage: FC = () => {
 					className={'black-style ' + styles['search-btn']}
 					onClick={() => {
 						if (searchInputRef.current)
-							api.getModsBySearchQuery(
+							getModsBySearchQuery(
 								modWrapper,
 								setMods,
 								searchInputRef.current.value

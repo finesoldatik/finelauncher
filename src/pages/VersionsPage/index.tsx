@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import NewVersion from './components/NewVersion/index.tsx'
 import Version from './components/Version/index.tsx'
-import api from '../../api'
+import { getInstalledVersions } from '../../utils/invokes.ts'
 import { IVersion } from './VersionsPage.interface.ts'
 
 const VersionsPage: FC = () => {
@@ -13,7 +13,7 @@ const VersionsPage: FC = () => {
 		},
 	])
 	useEffect(() => {
-		api.getInstalledVersions().then(value => {
+		getInstalledVersions().then(value => {
 			const entries: IVersion[] = value.map(version => ({
 				name: version.name,
 				version: 'VE v12',
