@@ -1,10 +1,21 @@
 import { FC } from 'react'
 import styles from './Button.module.scss'
 import { IButtonProps } from './Button.interface'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 const Button: FC<IButtonProps> = ({ onClick, type, svgPath }) => {
+	const settingsContext = useSettingsContext()
+
 	return (
-		<div className={styles[type]} onClick={onClick}>
+		<div
+			className={styles[type]}
+			onClick={() => {
+				onClick()
+				settingsContext.terminateGameProcess(
+					Number(settingsContext.gameData.pid)
+				)
+			}}
+		>
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
 				width='1em'

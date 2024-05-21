@@ -5,7 +5,7 @@ const products = ['voxelworld.ru', 'icons8.ru']
 
 const ProductsUsed: FC = () => {
 	return (
-		<div className={'black-style ' + styles['container']}>
+		<div className={`black-style ${styles['container']}`}>
 			<p>Используемые продукты:</p>
 			{products.map((product, idx) => (
 				<p className='violet-text' key={idx}>

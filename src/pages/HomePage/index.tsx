@@ -1,11 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './Home.module.scss'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
+import { items } from '../../components/Sidebar/data'
 
 const HomePage: FC = () => {
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()
+	useEffect(() => {
+		if (settingsContext.tabId !== 0) {
+			navigate(items[settingsContext.tabId].link)
+			console.log("page changed to:", items[settingsContext.tabId].link)
+		}
+	}, [])
 	return (
 		<div className={styles['container']}>
 			<h1>

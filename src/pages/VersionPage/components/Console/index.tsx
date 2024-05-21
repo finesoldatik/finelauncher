@@ -10,17 +10,21 @@ const Console: FC<IConsoleProps> = ({ logs }) => {
 			<div>
 				<h1 className={styles['title']}>Логи игры</h1>
 				<div className={styles['container']}>
-					<div className={styles['logs']}>
-						{logs.map(value => (
-							<p className='violet-text'>{value}</p>
-						))}
-					</div>
+					{logs ? (
+						<div className={styles['logs']}>
+							{logs.map(value => (
+								<p className='violet-text'>{value}</p>
+							))}
+						</div>
+					) : (
+						<h1 className={styles['logs']}>Логи не найдены.</h1>
+					)}
 					<div>
 						<button
 							className={'black-style red-bg ' + styles['stop-btn']}
 							onClick={() => {
 								settingsContext.terminateGameProcess(
-									Number(settingsContext.gamePid)
+									Number(settingsContext.gameData.pid)
 								)
 							}}
 						>

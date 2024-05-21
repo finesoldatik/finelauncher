@@ -4,7 +4,7 @@ import { greatPeople } from './data'
 
 const GreatContribution: FC = () => {
 	return (
-		<div className={'black-style ' + styles['container']}>
+		<div className={`black-style ${styles['container']}`}>
 			<p>Большой вклад внесли:</p>
 			{greatPeople.map((user, idx) => (
 				<p className='violet-text' key={idx}>

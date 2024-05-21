@@ -23,3 +23,5 @@ export const bottomItems = [
 		link: '/settings',
 	},
 ]
+
+export const items = [...topItems, ...bottomItems]

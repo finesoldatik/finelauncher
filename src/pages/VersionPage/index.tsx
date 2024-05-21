@@ -13,13 +13,21 @@ const VersionPage: FC = () => {
 	const name: string = String(params.name)
 
 	const settingsContext = useSettingsContext()
-	const [gameLogs, setGameLogs] = useState<Array<string>>([])
+	const [pid, setPid] = useState<number | null>(settingsContext.gameData.pid)
+	const [logs, setLogs] = useState<string[]>(settingsContext.gameData.logs)
+
+	useEffect(() => {
+		setPid(settingsContext.gameData.pid)
+	}, [settingsContext.gameData.pid])
+
+	useEffect(() => {
+		setLogs(settingsContext.gameData.logs)
+	}, [settingsContext.gameData.logs])
 
 	useEffect(() => {
 		const unSubscribeLog = listen('log_message', event => {
 			console.log('Событие log_message:', event.payload)
-			setGameLogs(prev => [...prev, String(event.payload)])
-			console.log('gameLogs:', gameLogs)
+			settingsContext.addGameLogs(String(event.payload))
 		})
 
 		const unSubscribeStart = listen('game_process_started', event => {
@@ -30,7 +38,8 @@ const VersionPage: FC = () => {
 		const unSubscribeEnd = listen('game_process_ended', event => {
 			console.log('Событие game_process_ended:', event.payload)
 			settingsContext.stopGame()
-			setGameLogs([])
+			settingsContext.removeGameLogs()
+			setPid(null)
 		})
 
 		return () => {
@@ -42,13 +51,16 @@ const VersionPage: FC = () => {
 
 	useEffect(() => {
 		if (
-			settingsContext.gamePid === null &&
-			settingsContext.hideLauncherOnLaunchGame
+			settingsContext.gameData.pid === null &&
+			settingsContext.settings.hideLauncherOnLaunchGame
 		) {
 			appWindow.unminimize()
 			appWindow.setFocus()
 		}
-	}, [settingsContext.gamePid, settingsContext.hideLauncherOnLaunchGame])
+	}, [
+		settingsContext.gameData.pid,
+		settingsContext.settings.hideLauncherOnLaunchGame,
+	])
 
 	let image
 
@@ -57,7 +69,7 @@ const VersionPage: FC = () => {
 
 	return (
 		<>
-			{settingsContext.gamePid && <Console logs={gameLogs}></Console>}
+			{pid && <Console logs={logs}></Console>}
 			<div className={'black-style ' + styles['container']}>
 				<img
 					className={styles['img']}
@@ -77,8 +89,12 @@ const VersionPage: FC = () => {
 					<button
 						className={'black-style green-bg ' + styles['play-btn']}
 						onClick={() => {
-							if (settingsContext.hideLauncherOnLaunchGame) appWindow.minimize()
-							console.log(settingsContext.hideLauncherOnLaunchGame)
+							if (settingsContext.settings.hideLauncherOnLaunchGame)
+								appWindow.minimize()
+							console.log(
+								'hideLauncherOnLaunchGame: ',
+								settingsContext.settings.hideLauncherOnLaunchGame
+							)
 							settingsContext.startGame(name)
 						}}
 					>

@@ -10,28 +10,31 @@ const SettingsPage: FC = () => {
 	useEffect(() => {
 		if (hideLauncherChecboxRef.current) {
 			hideLauncherChecboxRef.current.checked =
-				settingsContext.hideLauncherOnLaunchGame
+				settingsContext.settings.hideLauncherOnLaunchGame
 		}
 	}, [])
 	return (
 		<div className={styles['container']}>
+			<div className={`black-style ${styles['settings']}`}>
+				<h2>Настройки</h2>
+				<div>
+					<label>Скрывать лаунчер при запуске игры </label>
+					<input
+						ref={hideLauncherChecboxRef}
+						onChange={() => {
+							if (hideLauncherChecboxRef.current) {
+								settingsContext.setHideLauncherOnLaunchGame(
+									hideLauncherChecboxRef.current.checked
+								)
+							}
+						}}
+						type='checkbox'
+						placeholder='Скрывать лаунчер при запуске игры'
+					/>
+				</div>
+			</div>
 			<GreatContribution />
 			<ProductsUsed />
-			<div className='black-style'>
-				<label>Скрывать лаунчер при запуске игры </label>
-				<input
-					ref={hideLauncherChecboxRef}
-					onChange={() => {
-						if (hideLauncherChecboxRef.current) {
-							settingsContext.setHideLauncherOnLaunch(
-								hideLauncherChecboxRef.current.checked
-							)
-						}
-					}}
-					type='checkbox'
-					placeholder='Скрывать лаунчер при запуске игры'
-				/>
-			</div>
 		</div>
 	)
 }

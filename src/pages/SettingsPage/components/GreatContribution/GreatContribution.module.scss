@@ -1,6 +1,7 @@
 .container {
-	width: 300px;
+	width: calc(100% - 50px);
 	cursor: default;
 	text-align: center;
-	border-radius: 0px;
+	border-radius: 0;
+	margin-bottom: 3px;
 }
