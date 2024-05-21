@@ -3,16 +3,16 @@ export interface ISelectableVersion {
 	value: string
 }
 
-type setVersion = React.Dispatch<React.SetStateAction<ISelectableVersion>>
+type setVersion = (value: ISelectableVersion) => void
 
-interface versions {
+interface IVersion {
 	label: string
 	value: string
 }
 
-export interface VersionSelectProps {
+export interface IVersionSelectProps {
 	setVersion: setVersion
-	versions: versions[]
+	versions: IVersion[]
 	isLoading: boolean
 }
 

@@ -23,7 +23,7 @@ interface IMod {
 	title: string
 }
 
-export type setMods = React.Dispatch<React.SetStateAction<IMods>>
+export type setMods = (value: IMods) => void
 
 export interface ModProps {
 	mod: IMod

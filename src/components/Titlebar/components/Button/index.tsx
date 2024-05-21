@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import styles from './Button.module.scss'
-import { ButtonProps } from './Button.interface'
+import { IButtonProps } from './Button.interface'
 
-const Button: FC<ButtonProps> = ({ onClick, type, svgPath }) => {
+const Button: FC<IButtonProps> = ({ onClick, type, svgPath }) => {
 	return (
 		<div className={styles[type]} onClick={onClick}>
 			<svg

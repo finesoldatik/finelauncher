@@ -1,4 +1,4 @@
-export interface ButtonProps {
+export interface IButtonProps {
   onClick: () => void
   type: string
   svgPath: string

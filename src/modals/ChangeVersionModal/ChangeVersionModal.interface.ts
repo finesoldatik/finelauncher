@@ -1,11 +1,11 @@
-type setActive = React.Dispatch<React.SetStateAction<boolean>>
+type setActive = (value: boolean) => void
 
 interface IMod {
 	id: number
 	downloadUrl: string
 }
 
-export interface ChangeVersionProps {
+export interface IChangeVersionProps {
 	active: boolean
 	mod: IMod
 	setActive: setActive

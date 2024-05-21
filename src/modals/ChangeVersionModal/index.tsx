@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import VersionSelect from '../../components/VersionSelect'
 import styles from './ChangeVersionModal.module.scss'
-import { ChangeVersionProps } from './ChangeVersionModal.interface'
+import { IChangeVersionProps } from './ChangeVersionModal.interface'
 import { listen } from '@tauri-apps/api/event'
 import {
 	checkMod,
@@ -10,7 +10,7 @@ import {
 } from '../../utils/invokes.ts'
 import { ISelectableVersion } from '../../components/VersionSelect/VersionSelect.interface'
 
-const ChangeVersionModal: FC<ChangeVersionProps> = ({
+const ChangeVersionModal: FC<IChangeVersionProps> = ({
 	active,
 	mod,
 	setActive,

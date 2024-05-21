@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import styles from './Sidebar.module.scss'
 import Item from './components/Item'
 import { topItems, bottomItems } from './data.ts'
+import { useSettingsContext } from '../../contexts/SettingsProvider.tsx'
 
 const Sidebar = () => {
-	const [activeTab, setActiveTab] = useState(0)
+	const settingsContext = useSettingsContext()
 	return (
 		<>
 			<div className={styles['container']}>
@@ -13,8 +13,8 @@ const Sidebar = () => {
 						<Item
 							element={{
 								...el,
-								active: activeTab,
-								setActive: setActiveTab,
+								active: settingsContext.tabId,
+								setActive: settingsContext.setTab,
 							}}
 							key={el.id}
 						/>
@@ -25,8 +25,8 @@ const Sidebar = () => {
 						<Item
 							element={{
 								...el,
-								active: activeTab,
-								setActive: setActiveTab,
+								active: settingsContext.tabId,
+								setActive: settingsContext.setTab,
 							}}
 							key={el.id}
 						/>

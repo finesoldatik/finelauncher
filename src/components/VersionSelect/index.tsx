@@ -2,13 +2,12 @@ import { FC, useState } from 'react'
 import ReactSelect, { SingleValue } from 'react-select'
 import './VersionSelect.scss'
 import {
-	VersionSelectProps,
+	IVersionSelectProps,
 	ISelectableVersion,
 	CurrentVersion,
 } from './VersionSelect.interface'
-// import api from '../../api.ts'
 
-const VersionSelect: FC<VersionSelectProps> = ({
+const VersionSelect: FC<IVersionSelectProps> = ({
 	setVersion,
 	versions,
 	isLoading,

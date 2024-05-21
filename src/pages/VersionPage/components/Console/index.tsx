@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import styles from './Console.module.scss'
-import { ConsoleProps } from './Console.interface.ts'
+import { IConsoleProps } from './Console.interface.ts'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider.tsx'
 
-const Console: FC<ConsoleProps> = ({ logs }) => {
+const Console: FC<IConsoleProps> = ({ logs }) => {
 	const settingsContext = useSettingsContext()
 	return (
 		<>

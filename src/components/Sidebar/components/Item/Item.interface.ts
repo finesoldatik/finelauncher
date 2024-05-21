@@ -1,11 +1,11 @@
 interface IElement {
 	id: number
 	active: number
-	setActive: React.Dispatch<React.SetStateAction<number>>
+	setActive: (value: number) => void
 	image: string
 	link: string
 }
 
-export interface ItemProps {
+export interface IItemProps {
 	element: IElement
 }

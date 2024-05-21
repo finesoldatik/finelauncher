@@ -1,3 +1,3 @@
-export interface ConsoleProps {
+export interface IConsoleProps {
 	logs: string[]
 }

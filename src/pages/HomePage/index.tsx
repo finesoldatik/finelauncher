@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './Home.module.scss'
 import { FC } from 'react'
+import { useSettingsContext } from '../../contexts/SettingsProvider'
 
 const HomePage: FC = () => {
 	const navigate = useNavigate()
+	const settingsContext = useSettingsContext()
 	return (
 		<div className={styles['container']}>
 			<h1>
@@ -17,13 +19,19 @@ const HomePage: FC = () => {
 			<div className={styles['btn-container']}>
 				<button
 					className={'black-style violet-bg ' + styles['mods-btn']}
-					onClick={() => navigate('/mods')}
+					onClick={() => {
+						navigate('/mods') // переходим на страницу mods
+						settingsContext.setTab(2) // делаем 2 страницу активной
+					}}
 				>
 					Моды
 				</button>
 				<button
 					className={'black-style green-bg ' + styles['versions-btn']}
-					onClick={() => navigate('/versions')}
+					onClick={() => {
+						navigate('/versions') // переходим на страницу versions
+						settingsContext.setTab(1) // делаем 1 страницу активной
+					}}
 				>
 					Версии
 				</button>
