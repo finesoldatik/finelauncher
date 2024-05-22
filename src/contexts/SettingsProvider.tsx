@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, ReactNode } from 'react'
-import { runGame, terminateGame } from '../utils/invokes.ts'
+import { runGame, terminateProcess } from '../utils/versionManager'
 
 interface ISettingsContextInterface {
 	setHideLauncherOnLaunchGame: (value: boolean) => void
@@ -12,7 +12,7 @@ interface ISettingsContextInterface {
 	removeGameLogs: () => void
 	startGame: (version_name: string) => void
 	stopGame: () => void
-	terminateGameProcess: (pid: number) => void
+	terminateGame: (pid: number) => void
 }
 
 export const SettingsContext = createContext<ISettingsContextInterface>({
@@ -31,7 +31,7 @@ export const SettingsContext = createContext<ISettingsContextInterface>({
 	removeGameLogs: () => {},
 	startGame: () => {},
 	stopGame: () => {},
-	terminateGameProcess: () => {},
+	terminateGame: () => {},
 })
 
 export const useSettingsContext = () => useContext(SettingsContext)
@@ -97,8 +97,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		setGamePid(null)
 	}
 
-	const terminateGameProcess = (pid: number) => {
-		terminateGame(pid)
+	const terminateGame = (pid: number) => {
+		terminateProcess(pid)
 		setGamePid(null)
 	}
 
@@ -115,7 +115,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				removeGameLogs,
 				startGame,
 				stopGame,
-				terminateGameProcess,
+				terminateGame,
 			}}
 		>
 			{children}

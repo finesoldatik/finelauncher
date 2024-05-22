@@ -1,16 +1,16 @@
+import { FC } from 'react'
 import styles from './Mod.module.scss'
 import { ModProps } from './Mod.interface'
-import ModWrapper from '../../../../utils/mod'
 import { useNavigate } from 'react-router-dom'
-import { getModsByTag } from '../../../../utils/invokes.ts'
-import { FC } from 'react'
+import ModWrapper from '../../../../utils/mod/Wrapper'
+import { getModsByTag } from '../../../../utils/mod/index.ts'
 
 const Mod: FC<ModProps> = ({ mod, setMods }) => {
 	const navigate = useNavigate()
 	const modWrapper = new ModWrapper()
 	return (
 		<div
-			className={'black-style ' + styles['container']}
+			className={`black-style ${styles['container']}`}
 			onClick={() => navigate(`/mods/${mod.id}`)}
 		>
 			<img
@@ -29,7 +29,7 @@ const Mod: FC<ModProps> = ({ mod, setMods }) => {
 			<div className={styles['tags']}>
 				{mod.tags.map(tag => (
 					<button
-						className={'black-style ' + styles['tag']}
+						className={`black-style ${styles['tag']}`}
 						onClick={() => getModsByTag(modWrapper, setMods, [tag.id])}
 						key={tag.id}
 					>

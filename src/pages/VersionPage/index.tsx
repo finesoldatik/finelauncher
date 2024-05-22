@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom'
-import { ShowInFolder } from '../../utils/invokes.ts'
 import styles from './VersionPage.module.scss'
 import { FC, useEffect, useState } from 'react'
 import { appWindow } from '@tauri-apps/api/window'
 import { listen } from '@tauri-apps/api/event'
-import { useSettingsContext } from '../../contexts/SettingsProvider.tsx'
-import Console from './components/Console/index.tsx'
+import { useSettingsContext } from '../../contexts/SettingsProvider'
+import Console from './components/Console'
+import { openInFileManager } from '../../utils/versionManager'
 
 const VersionPage: FC = () => {
 	const params = useParams()
@@ -82,7 +82,7 @@ const VersionPage: FC = () => {
 				<div className={styles['btn-container']}>
 					<button
 						className={'black-style ' + styles['opendir-btn']}
-						onClick={() => ShowInFolder(name)}
+						onClick={() => openInFileManager(name)}
 					>
 						Открыть в проводнике
 					</button>

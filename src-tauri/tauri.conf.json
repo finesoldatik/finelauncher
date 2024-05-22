@@ -27,11 +27,40 @@
 			},
 			"fs": {
 				"readDir": true,
-				"scope": ["$DOCUMENT/finelauncher/*"]
+				"createDir": true,
+				"exists": true,
+				"scope": ["$DOCUMENT/finelauncher/**"]
 			},
 			"os": {
 				"all": true
-			}
+			},
+			"shell": {
+				"execute": true,
+				"scope": [
+					{
+						"name": "explorer",
+						"cmd": "explorer",
+						"args": true
+					},
+					{
+						"name": "xdg-open",
+						"cmd": "xdg-open",
+						"args": true
+					},
+					{
+						"name": "chmod",
+						"cmd": "chmod",
+						"args": ["+x", { "validator": "\\S+" }]
+					},
+					{
+						"name": "echo",
+						"cmd": "echo",
+						"args": true
+					}
+				],
+				"open": ".(\\w+)+"
+			},
+			"path": { "all": true }
 		},
 		"systemTray": {
 			"iconPath": "icons/icon.png",

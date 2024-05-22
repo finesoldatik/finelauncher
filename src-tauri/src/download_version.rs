@@ -151,8 +151,8 @@ pub async fn download_version(window: Window, url: String, name: String, version
               }
               #[cfg(not(target_os = "windows"))]
               {
-                child = tokio::process::Command::new(&version_path + "/version.AppImage --appimage-extract")
-                  .current_dir(&version_path + "/squashfs-root/")
+                let _ = tokio::process::Command::new(format!("{}{}" ,version_path, "/version.AppImage --appimage-extract"))
+                  .current_dir(format!("{}{}", version_path, "/squashfs-root/"))
                   .spawn()
                   .map_err(|e| e.to_string())?;
                 save_json_file(save_path.display().to_string(), "{\"version\": ".to_owned() + &version + "}").unwrap()

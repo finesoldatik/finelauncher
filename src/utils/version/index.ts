@@ -10,10 +10,6 @@ const defaultRepos = [
 		name: 'RVE',
 		url: 'https://api.github.com/repos/wampal/RustyVoxelEngine/releases',
 	},
-	{
-		name: 'DERBIS',
-		url: 'https://api.github.com/repos/R0STUS/VoxelEngine-Cpp-DEBRIS/releases',
-	},
 ]
 
 export interface IVersion {
@@ -54,8 +50,8 @@ export default class VersionWrapper {
 
 	async getRepositories() {
 		for (const repoUrl of this.repoUrls) {
-			const response = await axios.get(repoUrl.url)
-			this.repositories.set(repoUrl.name, response.data)
+			const response = await axios.get(repoUrl.url).catch(() => {})
+			if (response) this.repositories.set(repoUrl.name, response.data)
 		}
 		return this.repositories
 	}

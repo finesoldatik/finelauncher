@@ -3,12 +3,10 @@ import VersionSelect from '../../components/VersionSelect'
 import styles from './ChangeVersionModal.module.scss'
 import { IChangeVersionProps } from './ChangeVersionModal.interface'
 import { listen } from '@tauri-apps/api/event'
-import {
-	checkMod,
-	getInstalledVersions,
-	installMod,
-} from '../../utils/invokes.ts'
 import { ISelectableVersion } from '../../components/VersionSelect/VersionSelect.interface'
+import { modExists } from '../../utils/mod/index.ts'
+import { getInstalledInstances } from '../../utils/versionManager'
+import { downloadMod } from '../../utils/download'
 
 const ChangeVersionModal: FC<IChangeVersionProps> = ({
 	active,
@@ -24,7 +22,7 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 
 	useEffect(() => {
 		// Проверка, существует ли мод с таким id
-		checkMod(version.label, String(mod.id)).then(value => {
+		modExists(version.label, String(mod.id)).then(value => {
 			setExistsMod(value)
 		})
 		// Подписываемся на событие для получения прогресса загрузки мода
@@ -46,7 +44,7 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 	const [versions, setVersions] = useState<ISelectableVersion[]>([])
 
 	useEffect(() => {
-		getInstalledVersions().then(value => {
+		getInstalledInstances().then(value => {
 			const entries: ISelectableVersion[] = value.map(version => ({
 				label: String(version.name),
 				value: String(version.name),
@@ -61,12 +59,12 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 		if (!version) {
 			setVersionChanged(false)
 		} else {
-			checkMod(version.label, String(mod.id)).then(value => {
+			modExists(version.label, String(mod.id)).then(value => {
 				console.log(value, version, mod.id, mod.downloadUrl)
 
 				if (addBtnRef.current) if (!value) addBtnRef.current.disabled = true
 
-				installMod(mod.downloadUrl, version.label, String(mod.id)).then(() => {
+				downloadMod(mod.downloadUrl, version.label, String(mod.id)).then(() => {
 					if (addBtnRef.current) addBtnRef.current.disabled = false
 
 					setActive(false)

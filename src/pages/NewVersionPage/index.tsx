@@ -1,12 +1,13 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import VersionSelect from '../../components/VersionSelect'
-import { checkVersion, installVersion } from '../../utils/invokes.ts'
 import { useState, useEffect, useRef, FC } from 'react'
 import styles from './NewVersionPage.module.scss'
 import { listen } from '@tauri-apps/api/event'
 import Util, { IVersion } from '../../utils/version/index'
 import { os } from '@tauri-apps/api'
 import { ISelectableVersion } from '../../components/VersionSelect/VersionSelect.interface'
+import { instanceExists } from '../../utils/versionManager'
+import { downloadVersion } from '../../utils/download'
 
 const NewVersion: FC = () => {
 	const [existsVersion, setExistsVersion] = useState<boolean>(false)
@@ -64,10 +65,10 @@ const NewVersion: FC = () => {
 		if (!version) {
 			setVersionChanged(false)
 		} else {
-			checkVersion(data.label).then(value => {
+			instanceExists(data.label).then(value => {
 				if (!value)
 					if (createBtnRef.current) createBtnRef.current.disabled = true
-				installVersion(version.label, data.label, version.label).then(() => {
+				downloadVersion(version.label, data.label).then(() => {
 					if (createBtnRef.current) createBtnRef.current.disabled = false
 				})
 				setExistsVersion(value)

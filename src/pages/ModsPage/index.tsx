@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import styles from './ModsPage.module.scss'
-import ModWrapper from '../../utils/mod'
+import ModWrapper from '../../utils/mod/Wrapper'
 import { IMods } from './ModsPage.interface'
 import Mod from './components/Mod'
-import { getModsBySearchQuery } from '../../utils/invokes.ts'
+import { getModsBySearchQuery } from '../../utils/mod/index.ts'
 
 const ModsPage: FC = () => {
 	const [mods, setMods] = useState<IMods>(Object)
