@@ -3,7 +3,7 @@ import styles from './Button.module.scss'
 import { IButtonProps } from './Button.interface'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
-const Button: FC<IButtonProps> = ({ onClick, type, svgPath }) => {
+const Button: FC<IButtonProps> = ({ onClick, type, image }) => {
 	const settingsContext = useSettingsContext()
 
 	return (
@@ -11,19 +11,10 @@ const Button: FC<IButtonProps> = ({ onClick, type, svgPath }) => {
 			className={styles[type]}
 			onClick={() => {
 				onClick()
-				settingsContext.terminateGame(
-					Number(settingsContext.gameData.pid)
-				)
+				settingsContext.terminateGame(Number(settingsContext.gameData.pid))
 			}}
 		>
-			<svg
-				xmlns='http://www.w3.org/2000/svg'
-				width='1em'
-				height='1em'
-				viewBox='0 0 24 24'
-			>
-				<path fill='currentColor' d={svgPath} />
-			</svg>
+			<img width={18} height={18} src={image} alt='btn' />
 		</div>
 	)
 }

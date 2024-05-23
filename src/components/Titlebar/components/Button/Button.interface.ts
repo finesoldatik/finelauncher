@@ -1,5 +1,5 @@
 export interface IButtonProps {
-  onClick: () => void
-  type: string
-  svgPath: string
+	onClick: () => void
+	type: string
+	image: string
 }

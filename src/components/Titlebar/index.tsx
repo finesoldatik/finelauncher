@@ -12,7 +12,7 @@ const Titlebar = () => {
 						<Button
 							onClick={btn.onClick}
 							type={btn.type}
-							svgPath={btn.svgPath}
+							image={btn.image}
 							key={idx}
 						/>
 					))}

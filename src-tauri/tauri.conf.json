@@ -1,7 +1,7 @@
 {
 	"build": {
-		"beforeBuildCommand": "npm run build",
-		"beforeDevCommand": "npm run dev",
+		"beforeBuildCommand": "yarn build",
+		"beforeDevCommand": "yarn dev",
 		"devPath": "http://localhost:5173",
 		"distDir": "../dist"
 	},
@@ -198,10 +198,11 @@
 		"windows": [
 			{
 				"title": "finelauncher",
-				"width": 1000,
-				"height": 600,
-				"minWidth": 1000,
-				"minHeight": 600,
+				"theme": "Dark",
+				"width": 1200,
+				"height": 675,
+				"minWidth": 1200,
+				"minHeight": 675,
 				"resizable": true,
 				"fullscreen": false,
 				"decorations": false

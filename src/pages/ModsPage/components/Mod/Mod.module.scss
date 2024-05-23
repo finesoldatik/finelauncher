@@ -1,6 +1,6 @@
 .container {
 	flex-wrap: wrap;
-	width: 393px;
+	width: 497px;
 	margin: 1px;
 
 	background-color: #171717;
@@ -17,6 +17,7 @@
 	}
 
 	.description {
+		word-wrap: break-word;
 		margin-top: 20px;
 	}
 
