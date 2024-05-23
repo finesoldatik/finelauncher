@@ -12,30 +12,69 @@
 	"tauri": {
 		"allowlist": {
 			"all": false,
-			"window": {
+			"app": {
 				"all": false,
-				"setFullscreen": true,
-				"close": true,
-				"hide": true,
-				"show": true,
-				"maximize": true,
-				"minimize": true,
-				"unmaximize": true,
-				"unminimize": true,
-				"startDragging": true,
-				"setFocus": true
+				"hide": false,
+				"show": false
+			},
+			"clipboard": {
+				"all": false,
+				"readText": false,
+				"writeText": false
+			},
+			"dialog": {
+				"all": false,
+				"ask": false,
+				"confirm": false,
+				"message": false,
+				"open": false,
+				"save": false
 			},
 			"fs": {
-				"readDir": true,
+				"all": false,
+				"copyFile": false,
 				"createDir": true,
 				"exists": true,
-				"scope": ["$DOCUMENT/finelauncher/**"]
+				"readDir": true,
+				"readFile": false,
+				"removeDir": false,
+				"removeFile": false,
+				"renameFile": false,
+				"scope": ["$DOCUMENT/finelauncher/**"],
+				"writeFile": false
+			},
+			"globalShortcut": {
+				"all": false
+			},
+			"http": {
+				"all": false,
+				"request": false,
+				"scope": []
+			},
+			"notification": {
+				"all": false
 			},
 			"os": {
 				"all": true
 			},
+			"path": {
+				"all": true
+			},
+			"process": {
+				"all": false,
+				"exit": false,
+				"relaunch": false,
+				"relaunchDangerousAllowSymlinkMacos": false
+			},
+			"protocol": {
+				"all": false,
+				"asset": false,
+				"assetScope": []
+			},
 			"shell": {
+				"all": false,
 				"execute": true,
+				"open": ".(\\w+)+",
 				"scope": [
 					{
 						"name": "explorer",
@@ -58,9 +97,44 @@
 						"args": true
 					}
 				],
-				"open": ".(\\w+)+"
+				"sidecar": false
 			},
-			"path": { "all": true }
+			"window": {
+				"all": false,
+				"center": false,
+				"close": true,
+				"create": false,
+				"hide": true,
+				"maximize": true,
+				"minimize": true,
+				"print": false,
+				"requestUserAttention": false,
+				"setAlwaysOnTop": false,
+				"setClosable": false,
+				"setContentProtected": false,
+				"setCursorGrab": false,
+				"setCursorIcon": false,
+				"setCursorPosition": false,
+				"setCursorVisible": false,
+				"setDecorations": false,
+				"setFocus": true,
+				"setFullscreen": true,
+				"setIcon": false,
+				"setIgnoreCursorEvents": false,
+				"setMaxSize": false,
+				"setMaximizable": false,
+				"setMinSize": false,
+				"setMinimizable": false,
+				"setPosition": false,
+				"setResizable": false,
+				"setSize": false,
+				"setSkipTaskbar": false,
+				"setTitle": false,
+				"show": true,
+				"startDragging": true,
+				"unmaximize": true,
+				"unminimize": true
+			}
 		},
 		"systemTray": {
 			"iconPath": "icons/icon.png",
