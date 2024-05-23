@@ -2,8 +2,9 @@ name: 'publish'
 
 on:
   push:
-    branches:
-      - release
+    tags:
+      - 'v*'
+    branches: '*'
 
 jobs:
   publish-tauri:
