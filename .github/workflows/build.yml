@@ -78,7 +78,6 @@ jobs:
         if: matrix.settings.platform == 'macos-latest'
         run: |
           sudo -H pip install setuptools
-          sudo -H pip install python3-distutils
           sudo -H pip install python-distutils
 
       - name: Install frontend
