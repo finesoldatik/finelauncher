@@ -107,7 +107,6 @@ jobs:
       - name: CI Build
         if: ${{ github.ref_type == 'branch' }}
         run: |
-          pnpm rls
           rustup component add rls
 
       - name: CI Upload Windows
