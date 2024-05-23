@@ -71,18 +71,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # build the changelog based on the commit messages between the versioned tags
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         # NOTE: enterprise developers may hard code a version
         with:
           node-version: 'lts/*'
-          cache: npm
+          cache: yarn
           # node-version-file: '.nvmrc'
 
       - name: Setup Rust
@@ -102,7 +96,7 @@ jobs:
 
       - name: Install frontend
         run: |
-          npm install
+          yarn install
 
       - name: CI Build
         if: ${{ github.ref_type == 'branch' }}
