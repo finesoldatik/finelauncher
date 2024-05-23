@@ -30,8 +30,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
+        settings:
+          - platform: 'macos-latest' # for Arm based macs (M1 and above).
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest' # for Intel based macs.
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+    runs-on: ${{ matrix.settings.platform }}
     needs: [changelog]
     steps:
       - name: Checkout repository
@@ -61,7 +69,7 @@ jobs:
           workspaces: './src-tauri -> target'
 
       - name: Install Ubuntu dependencies
-        if: matrix.platform == 'ubuntu-latest'
+        if: matrix.settings.platform == 'ubuntu-22.04'
         run: |
           sudo apt update
           xargs sudo apt install -y < environment/apt_packages.txt
@@ -76,7 +84,7 @@ jobs:
           rustup component add rls
 
       - name: CI Upload Windows
-        if: ${{ github.ref_type == 'branch' && matrix.platform == 'windows-latest' }}
+        if: ${{ github.ref_type == 'branch' && matrix.settings.platform == 'windows-latest' }}
         uses: actions/upload-artifact@v4
         with:
           name: 'Windows Installers'
@@ -85,7 +93,7 @@ jobs:
             src-tauri/release/bundle/nsis/*.exe
 
       - name: CI Upload macOS
-        if: ${{ github.ref_type == 'branch' && matrix.platform == 'macos-latest' }}
+        if: ${{ github.ref_type == 'branch' && matrix.settings.platform == 'macos-latest' }}
         uses: actions/upload-artifact@v4
         with:
           name: 'macOS Installer'
@@ -93,7 +101,7 @@ jobs:
             src-tauri/release/bundle/dmg/*.dmg
 
       - name: CI Upload Linux
-        if: ${{ github.ref_type == 'branch' && matrix.platform == 'ubuntu-latest' }}
+        if: ${{ github.ref_type == 'branch' && matrix.settings.platform == 'ubuntu-22.04' }}
         uses: actions/upload-artifact@v4
         with:
           name: 'Linux Distributions'
