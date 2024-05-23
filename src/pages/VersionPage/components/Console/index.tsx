@@ -23,7 +23,7 @@ const Console: FC<IConsoleProps> = ({ logs }) => {
 						<button
 							className={'black-style red-bg ' + styles['stop-btn']}
 							onClick={() => {
-								settingsContext.terminateGameProcess(
+								settingsContext.terminateGame(
 									Number(settingsContext.gameData.pid)
 								)
 							}}

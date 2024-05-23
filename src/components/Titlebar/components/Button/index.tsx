@@ -11,7 +11,7 @@ const Button: FC<IButtonProps> = ({ onClick, type, svgPath }) => {
 			className={styles[type]}
 			onClick={() => {
 				onClick()
-				settingsContext.terminateGameProcess(
+				settingsContext.terminateGame(
 					Number(settingsContext.gameData.pid)
 				)
 			}}
