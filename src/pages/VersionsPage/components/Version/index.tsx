@@ -9,11 +9,12 @@ const Version: FC<IVersionProps> = ({ version, name, isVersion }) => {
 	let image
 
 	if (version.split(' ')[0] === 'VE') image = '/images/version/ve-512.png'
-	else if (version.split(' ')[0] === 'RVE') image = '/images/version/rve-512.png'
+	else if (version.split(' ')[0] === 'RVE')
+		image = '/images/version/rve-512.png'
 
 	return (
 		<button
-			className={'black-style ' + styles['container']}
+			className={`black-style no-boundary-radius ${styles['container']}`}
 			onClick={() =>
 				isVersion
 					? navigate(`/versions/${name}/${version}`)

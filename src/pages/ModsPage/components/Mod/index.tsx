@@ -10,7 +10,7 @@ const Mod: FC<ModProps> = ({ mod, setMods }) => {
 	const modWrapper = new ModWrapper()
 	return (
 		<div
-			className={`black-style ${styles['container']}`}
+			className={`black-style no-boundary-radius ${styles['container']}`}
 			onClick={() => navigate(`/mods/${mod.id}`)}
 		>
 			<img

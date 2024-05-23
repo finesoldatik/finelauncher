@@ -20,6 +20,7 @@ const Sidebar = () => {
 						/>
 					))}
 				</div>
+
 				<div className={styles['bottom-items']}>
 					{bottomItems.map(el => (
 						<Item

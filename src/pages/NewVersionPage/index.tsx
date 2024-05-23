@@ -80,7 +80,7 @@ const NewVersion: FC = () => {
 	return (
 		<div className={styles['container']}>
 			<form
-				className={'black-style ' + styles['form']}
+				className={`black-style ${styles['form']}`}
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<p className={styles['mt-10']}>* Обязательное поле</p>
@@ -91,7 +91,7 @@ const NewVersion: FC = () => {
 						required: 'Заполните это поле!',
 						maxLength: 12,
 					})}
-					className={'black-style ' + styles['name-input']}
+					className={`black-style ${styles['name-input']}`}
 					type='text'
 					placeholder='Введите имя версии'
 				/>
@@ -122,14 +122,14 @@ const NewVersion: FC = () => {
 				)}
 
 				<p
-					className={'black-style ' + styles['progressbar']}
+					className={`black-style ${styles['progressbar']}`}
 					ref={progressBarRef}
 				>
 					Прогресс Бар
 				</p>
 
 				<button
-					className={'black-style ' + styles['create-btn']}
+					className={`black-style ${styles['create-btn']}`}
 					ref={createBtnRef}
 					type='submit'
 				>

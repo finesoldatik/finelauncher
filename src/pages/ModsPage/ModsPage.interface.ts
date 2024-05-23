@@ -1,10 +1,12 @@
+interface IAuthor {
+	id: number
+	name: string
+	avatar: string
+	isAvatar: boolean
+}
+
 interface IContent {
-	author: {
-		id: number
-		name: string
-		avatar: string
-		isAvatar: boolean
-	}
+	author: IAuthor
 
 	description: string
 	downloads: number
@@ -13,10 +15,7 @@ interface IContent {
 	likes: number
 	pathLogo: string
 
-	tags: {
-		id: number
-		title: string
-	}[]
+	tags: ITag[]
 
 	title: string
 }

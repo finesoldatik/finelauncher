@@ -1,8 +1,8 @@
 .container {
 	flex: auto;
 	flex-direction: column;
-	background-color: #101010;
-	@media (min-width: 600px) {
+	background-color: rgba($color: #101010, $alpha: 0.75);
+	@media (min-width: 1200px) {
 		& {
 			flex: 0 0 50px;
 		}
