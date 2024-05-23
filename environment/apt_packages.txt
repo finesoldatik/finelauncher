@@ -1,4 +1,5 @@
 libwebkit2gtk-4.0-dev
+rls
 build-essential
 curl
 wget
