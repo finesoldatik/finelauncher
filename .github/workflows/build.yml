@@ -77,10 +77,7 @@ jobs:
       - name: Install macOS dependencies
         if: matrix.settings.platform == 'macos-latest'
         run: |
-          sudo apt update
-          sudo apt install python3-distutils
-          sudo apt install python3-apt
-          xargs sudo apt install -y < environment/apt_packages.txt
+          sudo -H pip install setuptools
 
       - name: Install frontend
         run: |
