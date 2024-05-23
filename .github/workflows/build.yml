@@ -73,6 +73,14 @@ jobs:
         run: |
           sudo apt update
           xargs sudo apt install -y < environment/apt_packages.txt
+      
+      - name: Install macOS dependencies
+        if: matrix.settings.platform == 'macos-latest'
+        run: |
+          sudo apt update
+          sudo apt install python3-distutils
+          sudo apt install python3-apt
+          xargs sudo apt install -y < environment/apt_packages.txt
 
       - name: Install frontend
         run: |
@@ -129,3 +137,4 @@ jobs:
             See the assets to download this version and install.
           releaseDraft: true
           prerelease: false
+          args: ${{ matrix.settings.args }}
