@@ -14,7 +14,7 @@ fn get_file_as_byte_vec(filename: &str) -> Vec<u8> {
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn unzip(src: String, dest: String) {
+pub fn unzip(src: &str, dest: &str) {
   let bytes: Vec<u8> = get_file_as_byte_vec(&src);
   let destination = Path::new(&dest).to_path_buf();
   let result = zip_extract::extract(Cursor::new(bytes), &destination, true);

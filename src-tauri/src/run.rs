@@ -10,7 +10,6 @@ pub async fn run_game(
   instance_path: String,
 ) -> Result<(), String> {
   let mut child = Command::new(&executable)
-    .arg("--dir ./")
     .current_dir(Path::new(&instance_path))
     .stdout(Stdio::piped())
     .spawn()

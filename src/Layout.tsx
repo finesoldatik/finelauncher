@@ -1,8 +1,9 @@
+import { FC } from 'react'
 import Titlebar from './components/Titlebar'
-import { Outlet } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
+import { Outlet } from 'react-router-dom'
 
-const Layout = () => {
+const Layout: FC = () => {
 	return (
 		<>
 			<Titlebar />

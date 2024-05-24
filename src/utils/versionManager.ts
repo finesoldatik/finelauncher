@@ -37,7 +37,10 @@ export const normalizeFilename: normalizeFilename = (filename: string) => {
 		.substring(0, 240)
 }
 
-export const getFilesByExtension: getFilesByExtension = async (path: string, ext: string) => {
+export const getFilesByExtension: getFilesByExtension = async (
+	path: string,
+	ext: string
+) => {
 	return fs
 		.readDir(path)
 		.then(files => files.filter(f => f.name?.endsWith(ext)))
@@ -51,7 +54,9 @@ export const getInstancesPath: getInstancesPath = async () => {
 		.then(v => path.join(v, launcherDirName, 'instances'))
 }
 
-export const getInstancePath: getInstancePath = async (instanceName: string) => {
+export const getInstancePath: getInstancePath = async (
+	instanceName: string
+) => {
 	return getInstancesPath().then(v =>
 		path.join(v, normalizeFilename(instanceName))
 	)
@@ -89,7 +94,9 @@ export const instanceExists: instanceExists = async (instanceName: string) => {
 
 // Game options
 
-export const openInFileManager: openInFileManager = async (instanceName: string) => {
+export const openInFileManager: openInFileManager = async (
+	instanceName: string
+) => {
 	const fpath = await getInstancePath(instanceName)
 	const platform = await os.platform()
 	console.log(fpath, platform)

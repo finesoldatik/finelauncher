@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styles from './NewVersionPage.module.scss'
 import NewVersionForm from './components/NewVersionForm'
 
-const NewVersion: FC = () => {
+const NewVersionPage: FC = () => {
 	console.log('NewVersionPage Render')
 
 	return (
@@ -12,4 +12,4 @@ const NewVersion: FC = () => {
 	)
 }
 
-export default NewVersion
+export default NewVersionPage
