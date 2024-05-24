@@ -21,7 +21,7 @@ const VersionSelect: FC<IVersionSelectProps> = ({
 		// @ts-expect-error newValue.value: any хотя должно быть string
 		const value: string = String(newValue.value)
 		setCurrentVersion(value)
-		setVersion({ label: value, value: String(getValue()) })
+		setVersion({ label: String(getValue()), value: value })
 	}
 
 	return (

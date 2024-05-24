@@ -41,15 +41,15 @@
 				"removeFile": false,
 				"renameFile": false,
 				"scope": ["$DOCUMENT/finelauncher/**"],
-				"writeFile": false
+				"writeFile": true
 			},
 			"globalShortcut": {
 				"all": false
 			},
 			"http": {
-				"all": false,
-				"request": false,
-				"scope": []
+				"all": true,
+				"request": true,
+				"scope": ["https://**/*"]
 			},
 			"notification": {
 				"all": false

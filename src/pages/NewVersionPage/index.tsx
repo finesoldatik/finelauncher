@@ -64,13 +64,15 @@ const NewVersion: FC = () => {
 	}, [])
 
 	const onSubmit: SubmitHandler<ISelectableVersion> = data => {
-		if (!version) {
+		console.log(version)
+
+		if (!version.value) {
 			setVersionChanged(false)
 		} else {
 			instanceExists(data.label).then(value => {
 				if (!value)
 					if (createBtnRef.current) createBtnRef.current.disabled = true
-				downloadVersion(version.label, data.label).then(() => {
+				downloadVersion(version.value, data.label).then(() => {
 					if (createBtnRef.current) createBtnRef.current.disabled = false
 				})
 				setExistsVersion(value)

@@ -56,15 +56,17 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 	}, [])
 
 	const onSubmit = () => {
-		if (!version) {
+		console.log(version)
+
+		if (!version.value) {
 			setVersionChanged(false)
 		} else {
-			modExists(version.label, String(mod.id)).then(value => {
+			modExists(version.value, String(mod.id)).then(value => {
 				console.log(value, version, mod.id, mod.downloadUrl)
 
 				if (addBtnRef.current) if (!value) addBtnRef.current.disabled = true
 
-				downloadMod(mod.downloadUrl, version.label, String(mod.id)).then(() => {
+				downloadMod(mod.downloadUrl, version.value, String(mod.id)).then(() => {
 					if (addBtnRef.current) addBtnRef.current.disabled = false
 
 					setActive(false)
