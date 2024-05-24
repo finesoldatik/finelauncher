@@ -14,7 +14,7 @@ const Button: FC<IButtonProps> = ({ onClick, type, image }) => {
 				settingsContext.terminateGame(Number(settingsContext.gameData.pid))
 			}}
 		>
-			<img width={18} height={18} src={image} alt='btn' />
+			<img width={14} height={14} src={image} alt='btn' />
 		</div>
 	)
 }
