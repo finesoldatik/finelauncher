@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import ModWrapper from '../../utils/mod/Wrapper'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { IMod } from './ModPage.interface'
 import styles from './ModPage.module.scss'
 import ChangeVersion from '../../modals/ChangeVersionModal'

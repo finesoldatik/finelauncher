@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom/client'
-import App from './App'
+import Router from './Router'
 import './index.scss'
 import { SettingsProvider } from './contexts/SettingsProvider'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<SettingsProvider>
-		<App />
+		<Router />
 	</SettingsProvider>
 )

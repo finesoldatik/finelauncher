@@ -6,7 +6,9 @@ const Titlebar = () => {
 	return (
 		<>
 			<div data-tauri-drag-region className={styles['container']}>
-				<div data-tauri-drag-region>finelauncher</div>
+				<div data-tauri-drag-region className={styles['title-container']}>
+					<p>finelauncher</p>
+				</div>
 				<div className={styles['btn-container']}>
 					{btns.map((btn, idx) => (
 						<Button

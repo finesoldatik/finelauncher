@@ -11,6 +11,10 @@
 	-webkit-user-select: none;
 	user-select: none;
 
+	.title-container {
+		display: flex;
+	}
+
 	.btn-container {
 		display: flex;
 		margin: 0px -5px;
