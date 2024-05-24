@@ -4,37 +4,4 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	.form {
-		margin-top: 50px;
-		width: 300px;
-		cursor: default;
-
-		.name-input {
-			cursor: text;
-			margin-top: 10px;
-			width: calc(100% - 40px);
-		}
-
-		.mb-10 {
-			margin-bottom: 10px;
-		}
-
-		.mt-10 {
-			margin-top: 10px;
-		}
-
-		.progressbar {
-			background-color: #514b9e;
-			margin-top: 20px;
-			text-align: center;
-		}
-
-		.create-btn {
-			background-color: #34653a;
-			width: 100%;
-			margin-top: 15px;
-			margin-bottom: 10px;
-		}
-	}
 }
