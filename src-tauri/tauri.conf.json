@@ -205,7 +205,18 @@
 				"minHeight": 675,
 				"resizable": true,
 				"fullscreen": false,
-				"decorations": false
+				"decorations": false,
+				"visible": false,
+				"label": "main",
+				"center": true
+			},
+			{
+				"width": 400,
+				"height": 200,
+				"decorations": false,
+				"url": "splashscreen.html",
+				"label": "splashscreen",
+				"center": true
 			}
 		]
 	}

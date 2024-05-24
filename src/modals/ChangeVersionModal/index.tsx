@@ -80,7 +80,7 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 	return (
 		<div
 			className={
-				active ? styles['modal'] + ' ' + styles['active'] : styles['modal']
+				active ? `${styles['modal']} ${styles['active']}` : styles['modal']
 			}
 			onClick={() => setActive(false)}
 		>

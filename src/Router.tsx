@@ -1,11 +1,16 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Layout from './Layout'
+import LoadingModal from './modals/LoadingModal'
 import Pages from './pages'
+import { Suspense } from 'react'
 
 const router = createBrowserRouter([
 	{
 		path: '',
-		element: <Layout />,
+		element: (
+			<Suspense fallback={<LoadingModal />}>
+				<Pages.Layout />
+			</Suspense>
+		),
 		children: [
 			{
 				path: '/',
