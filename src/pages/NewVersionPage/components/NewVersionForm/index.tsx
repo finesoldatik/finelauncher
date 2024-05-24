@@ -62,7 +62,10 @@ const NewVersionForm: FC = () => {
 				NewVersionSelectProps={{ versionChanged, setCurrentVersion }}
 			/>
 
-			<p className={`black-style ${styles['progressbar']}`} ref={progressBarRef}>
+			<p
+				className={`black-style ${styles['progressbar']}`}
+				ref={progressBarRef}
+			>
 				Прогресс Бар
 			</p>
 			<button
