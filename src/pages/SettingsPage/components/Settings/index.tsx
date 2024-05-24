@@ -6,6 +6,8 @@ import Option from './components/Option'
 const Settings: FC = () => {
 	const settingsContext = useSettingsContext()
 
+	console.log('Settings Render')
+
 	return (
 		<div className={`black-style ${styles['container']}`}>
 			<h2>Настройки</h2>

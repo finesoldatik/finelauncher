@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom'
 
 const NewVersion = () => {
 	const navigate = useNavigate()
+
+	console.log('NewVersion Render')
+
 	return (
-		<button className='black-style' onClick={() => navigate('/new-version')}>
+		<div className={`black-style ${styles['container']}`} onClick={() => navigate('/new-version')}>
 			<img
 				src='/images/plus-128.png'
 				width={96}
@@ -13,7 +16,7 @@ const NewVersion = () => {
 				className={styles['image']}
 			/>
 			<h2>Новая версия</h2>
-		</button>
+		</div>
 	)
 }
 

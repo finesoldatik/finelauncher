@@ -1,40 +1,23 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import styles from './Console.module.scss'
-import { IConsoleProps } from './Console.interface.ts'
-import { useSettingsContext } from '../../../../contexts/SettingsProvider.tsx'
+import { IConsoleProps } from './Console.interface'
+import StopButton from './components/StopButton'
+import LogsContainer from './components/LogsContainer'
 
-const Console: FC<IConsoleProps> = ({ logs }) => {
-	const settingsContext = useSettingsContext()
+const Console: FC<IConsoleProps> = memo(({ logs }) => {
+	console.log('Console Render')
+
 	return (
 		<>
 			<div>
 				<h1 className={styles['title']}>Логи игры</h1>
 				<div className={styles['container']}>
-					{logs ? (
-						<div className={styles['logs']}>
-							{logs.map(value => (
-								<p className='violet-text'>{value}</p>
-							))}
-						</div>
-					) : (
-						<h1 className={styles['logs']}>Логи не найдены.</h1>
-					)}
-					<div>
-						<button
-							className={'black-style red-bg ' + styles['stop-btn']}
-							onClick={() => {
-								settingsContext.terminateGame(
-									Number(settingsContext.gameData.pid)
-								)
-							}}
-						>
-							Остановить игру
-						</button>
-					</div>
+					<LogsContainer logs={logs} />
+					<StopButton />
 				</div>
 			</div>
 		</>
 	)
-}
+})
 
 export default Console

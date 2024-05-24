@@ -14,6 +14,8 @@ const NewVersion: FC = () => {
 	const [version, setVersion] = useState<ISelectableVersion>(Object)
 	const [versionChanged, setVersionChanged] = useState<boolean>(true)
 
+	console.log('NewVersionPage Render')
+
 	const progressBarRef = useRef<HTMLParagraphElement>(null)
 	const createBtnRef = useRef<HTMLButtonElement>(null)
 

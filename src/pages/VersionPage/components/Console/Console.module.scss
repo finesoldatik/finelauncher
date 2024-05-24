@@ -12,17 +12,4 @@
 	left: 0;
 	display: flex;
 	flex-direction: column;
-
-	.content {
-		justify-content: space-between;
-	}
-	.logs {
-		font-weight: 700;
-		overflow-y: auto;
-	}
-
-	.stop-btn {
-		width: 100%;
-		border-radius: 0;
-	}
 }

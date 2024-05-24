@@ -1,4 +1,11 @@
-import { createContext, useState, useContext, ReactNode } from 'react'
+import {
+	createContext,
+	useState,
+	useContext,
+	ReactNode,
+	useMemo,
+	useCallback,
+} from 'react'
 import { runGame, terminateProcess } from '../utils/versionManager'
 
 interface ISettingsContextInterface {
@@ -9,7 +16,7 @@ interface ISettingsContextInterface {
 	gameData: IGameData
 	setGamePid: (pid: number | null) => void
 	addGameLogs: (logs: string) => void
-	removeGameLogs: () => void
+	deleteGameLogs: () => void
 	startGame: (version_name: string) => void
 	stopGame: () => void
 	terminateGame: (pid: number) => void
@@ -28,7 +35,7 @@ export const SettingsContext = createContext<ISettingsContextInterface>({
 	},
 	setGamePid: () => {},
 	addGameLogs: () => {},
-	removeGameLogs: () => {},
+	deleteGameLogs: () => {},
 	startGame: () => {},
 	stopGame: () => {},
 	terminateGame: () => {},
@@ -71,10 +78,10 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		localStorage.setItem('hideLauncherOnLaunchGame', booleanToString(value))
 	}
 
-	const setTab = (value: number) => {
+	const setTab = useCallback((value: number) => {
 		setTabId(value)
 		localStorage.setItem('tabId', String(value))
-	}
+	}, [])
 
 	const setGamePid = (value: number | null) => {
 		setGameData(prev => ({ ...prev, pid: value }))
@@ -85,39 +92,42 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		setGameData(prev => ({ ...prev, logs: [...prev.logs, value] }))
 	}
 
-	const removeGameLogs = () => {
+	const deleteGameLogs = () => {
 		setGameData(prev => ({ ...prev, logs: [] }))
 	}
 
-	const startGame = (version_name: string) => {
+	const startGame = useCallback((version_name: string) => {
 		runGame(version_name)
-	}
+	}, [])
 
-	const stopGame = () => {
+	const stopGame = useCallback(() => {
 		setGamePid(null)
-	}
+	}, [])
 
-	const terminateGame = (pid: number) => {
+	const terminateGame = useCallback((pid: number) => {
 		terminateProcess(pid)
 		setGamePid(null)
-	}
+	}, [])
+
+	const value = useMemo(
+		() => ({
+			setHideLauncherOnLaunchGame,
+			settings,
+			tabId,
+			setTab,
+			gameData,
+			setGamePid,
+			addGameLogs,
+			deleteGameLogs,
+			startGame,
+			stopGame,
+			terminateGame,
+		}),
+		[gameData, settings, tabId]
+	)
 
 	return (
-		<SettingsContext.Provider
-			value={{
-				setHideLauncherOnLaunchGame,
-				settings,
-				tabId,
-				setTab,
-				gameData,
-				setGamePid,
-				addGameLogs,
-				removeGameLogs,
-				startGame,
-				stopGame,
-				terminateGame,
-			}}
-		>
+		<SettingsContext.Provider value={value}>
 			{children}
 		</SettingsContext.Provider>
 	)

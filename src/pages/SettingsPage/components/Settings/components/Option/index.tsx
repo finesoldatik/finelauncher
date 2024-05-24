@@ -1,4 +1,4 @@
-import { FC, useRef, useEffect } from 'react'
+import { FC, useRef, useEffect, memo } from 'react'
 import styles from './Option.module.scss'
 
 interface IOptionProps {
@@ -9,14 +9,16 @@ interface IOptionProps {
 
 type OnChange = () => void
 
-const Option: FC<IOptionProps> = ({ label, value, setOption }) => {
+const Option: FC<IOptionProps> = memo(({ label, value, setOption }) => {
 	const ref = useRef<HTMLInputElement>(null)
+
+	console.log('Option Render')
 
 	useEffect(() => {
 		if (ref.current) {
 			ref.current.checked = value
 		}
-	}, [ref])
+	}, [ref, value])
 
 	const onChange: OnChange = () => {
 		if (ref.current) {
@@ -36,6 +38,6 @@ const Option: FC<IOptionProps> = ({ label, value, setOption }) => {
 			/>
 		</div>
 	)
-}
+})
 
 export default Option

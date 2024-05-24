@@ -5,6 +5,8 @@ import Table from './components/Table'
 import Settings from './components/Settings'
 
 const SettingsPage: FC = () => {
+	console.log('SettingsPage Render')
+
 	return (
 		<div className={styles['container']}>
 			<Settings />

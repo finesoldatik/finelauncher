@@ -7,6 +7,8 @@ interface ITableProps {
 }
 
 const Table: FC<ITableProps> = ({ title, items }) => {
+	console.log('Table Render')
+
 	return (
 		<div className={`black-style no-boundary-radius ${styles['container']}`}>
 			<p>{title}</p>

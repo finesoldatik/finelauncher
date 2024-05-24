@@ -6,6 +6,8 @@ import { FC } from 'react'
 const Version: FC<IVersionProps> = ({ version, name, isVersion }) => {
 	const navigate = useNavigate()
 
+	console.log('Version Render')
+
 	let image
 
 	if (version.split(' ')[0] === 'VE') image = '/images/version/ve-512.png'
@@ -13,7 +15,7 @@ const Version: FC<IVersionProps> = ({ version, name, isVersion }) => {
 		image = '/images/version/rve-512.png'
 
 	return (
-		<button
+		<div
 			className={`black-style no-boundary-radius ${styles['container']}`}
 			onClick={() =>
 				isVersion
@@ -30,7 +32,7 @@ const Version: FC<IVersionProps> = ({ version, name, isVersion }) => {
 			/>
 			<h2 className={styles['text']}>{name}</h2>
 			<p className={styles['text']}>{version}</p>
-		</button>
+		</div>
 	)
 }
 
