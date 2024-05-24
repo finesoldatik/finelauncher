@@ -1,5 +1,6 @@
 import { fs, path, invoke } from '@tauri-apps/api' // http,
 import { getInstancePath } from './versionManager'
+import { saveMods } from './mod'
 
 type download = (url: string, dest: string) => Promise<void>
 
@@ -20,13 +21,17 @@ export const downloadMod = async (
 	instanceName: string,
 	modName: string
 ) => {
-	const contentpath = await getInstancePath(instanceName).then(v =>
-		path.join(v, 'game/content')
+	const contentPath = await getInstancePath(instanceName).then(v =>
+		path.join(v, 'game/content/')
 	)
 
-	if (!(await fs.exists(contentpath))) await fs.createDir(contentpath)
+	const modPath = await path.join(contentPath, modName)
 
-	return download(url, await path.join(contentpath, modName))
+	if (!(await fs.exists(modPath))) await fs.createDir(modPath)
+
+	download(url, modPath).then(() => {
+		saveMods(modPath)
+	})
 }
 
 export const downloadVersion: downloadVersion = async (

@@ -7,8 +7,8 @@ use crate::unzip::unzip;
 
 #[tauri::command(rename_all = "snake_case")]
 pub async fn download_file(url: String, dest: String) {
-  // thread::scope(|s| {
-    thread::spawn(move || {
+  thread::scope(|s| {
+    s.spawn(move || {
       let save_path = Path::new(&dest);
 
       let mut downloader = Downloader::builder()
@@ -46,6 +46,5 @@ pub async fn download_file(url: String, dest: String) {
         };
       }
     });
-  ()
-  // })
+  })
 }

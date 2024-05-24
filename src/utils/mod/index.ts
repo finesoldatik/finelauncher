@@ -3,6 +3,7 @@ import { setMods } from '../../pages/ModsPage/components/Mod/Mod.interface'
 import { IMods } from '../../pages/ModsPage/ModsPage.interface'
 import { getInstancePath, normalizeFilename } from '../versionManager'
 import { fs, path } from '@tauri-apps/api'
+import { FileEntry } from '@tauri-apps/api/fs'
 
 type getModsByTag = (
 	modWrapper: ModWrapper,
@@ -47,9 +48,39 @@ export const getModsBySearchQuery: getModsBySearchQuery = (
 	})
 }
 
-export const modExists: modExists = async (instanceName: string, modName: string) => {
+export const modExists: modExists = async (
+	instanceName: string,
+	modName: string
+) => {
 	const modPath = await getInstancePath(instanceName).then(v =>
 		path.join(v, 'game/content', normalizeFilename(modName))
 	)
 	return fs.exists(modPath)
+}
+
+const findMods = (file: FileEntry) => {
+	if (file.children) {
+		const children = file.children.filter(value => {
+			console.log('value', value)
+			if (value.name === 'package.json') return value
+		})
+		console.log('children', children)
+
+		if (children.length) return children
+	} else {
+		console.log('file', file)
+		if (file.name === 'package.json') return file
+	}
+}
+
+export const saveMods = async (modPath: string) => {
+	const files = await fs.readDir(modPath, { recursive: true })
+	console.log('paths', files)
+
+	const mods = files.filter(file => findMods(file))
+	console.log('mods', mods)
+
+	// mods.forEach(() => {
+	// 	fs.renameFile()
+	// })
 }
