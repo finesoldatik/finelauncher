@@ -14,7 +14,7 @@ const Settings: FC = () => {
 			<Option
 				label='Скрывать лаунчер при запуске игры'
 				value={settingsContext.settings.hideLauncherOnLaunchGame}
-				setOption={settingsContext.setOption}
+				setOption={settingsContext.changeSettings}
 			/>
 		</div>
 	)

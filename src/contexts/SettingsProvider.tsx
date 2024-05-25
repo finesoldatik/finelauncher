@@ -2,14 +2,14 @@ import { createContext, useState, useContext, ReactNode, useMemo } from 'react'
 import { getValue, setValue } from '../utils/localStorage'
 
 interface ISettingsContext {
-	setOption: (value: boolean, key: string) => void
+	changeSettings: (value: any, key: string) => void
 	settings: ISettings
 	tabID: number
 	setTab: (value: number) => void
 }
 
 export const SettingsContext = createContext<ISettingsContext>({
-	setOption: () => {},
+	changeSettings: () => {},
 	settings: {
 		hideLauncherOnLaunchGame: false,
 	},
@@ -25,12 +25,20 @@ interface ISettings {
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const [tabID, setTabID] = useState<number>(() => getValue('tabID') || 0)
-	const [settings, setSettings] = useState<ISettings>({
-		hideLauncherOnLaunchGame: getValue('hideLauncherOnLaunchGame') || false,
-	})
+	const [settings, setSettings] = useState<ISettings>(
+		getValue('settings') || {
+			hideLauncherOnLaunchGame: false,
+		}
+	)
+
+	const changeSettings = (value: any, key: string) => {
+		setSettings(prev => {
+			setOption({ ...prev, [key]: value }, 'settings')
+			return { ...prev, [key]: value }
+		})
+	}
 
 	const setOption = (value: any, key: string) => {
-		setSettings(prev => ({ ...prev, [key]: value }))
 		setValue(value, key)
 	}
 
@@ -41,7 +49,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
 	const value = useMemo(
 		() => ({
-			setOption,
+			changeSettings,
 			settings,
 			tabID,
 			setTab,
