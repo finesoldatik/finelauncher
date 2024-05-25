@@ -8,6 +8,8 @@ import SearchMods from './components/SearchMods'
 const modWrapper = new ModWrapper()
 
 const ModsPage: FC = () => {
+	console.log('ModsPage Render')
+
 	const [mods, setMods] = useState<IMods>(Object)
 
 	useEffect(() => {

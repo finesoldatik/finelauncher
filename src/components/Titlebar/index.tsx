@@ -3,6 +3,8 @@ import Button from './components/Button'
 import { btns } from './data'
 
 const Titlebar = () => {
+	console.log('Titlebar Render')
+
 	return (
 		<>
 			<div data-tauri-drag-region className={styles['container']}>

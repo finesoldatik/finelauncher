@@ -1,40 +1,38 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import styles from './NewVersionNameInput.module.scss'
-import {INewVersionNameInputProps} from './NewVersionNameInput.interface'
+import { INewVersionNameInputProps } from './NewVersionNameInput.interface'
 
-const NewVersionNameInput: FC<INewVersionNameInputProps> = ({
-	register,
-	errors,
-	existsVersion,
-}) => {
-	console.log('NewVersionSelect Render')
+const NewVersionNameInput: FC<INewVersionNameInputProps> = memo(
+	({ register, errors, existsVersion }) => {
+		console.log('NewVersionNameInput Render')
 
-	return (
-		<>
-			<p className={styles['mt-10']}>* Обязательное поле</p>
-			<p className='violet-text'>Не более 12 символов</p>
+		return (
+			<>
+				<p className={styles['mt-10']}>* Обязательное поле</p>
+				<p className='violet-text'>Не более 12 символов</p>
 
-			<input
-				{...register('label', {
-					required: 'Заполните это поле!',
-					maxLength: 12,
-				})}
-				className={`black-style ${styles['name-input']}`}
-				type='text'
-				placeholder='Введите имя версии'
-			/>
+				<input
+					{...register('label', {
+						required: 'Заполните это поле!',
+						maxLength: 12,
+					})}
+					className={`black-style ${styles['name-input']}`}
+					type='text'
+					placeholder='Введите имя версии'
+				/>
 
-			{errors?.label && (
-				<div className='error-text'>{errors.label.message}</div>
-			)}
+				{errors?.label && (
+					<div className='error-text'>{errors.label.message}</div>
+				)}
 
-			{existsVersion ? (
-				<p className='error-text'>Версия с таким именем уже существует!</p>
-			) : (
-				<></>
-			)}
-		</>
-	)
-}
+				{existsVersion ? (
+					<p className='error-text'>Версия с таким именем уже существует!</p>
+				) : (
+					<></>
+				)}
+			</>
+		)
+	}
+)
 
 export default NewVersionNameInput

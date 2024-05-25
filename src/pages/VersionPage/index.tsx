@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom'
 import styles from './VersionPage.module.scss'
-import { FC, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect } from 'react'
 import { appWindow } from '@tauri-apps/api/window'
 import { listen } from '@tauri-apps/api/event'
-import { useSettingsContext } from '../../contexts/SettingsProvider'
 import Console from './components/Console'
 import ButtonContainer from './components/ButtonContainer'
+import { useGameContext } from '../../contexts/GameProvider'
+import { useSettingsContext } from '../../contexts/SettingsProvider'
 
 const VersionPage: FC = () => {
 	const params = useParams()
@@ -14,33 +15,25 @@ const VersionPage: FC = () => {
 
 	console.log('VersionPage Render')
 
+	const gameContext = useGameContext()
 	const settingsContext = useSettingsContext()
-	const [pid, setPid] = useState<number | null>(settingsContext.gameData.pid)
-	const [logs, setLogs] = useState<string[]>(settingsContext.gameData.logs)
-
-	useEffect(() => {
-		setPid(settingsContext.gameData.pid)
-	}, [settingsContext.gameData.pid])
-
-	useEffect(() => {
-		setLogs(settingsContext.gameData.logs)
-	}, [settingsContext.gameData.logs])
 
 	useEffect(() => {
 		const unSubscribeLog = listen('log_message', event => {
-			console.log('Событие log_message:', event.payload)
-			settingsContext.addGameLogs(String(event.payload))
+			// console.log('Событие log_message:', event.payload)
+			gameContext.addGameLogs(String(event.payload))
 		})
 
 		const unSubscribeStart = listen('game_process_started', event => {
-			console.log('Событие game_process_started:', event.payload)
-			settingsContext.setGamePid(Number(event.payload))
+			// console.log('Событие game_process_started:', event.payload)
+			gameContext.deleteGameLogs()
+			gameContext.setGamePID(Number(event.payload))
 		})
 
 		const unSubscribeEnd = listen('game_process_ended', event => {
-			console.log('Событие game_process_ended:', event.payload)
-			settingsContext.stopGame()
-			settingsContext.deleteGameLogs()
+			// console.log('Событие game_process_ended:', event.payload)
+			gameContext.stopGame()
+			gameContext.deleteGameLogs()
 		})
 
 		return () => {
@@ -52,14 +45,14 @@ const VersionPage: FC = () => {
 
 	useEffect(() => {
 		if (
-			settingsContext.gameData.pid === null &&
+			gameContext.gameData.gamePID === null &&
 			settingsContext.settings.hideLauncherOnLaunchGame
 		) {
 			appWindow.unminimize()
 			appWindow.setFocus()
 		}
 	}, [
-		settingsContext.gameData.pid,
+		gameContext.gameData.gamePID,
 		settingsContext.settings.hideLauncherOnLaunchGame,
 	])
 
@@ -71,7 +64,7 @@ const VersionPage: FC = () => {
 
 	return (
 		<>
-			{pid && <Console logs={logs}></Console>}
+			{gameContext.gameData.gamePID && <Console></Console>}
 			<div className={`black-style ${styles['container']}`}>
 				<img
 					className={styles['img']}
@@ -81,12 +74,7 @@ const VersionPage: FC = () => {
 					alt='image'
 				/>
 				<h3>Имя версии: {params.name}</h3>
-				{useMemo(
-					() => (
-						<ButtonContainer name={name} />
-					),
-					[name]
-				)}
+				<ButtonContainer name={name} />
 			</div>
 		</>
 	)

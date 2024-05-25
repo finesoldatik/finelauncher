@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import styles from './StopButton.module.scss'
-import { useSettingsContext } from '../../../../../../contexts/SettingsProvider'
+import { useGameContext } from '../../../../../../contexts/GameProvider'
 
 const StopButton: FC = () => {
-	const settingsContext = useSettingsContext()
+	const gameContext = useGameContext()
 
 	console.log('StopButton Render')
 
@@ -11,7 +11,7 @@ const StopButton: FC = () => {
 		<button
 			className={`black-style red-bg no-boundary-radius ${styles['btn']}`}
 			onClick={() => {
-				settingsContext.terminateGame(Number(settingsContext.gameData.pid))
+				gameContext.terminateGame(Number(gameContext.gameData.gamePID))
 			}}
 		>
 			Остановить игру

@@ -6,6 +6,8 @@ import styles from './ModPage.module.scss'
 import ChangeVersion from '../../modals/ChangeVersionModal'
 
 const ModPage: FC = () => {
+	console.log('ModPage Render')
+
 	const [mod, setMod] = useState<IMod>(Object)
 	const [modalActive, setModalActive] = useState<boolean>(false)
 	const [modDownloadUrl, setModDownloadUrl] = useState<string>('')

@@ -1,16 +1,13 @@
 import { FC, memo } from 'react'
 import styles from './ButtonContainer.module.scss'
-import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 import { openInFileManager } from '../../../../utils/versionManager'
-import { appWindow } from '@tauri-apps/api/window'
+import PlayButton from './components/PlayButton'
 
 interface IButtonContainer {
 	name: string
 }
 
 const ButtonContainer: FC<IButtonContainer> = memo(({ name }) => {
-	const settingsContext = useSettingsContext()
-
 	console.log('ButtonContainer Render')
 
 	return (
@@ -21,20 +18,7 @@ const ButtonContainer: FC<IButtonContainer> = memo(({ name }) => {
 			>
 				Открыть в проводнике
 			</button>
-			<button
-				className={`black-style green-bg ${styles['play-btn']}`}
-				onClick={() => {
-					if (settingsContext.settings.hideLauncherOnLaunchGame)
-						appWindow.minimize()
-					console.log(
-						'hideLauncherOnLaunchGame: ',
-						settingsContext.settings.hideLauncherOnLaunchGame
-					)
-					settingsContext.startGame(name)
-				}}
-			>
-				Играть
-			</button>
+			<PlayButton name={name} />
 		</div>
 	)
 })

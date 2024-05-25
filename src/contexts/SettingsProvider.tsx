@@ -1,44 +1,20 @@
-import {
-	createContext,
-	useState,
-	useContext,
-	ReactNode,
-	useMemo,
-	useCallback,
-} from 'react'
-import { runGame, terminateProcess } from '../utils/versionManager'
+import { createContext, useState, useContext, ReactNode, useMemo } from 'react'
+import { getValue, setValue } from '../utils/localStorage'
 
-interface ISettingsContextInterface {
-	setHideLauncherOnLaunchGame: (value: boolean) => void
+interface ISettingsContext {
+	setOption: (value: boolean, key: string) => void
 	settings: ISettings
-	tabId: number
+	tabID: number
 	setTab: (value: number) => void
-	gameData: IGameData
-	setGamePid: (pid: number | null) => void
-	addGameLogs: (logs: string) => void
-	deleteGameLogs: () => void
-	startGame: (version_name: string) => void
-	stopGame: () => void
-	terminateGame: (pid: number) => void
 }
 
-export const SettingsContext = createContext<ISettingsContextInterface>({
-	setHideLauncherOnLaunchGame: () => {},
+export const SettingsContext = createContext<ISettingsContext>({
+	setOption: () => {},
 	settings: {
 		hideLauncherOnLaunchGame: false,
 	},
-	tabId: 0,
+	tabID: 0,
 	setTab: () => {},
-	gameData: {
-		pid: null,
-		logs: [],
-	},
-	setGamePid: () => {},
-	addGameLogs: () => {},
-	deleteGameLogs: () => {},
-	startGame: () => {},
-	stopGame: () => {},
-	terminateGame: () => {},
 })
 
 export const useSettingsContext = () => useContext(SettingsContext)
@@ -47,83 +23,30 @@ interface ISettings {
 	hideLauncherOnLaunchGame: boolean
 }
 
-interface IGameData {
-	pid: number | null
-	logs: string[]
-}
-
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-	const [tabId, setTabId] = useState<number>(
-		Number(localStorage.getItem('tabId')) || 0
-	)
-	const [gameData, setGameData] = useState<IGameData>({
-		pid:
-			localStorage.getItem('gamePid') !== ''
-				? Number(localStorage.getItem('gamePid'))
-				: null,
-		logs: [],
-	})
+	const [tabID, setTabID] = useState<number>(() => getValue('tabID') || 0)
 	const [settings, setSettings] = useState<ISettings>({
-		hideLauncherOnLaunchGame:
-			Boolean(localStorage.getItem('hideLauncherOnLaunchGame')) || false,
+		hideLauncherOnLaunchGame: getValue('hideLauncherOnLaunchGame') || false,
 	})
 
-	const booleanToString = (value: boolean) => {
-		if (value) return '1'
-		else return ''
+	const setOption = (value: any, key: string) => {
+		setSettings(prev => ({ ...prev, [key]: value }))
+		setValue(value, key)
 	}
 
-	const setHideLauncherOnLaunchGame = (value: boolean) => {
-		setSettings(prev => ({ ...prev, hideLauncherOnLaunchGame: value }))
-		localStorage.setItem('hideLauncherOnLaunchGame', booleanToString(value))
+	const setTab = (value: number) => {
+		setOption(value, 'tabID')
+		setTabID(value)
 	}
-
-	const setTab = useCallback((value: number) => {
-		setTabId(value)
-		localStorage.setItem('tabId', String(value))
-	}, [])
-
-	const setGamePid = (value: number | null) => {
-		setGameData(prev => ({ ...prev, pid: value }))
-		localStorage.setItem('gamePid', value !== null ? String(value) : '')
-	}
-
-	const addGameLogs = (value: string) => {
-		setGameData(prev => ({ ...prev, logs: [...prev.logs, value] }))
-	}
-
-	const deleteGameLogs = () => {
-		setGameData(prev => ({ ...prev, logs: [] }))
-	}
-
-	const startGame = useCallback((version_name: string) => {
-		runGame(version_name)
-	}, [])
-
-	const stopGame = useCallback(() => {
-		setGamePid(null)
-	}, [])
-
-	const terminateGame = useCallback((pid: number) => {
-		terminateProcess(pid)
-		setGamePid(null)
-	}, [])
 
 	const value = useMemo(
 		() => ({
-			setHideLauncherOnLaunchGame,
+			setOption,
 			settings,
-			tabId,
+			tabID,
 			setTab,
-			gameData,
-			setGamePid,
-			addGameLogs,
-			deleteGameLogs,
-			startGame,
-			stopGame,
-			terminateGame,
 		}),
-		[gameData, settings, tabId]
+		[settings, tabID]
 	)
 
 	return (

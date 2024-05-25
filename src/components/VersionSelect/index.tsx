@@ -12,6 +12,8 @@ const VersionSelect: FC<IVersionSelectProps> = ({
 	versions,
 	isLoading,
 }) => {
+	console.log('VersionSelect Render')
+
 	const [currentVersion, setCurrentVersion] = useState<CurrentVersion>('')
 
 	const getValue = () =>
@@ -28,7 +30,7 @@ const VersionSelect: FC<IVersionSelectProps> = ({
 		<ReactSelect
 			classNamePrefix='version-select'
 			styles={{
-				control: (baseStyles) => ({
+				control: baseStyles => ({
 					...baseStyles,
 				}),
 			}}

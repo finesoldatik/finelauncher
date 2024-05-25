@@ -5,12 +5,14 @@ import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { items } from '../../components/Sidebar/data'
 
 const HomePage: FC = () => {
+	console.log('HomePage Render')
+
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()
 	useEffect(() => {
-		if (settingsContext.tabId !== 0) {
-			navigate(items[settingsContext.tabId].link)
-			console.log("page changed to:", items[settingsContext.tabId].link)
+		if (settingsContext.tabID !== 0) {
+			navigate(items[settingsContext.tabID].link)
+			console.log('page changed to:', items[settingsContext.tabID].link)
 		}
 	}, [])
 	return (

@@ -128,5 +128,6 @@ export const runGame: runGame = async (instanceName: string) => {
 }
 
 export const terminateProcess: terminateProcess = async (processId: number) => {
-	new Child(processId).kill()
+	console.log(processId)
+	console.log(new Child(processId).kill())
 }

@@ -4,13 +4,15 @@ import styles from './Item.module.scss'
 import { useNavigate } from 'react-router-dom'
 
 const Item: FC<IItemProps> = ({ element }) => {
+	console.log('Sidebar Item Render')
+
 	const navigate = useNavigate()
 
 	return (
 		<div
 			className={
 				element.active === element.id
-					? styles['item'] + ' ' + styles['active']
+					? `${styles['item']} ${styles['active']}`
 					: styles['item']
 			}
 			onClick={() => {

@@ -7,6 +7,8 @@ const Fields: FC<IFieldsProps> = ({
 	NewVersionNameInputProps,
 	NewVersionSelectProps,
 }) => {
+	console.log('Fields Render')
+
 	return (
 		<>
 			<NewVersionNameInput

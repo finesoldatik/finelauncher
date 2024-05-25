@@ -4,9 +4,9 @@ import styles from './Settings.module.scss'
 import Option from './components/Option'
 
 const Settings: FC = () => {
-	const settingsContext = useSettingsContext()
-
 	console.log('Settings Render')
+
+	const settingsContext = useSettingsContext()
 
 	return (
 		<div className={`black-style ${styles['container']}`}>
@@ -14,7 +14,7 @@ const Settings: FC = () => {
 			<Option
 				label='Скрывать лаунчер при запуске игры'
 				value={settingsContext.settings.hideLauncherOnLaunchGame}
-				setOption={settingsContext.setHideLauncherOnLaunchGame}
+				setOption={settingsContext.setOption}
 			/>
 		</div>
 	)

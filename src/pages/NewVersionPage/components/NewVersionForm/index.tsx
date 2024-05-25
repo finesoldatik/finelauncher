@@ -9,6 +9,8 @@ import { listen } from '@tauri-apps/api/event'
 import Fields from './components/Fields'
 
 const NewVersionForm: FC = () => {
+	console.log('NewVersionForm Render')
+
 	const [existsVersion, setExistsVersion] = useState<boolean>(false)
 	const [currentVersion, setCurrentVersion] =
 		useState<ISelectableVersion>(Object)

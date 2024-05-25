@@ -4,7 +4,10 @@ import { topItems, bottomItems } from './data.ts'
 import { useSettingsContext } from '../../contexts/SettingsProvider.tsx'
 
 const Sidebar = () => {
+	console.log('Sidebar Render')
+
 	const settingsContext = useSettingsContext()
+
 	return (
 		<>
 			<div className={styles['container']}>
@@ -13,7 +16,7 @@ const Sidebar = () => {
 						<Item
 							element={{
 								...el,
-								active: settingsContext.tabId,
+								active: settingsContext.tabID,
 								setActive: settingsContext.setTab,
 							}}
 							key={el.id}
@@ -26,7 +29,7 @@ const Sidebar = () => {
 						<Item
 							element={{
 								...el,
-								active: settingsContext.tabId,
+								active: settingsContext.tabID,
 								setActive: settingsContext.setTab,
 							}}
 							key={el.id}

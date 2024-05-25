@@ -1,15 +1,15 @@
-import { FC, useRef, useEffect, memo } from 'react'
+import { FC, useRef, useEffect } from 'react'
 import styles from './Option.module.scss'
 
 interface IOptionProps {
 	label: string
 	value: boolean
-	setOption: (value: boolean) => void
+	setOption: (value: boolean, key: string) => void
 }
 
 type OnChange = () => void
 
-const Option: FC<IOptionProps> = memo(({ label, value, setOption }) => {
+const Option: FC<IOptionProps> = ({ label, value, setOption }) => {
 	const ref = useRef<HTMLInputElement>(null)
 
 	console.log('Option Render')
@@ -22,7 +22,7 @@ const Option: FC<IOptionProps> = memo(({ label, value, setOption }) => {
 
 	const onChange: OnChange = () => {
 		if (ref.current) {
-			setOption(ref.current.checked)
+			setOption(ref.current.checked, 'hideLauncherOnLaunchGame')
 		}
 	}
 
@@ -38,6 +38,6 @@ const Option: FC<IOptionProps> = memo(({ label, value, setOption }) => {
 			/>
 		</div>
 	)
-})
+}
 
 export default Option

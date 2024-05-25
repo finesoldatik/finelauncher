@@ -1,19 +1,12 @@
 import { FC } from 'react'
 import styles from './Button.module.scss'
 import { IButtonProps } from './Button.interface'
-import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 const Button: FC<IButtonProps> = ({ onClick, type, image }) => {
-	const settingsContext = useSettingsContext()
+	console.log('Titlebar Button Render')
 
 	return (
-		<div
-			className={styles[type]}
-			onClick={() => {
-				onClick()
-				settingsContext.terminateGame(Number(settingsContext.gameData.pid))
-			}}
-		>
+		<div className={styles[type]} onClick={onClick}>
 			<img width={14} height={14} src={image} alt='btn' />
 		</div>
 	)
