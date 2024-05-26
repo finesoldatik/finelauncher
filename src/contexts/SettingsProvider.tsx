@@ -2,7 +2,7 @@ import { createContext, useState, useContext, ReactNode, useMemo } from 'react'
 import { getValue, setValue } from '../utils/localStorage'
 
 interface ISettingsContext {
-	changeSettings: (value: unknown, key: string) => void
+	changeSettings: (value: any, key: string) => void
 	settings: ISettings
 	tabID: number
 	setTab: (value: number) => void
@@ -31,14 +31,14 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		}
 	)
 
-	const changeSettings = (value: unknown, key: string) => {
+	const changeSettings = (value: any, key: string) => {
 		setSettings(prev => {
 			setOption({ ...prev, [key]: value }, 'settings')
 			return { ...prev, [key]: value }
 		})
 	}
 
-	const setOption = (value: unknown, key: string) => {
+	const setOption = (value: any, key: string) => {
 		setValue(value, key)
 	}
 
