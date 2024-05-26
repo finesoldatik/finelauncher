@@ -51,6 +51,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	const addGameLogs = (value: string) => {
+		console.log(logs)
 		setLogs(prev => {
 			setOption([...prev, value], 'gameLogs')
 			return [...prev, value]

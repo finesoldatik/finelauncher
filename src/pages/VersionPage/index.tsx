@@ -29,9 +29,9 @@ const VersionPage: FC = () => {
 			gameContext.deleteGameLogs()
 			gameContext.setGamePID(Number(event.payload))
 		})
-
 		const unSubscribeEnd = listen('game_process_ended', event => {
 			// console.log('Событие game_process_ended:', event.payload)
+			console.log(event)
 			gameContext.stopGame()
 			gameContext.deleteGameLogs()
 		})
