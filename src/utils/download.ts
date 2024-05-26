@@ -1,8 +1,12 @@
-import { fs, path, invoke } from '@tauri-apps/api' // http,
+import { fs, path, invoke, os } from '@tauri-apps/api' // http,
 import { getInstancePath } from './versionManager'
 import { saveMods } from './mod'
 
-type download = (url: string, dest: string) => Promise<void>
+type download = (
+	url: string,
+	dest: string,
+	out_filename: string
+) => Promise<void>
 
 type downloadMod = (
 	url: string,
@@ -12,8 +16,12 @@ type downloadMod = (
 
 type downloadVersion = (url: string, instanceName: string) => Promise<void>
 
-export const download: download = async (url: string, dest: string) => {
-	return invoke('download_file', { url, dest })
+export const download: download = async (
+	url: string,
+	dest: string,
+	out_filename: string
+) => {
+	return invoke('download_file', { url, dest, out_filename })
 }
 
 export const downloadMod = async (
@@ -29,7 +37,7 @@ export const downloadMod = async (
 
 	if (!(await fs.exists(modPath))) await fs.createDir(modPath)
 
-	download(url, modPath).then(() => {
+	download(url, modPath, 'mod.zip').then(() => {
 		saveMods(modPath)
 	})
 }
@@ -43,7 +51,12 @@ export const downloadVersion: downloadVersion = async (
 		recursive: true,
 	})
 
-	return download(url, await path.join(instancePath, 'game'))
+	let outFileName: string
+
+	if ((await os.platform()) !== 'win32') outFileName = 'version.AppImage'
+	else outFileName = 'version.zip'
+
+	return download(url, await path.join(instancePath, 'game'), outFileName)
 }
 
 export const deleteDir = async (path: string) => {

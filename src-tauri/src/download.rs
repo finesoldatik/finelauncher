@@ -3,11 +3,10 @@ use std::path::Path;
 use downloader::Downloader;
 use std::thread;
 
-#[cfg(target_os = "windows")]
 use crate::unzip::unzip;
 
 #[tauri::command(rename_all = "snake_case")]
-pub async fn download_file(url: String, dest: String) {
+pub async fn download_file(url: String, dest: String, out_filename: String) {
   thread::scope(|s| {
     s.spawn(move || {
       let save_path = Path::new(&dest);
@@ -18,22 +17,8 @@ pub async fn download_file(url: String, dest: String) {
         .build()
         .unwrap();
 
-      let filename: String;
-      #[cfg(target_os = "windows")]
-      {
-        println!("os: windows");
-        filename = format!("version.zip");
-        println!("{:?}", filename)
-      }
-      #[cfg(not(target_os = "windows"))]
-      {
-        println!("os: linux");
-        filename = format!("version.AppImage");
-        println!("{:?}", filename)
-      }
-
       let dl = downloader::Download::new(&url)
-        .file_name(std::path::Path::new(&filename));
+        .file_name(std::path::Path::new(&out_filename));
 
       let result = downloader.download(&[dl]).unwrap();
       for r in result {
@@ -41,10 +26,9 @@ pub async fn download_file(url: String, dest: String) {
           Err(e) => println!("Error: {}", e.to_string()),
           Ok(s) => {
             println!("Success: {}", &s);
-            println!("{}", &(dest.clone() + "/" + &filename));
-            #[cfg(target_os = "windows")]
-            {
-              unzip(&(dest.clone() + "/" + &filename), &dest)
+            println!("{}", &(dest.clone() + "/" + &out_filename));
+            if !out_filename.ends_with(".AppImage") {
+              unzip(&(dest.clone() + "/" + &out_filename), &dest)
             }
           }
         };
