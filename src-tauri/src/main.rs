@@ -8,7 +8,7 @@ mod run;
 mod unzip;
 
 use crate::download::download_file;
-use crate::run::run_game;
+use crate::run::{run_game, terminate_process};
 use crate::unzip::unzip;
 
 // Create the command:
@@ -30,7 +30,7 @@ fn main() {
     std::env::var("XDG_SESSION_TYPE").expect("x11"),
   );
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![close_splashscreen, download_file, unzip, run_game])
+    .invoke_handler(tauri::generate_handler![close_splashscreen, download_file, unzip, run_game, terminate_process])
     .run(tauri::generate_context!())
     .expect("error while running finelauncher");
 }

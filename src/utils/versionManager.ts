@@ -129,5 +129,7 @@ export const runGame: runGame = async (instanceName: string) => {
 
 export const terminateProcess: terminateProcess = async (processId: number) => {
 	console.log(processId)
-	console.log(new Child(processId).kill())
+	const platform = await os.platform()
+	if (platform != 'linux') invoke('terminate_process', { pid: processId })
+	else console.log(new Child(processId).kill())
 }

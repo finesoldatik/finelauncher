@@ -49,3 +49,34 @@ pub async fn run_game(
   });
   Ok(())
 }
+
+#[tauri::command(rename_all = "snake_case")]
+pub async fn terminate_process(pid: u32) -> Result<(), String> {
+  #[cfg(target_os = "windows")]
+  {
+    use std::process::Command;
+    let status = Command::new("taskkill")
+      .args(&["/PID", &pid.to_string(), "/F"])
+      .status()
+      .expect("Failed to kill the process");
+
+    if status.success() {
+      Ok(())
+    } else {
+      Err("Failed to terminate the process.".to_string())
+    }
+  }
+
+  #[cfg(not(target_os = "windows"))]
+  {
+    use nix::sys::signal::{kill, Signal};
+    use nix::unistd::Pid;
+
+    let result = kill(Pid::from_raw(pid as i32), Signal::SIGTERM);
+
+    match result {
+      Ok(_) => Ok(()),
+      Err(_) => Err("Failed to terminate the process.".to_string()),
+    }
+  }
+}
