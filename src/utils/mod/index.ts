@@ -80,7 +80,21 @@ export const saveMods = async (modPath: string) => {
 	const mods = files.filter(file => findMods(file))
 	console.log('mods', mods)
 
-	// mods.forEach(() => {
-	// 	fs.renameFile()
-	// })
+	mods.forEach(async mod => {
+		if (mod.name === 'package.json') {
+			console.log('mod saved')
+		} else {
+			const modContent = await fs.readDir(String(mod.path), { recursive: true })
+			console.log(modContent)
+			modContent.forEach(async value => {
+				console.log(value)
+				console.log(await path.join(modPath, String(value.name)))
+				fs.renameFile(
+					String(value.path),
+					await path.join(modPath, String(value.name))
+				)
+			})
+			console.log('mod saved')
+		}
+	})
 }

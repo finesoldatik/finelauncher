@@ -1,5 +1,5 @@
-type GetValue = (key: string) => any
-type SetValue = (value: any, key: string) => void
+type GetValue = (key: string) => unknown
+type SetValue = (value: unknown, key: string) => void
 
 export const getValue: GetValue = (key: string) => {
 	const storage = localStorage.getItem(key) // string || null
@@ -11,6 +11,6 @@ export const getValue: GetValue = (key: string) => {
 	return null
 }
 
-export const setValue: SetValue = (value: any, key: string) => {
+export const setValue: SetValue = (value: unknown, key: string) => {
 	localStorage.setItem(key, JSON.stringify(value))
 }

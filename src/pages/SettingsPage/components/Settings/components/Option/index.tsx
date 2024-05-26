@@ -4,7 +4,7 @@ import styles from './Option.module.scss'
 interface IOptionProps {
 	label: string
 	value: boolean
-	setOption: (value: any, key: string) => void
+	setOption: (value: unknown, key: string) => void
 }
 
 type OnChange = () => void

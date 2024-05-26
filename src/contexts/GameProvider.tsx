@@ -41,7 +41,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 	})
 	const [logs, setLogs] = useState<string[]>([])
 
-	const setOption = (value: any, key: string) => {
+	const setOption = (value: unknown, key: string) => {
 		setGameData(prev => ({ ...prev, [key]: value }))
 		setValue(value, key)
 	}

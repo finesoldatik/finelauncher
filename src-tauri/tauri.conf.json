@@ -39,7 +39,7 @@
 				"readFile": false,
 				"removeDir": false,
 				"removeFile": false,
-				"renameFile": false,
+				"renameFile": true,
 				"scope": ["$DOCUMENT/finelauncher/**"],
 				"writeFile": true
 			},
