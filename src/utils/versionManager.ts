@@ -1,5 +1,5 @@
 import { fs, invoke, os, path, shell } from '@tauri-apps/api'
-import { Child, Command } from '@tauri-apps/api/shell'
+import { Command } from '@tauri-apps/api/shell' //убрал Child
 
 // Util
 type normalizeFilename = (filename: string) => string
@@ -129,5 +129,5 @@ export const runGame: runGame = async (instanceName: string) => {
 
 export const terminateProcess: terminateProcess = async (processId: number) => {
 	console.log(processId)
-	invoke('terminate_process', { pid: processId })
+	invoke('terminate_process', { pid: processId }) // заменил new Child(processId).kill()
 }

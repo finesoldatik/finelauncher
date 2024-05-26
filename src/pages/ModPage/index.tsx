@@ -20,7 +20,13 @@ const ModPage: FC = () => {
 	useEffect(() => {
 		modWrapper.getMod(id).then(value => {
 			console.log(value.data.data)
-			setMod(value.data.data)
+			const data = value.data.data
+			const mod = {
+				content: data.content,
+				versions: data.versions.reverse(),
+			}
+			console.log(mod)
+			setMod(mod)
 		})
 	}, [])
 
@@ -49,7 +55,7 @@ const ModPage: FC = () => {
 							<div className={styles['tags']}>
 								{mod.content.tags.map(tag => (
 									<button
-										className={'black-style ' + styles['tag']}
+										className={`black-style ${styles['tag']}`}
 										key={tag.id}
 									>
 										{tag.title}
@@ -57,12 +63,12 @@ const ModPage: FC = () => {
 								))}
 							</div>
 						</div>
-						<div className={'black-style ' + styles['versions']}>
+						<div className={`black-style ${styles['versions']}`}>
 							<p>Версии:</p>
 							{mod.versions ? (
 								mod.versions.map(version => (
 									<div
-										className={'black-style ' + styles['version']}
+										className={`black-style ${styles['version']}`}
 										onClick={() => {
 											setModDownloadUrl(
 												`https://voxelworld.ru/mods/${mod.content.id}/version/${version.id}/download`
