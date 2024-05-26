@@ -41,7 +41,10 @@ pub async fn download_file(url: String, dest: String) {
           Ok(s) => {
             println!("Success: {}", &s);
             println!("{}", &(dest.clone() + "/" + &filename));
-            unzip(&(dest.clone() + "/" + &filename), &dest)
+            #[cfg(target_os = "windows")]
+            {
+              unzip(&(dest.clone() + "/" + &filename), &dest)
+            }
           }
         };
       }
