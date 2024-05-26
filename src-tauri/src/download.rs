@@ -3,6 +3,7 @@ use std::path::Path;
 use downloader::Downloader;
 use std::thread;
 
+#[cfg(target_os = "windows")]
 use crate::unzip::unzip;
 
 #[tauri::command(rename_all = "snake_case")]
