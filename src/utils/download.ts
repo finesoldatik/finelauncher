@@ -46,21 +46,16 @@ export const downloadVersion: downloadVersion = async (
 	return download(url, await path.join(instancePath, 'game'))
 }
 
-// export const download = async (
-// 	url: string,
-// 	dest: string,
-// 	options?: http.RequestOptions
-// ) => {
-// 	console.log(url, dest)
-// 	await fs.writeBinaryFile(
-// 		dest,
-// 		(
-// 			await (
-// 				await http.getClient()
-// 			).get(url, {
-// 				...(options || {}),
-// 				responseType: http.ResponseType.Binary,
-// 			})
-// 		).data as fs.BinaryFileContents
-// 	)
-// }
+export const deleteDir = async (path: string) => {
+	return fs.removeDir(path, { recursive: true })
+}
+
+export const deleteMod = async (version: string, mod: string) => {
+	return deleteDir(
+		await path.join(await getInstancePath(version), 'game/content', mod)
+	)
+}
+
+export const deleteInstance = async (version: string) => {
+	return deleteDir(await getInstancePath(version))
+}

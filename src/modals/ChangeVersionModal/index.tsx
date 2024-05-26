@@ -6,7 +6,7 @@ import { listen } from '@tauri-apps/api/event'
 import { ISelectableVersion } from '../../components/VersionSelect/VersionSelect.interface'
 import { modExists } from '../../utils/mod/index.ts'
 import { getInstalledInstances } from '../../utils/versionManager'
-import { downloadMod } from '../../utils/download'
+import { downloadMod, deleteMod } from '../../utils/download'
 
 const ChangeVersionModal: FC<IChangeVersionProps> = ({
 	active,
@@ -63,15 +63,20 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 		} else {
 			modExists(version.value, String(mod.id)).then(value => {
 				console.log(value, version, mod.id, mod.downloadUrl)
+				if (!value) {
+					if (addBtnRef.current) addBtnRef.current.disabled = true
+					if (progressBarRef.current)
+						progressBarRef.current.innerText = 'Загрузка началась'
 
-				if (addBtnRef.current) if (!value) addBtnRef.current.disabled = true
-
-				downloadMod(mod.downloadUrl, version.value, String(mod.id)).then(() => {
-					if (addBtnRef.current) addBtnRef.current.disabled = false
-
-					setActive(false)
-				})
-				setExistsMod(value)
+					downloadMod(mod.downloadUrl, version.value, String(mod.id)).then(
+						() => {
+							if (addBtnRef.current) addBtnRef.current.disabled = false
+							if (progressBarRef.current)
+								progressBarRef.current.innerText = 'Загружено'
+						}
+					)
+					setExistsMod(value)
+				} else setExistsMod(true)
 			})
 			setVersionChanged(true)
 		}
@@ -87,15 +92,30 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 			<div className={styles['content']} onClick={e => e.stopPropagation()}>
 				{existsMod ? (
 					<>
-						<p className='error-text'>Мод с таким именем уже существует!</p>
-						<button className='black-style' onClick={() => setActive(false)}>
+						<h3>Мод с таким именем уже существует!</h3>
+						<button
+							className='black-style no-boundary-radius'
+							onClick={() => setExistsMod(false)}
+						>
 							Вернуться
+						</button>
+						<button
+							className={`black-style red-bg ${styles['delete-btn']}`}
+							onClick={async () =>
+								deleteMod(version.value, String(mod.id)).then(() => {
+									modExists(version.value, String(mod.id)).then(value => {
+										setExistsMod(value)
+									})
+								})
+							}
+						>
+							Удалить мод
 						</button>
 					</>
 				) : (
 					<>
 						<h3 className={styles['mb-10']}>
-							Выберите версию для установки мода:{' '}
+							Выберите версию для установки мода:
 						</h3>
 
 						<VersionSelect
@@ -122,7 +142,7 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 							ref={addBtnRef}
 							onClick={() => onSubmit()}
 						>
-							Создать
+							Установить
 						</button>
 					</>
 				)}

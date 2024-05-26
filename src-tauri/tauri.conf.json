@@ -37,7 +37,7 @@
 				"exists": true,
 				"readDir": true,
 				"readFile": false,
-				"removeDir": false,
+				"removeDir": true,
 				"removeFile": false,
 				"renameFile": true,
 				"scope": ["$DOCUMENT/finelauncher/**"],

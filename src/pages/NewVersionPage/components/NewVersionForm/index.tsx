@@ -29,12 +29,18 @@ const NewVersionForm: FC = () => {
 		if (currentVersion.value) {
 			setVersionChanged(true)
 			instanceExists(data.label).then(value => {
-				if (!value)
+				if (!value) {
 					if (createBtnRef.current) createBtnRef.current.disabled = true
-				downloadVersion(currentVersion.value, data.label).then(() => {
-					if (createBtnRef.current) createBtnRef.current.disabled = false
-				})
-				setExistsVersion(value)
+					if (progressBarRef.current)
+						progressBarRef.current.innerText = 'Загрузка началась'
+
+					downloadVersion(currentVersion.value, data.label).then(() => {
+						if (createBtnRef.current) createBtnRef.current.disabled = false
+						if (progressBarRef.current)
+							progressBarRef.current.innerText = 'Загружено'
+					})
+					setExistsVersion(value)
+				} else setExistsVersion(true)
 			})
 		} else {
 			setVersionChanged(false)

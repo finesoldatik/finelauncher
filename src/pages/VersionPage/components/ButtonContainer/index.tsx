@@ -2,6 +2,8 @@ import { FC, memo } from 'react'
 import styles from './ButtonContainer.module.scss'
 import { openInFileManager } from '../../../../utils/versionManager'
 import PlayButton from './components/PlayButton'
+import { useNavigate } from 'react-router-dom'
+import { deleteInstance } from '../../../../utils/download'
 
 interface IButtonContainer {
 	name: string
@@ -9,6 +11,7 @@ interface IButtonContainer {
 
 const ButtonContainer: FC<IButtonContainer> = memo(({ name }) => {
 	console.log('ButtonContainer Render')
+	const navigate = useNavigate()
 
 	return (
 		<div className={styles['container']}>
@@ -17,6 +20,16 @@ const ButtonContainer: FC<IButtonContainer> = memo(({ name }) => {
 				onClick={() => openInFileManager(name)}
 			>
 				Открыть в проводнике
+			</button>
+			<button
+				className='black-style red-bg'
+				onClick={() =>
+					deleteInstance(name).then(() => {
+						navigate('/versions')
+					})
+				}
+			>
+				Удалить
 			</button>
 			<PlayButton name={name} />
 		</div>
