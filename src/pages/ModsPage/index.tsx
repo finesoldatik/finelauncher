@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+import { IMods } from './ModsPage.interface'
 import styles from './ModsPage.module.scss'
 import ModWrapper from '../../utils/mod/Wrapper'
 import Mod from './components/Mod'
@@ -19,7 +20,9 @@ const fetchMods = async (page: number, value: string, tags: number[]) => {
 		},
 	})
 
-	return data.data
+	const result: IMods = data.data
+
+	return result
 }
 
 const ModsPage: FC = () => {

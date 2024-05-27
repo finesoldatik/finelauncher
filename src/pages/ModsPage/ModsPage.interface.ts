@@ -26,7 +26,7 @@ interface ITag {
 }
 
 export interface IMods {
-	content?: IContent[]
+	content: IContent[]
 
-	tags?: ITag[]
+	tags: ITag[]
 }
