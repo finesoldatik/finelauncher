@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import ModWrapper from '../../utils/mod/Wrapper'
 import { useParams } from 'react-router-dom'
-// import { IMod } from './ModPage.interface'
+import { IMod } from './ModPage.interface'
 import styles from './ModPage.module.scss'
 import ChangeVersion from '../../modals/ChangeVersionModal'
 import { useQuery } from 'react-query'
@@ -13,10 +13,12 @@ const fetchMod = async (id: number) => {
 
 	const { data } = await modWrapper.getMod(id)
 
-	return {
+	const result: IMod = {
 		content: data.data.content,
 		versions: data.data.versions.reverse(),
 	}
+
+	return result
 }
 
 const ModPage: FC = () => {
