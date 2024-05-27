@@ -11,6 +11,7 @@ pub async fn run_game(
 ) -> Result<(), String> {
   let mut child = Command::new(&executable)
     .current_dir(Path::new(&instance_path))
+    .args(["--dir", &instance_path])
     .stdout(Stdio::piped())
     .spawn()
     .map_err(|e| e.to_string())?;
