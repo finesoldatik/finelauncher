@@ -27,6 +27,7 @@ pub async fn run_game(
       let mut lines = reader.lines();
 
       while let Ok(Some(line)) = lines.next_line().await {
+        println!("[STDOUT] {:}", line);
         window_clone
           .emit("log_message", line)
           .expect("Failed to emit log message");

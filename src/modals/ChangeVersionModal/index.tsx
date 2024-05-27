@@ -68,7 +68,7 @@ const ChangeVersionModal: FC<IChangeVersionProps> = ({
 					if (progressBarRef.current)
 						progressBarRef.current.innerText = 'Загрузка началась'
 
-					downloadMod(mod.downloadUrl, version.value, String(mod.id)).then(
+					downloadMod(mod.downloadUrl, version.value).then(
 						() => {
 							if (addBtnRef.current) addBtnRef.current.disabled = false
 							if (progressBarRef.current)

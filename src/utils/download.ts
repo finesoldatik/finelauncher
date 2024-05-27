@@ -24,22 +24,26 @@ export const download: download = async (
 	return invoke('download_file', { url, dest, out_filename })
 }
 
-export const downloadMod = async (
-	url: string,
-	instanceName: string,
-	modName: string
-) => {
+export const downloadMod = async (url: string, instanceName: string) => {
 	const contentPath = await getInstancePath(instanceName).then(v =>
 		path.join(v, 'game/content/')
 	)
 
-	const modPath = await path.join(contentPath, modName)
+	const modPath = await path.join(contentPath, 'temp_dir')
 
-	if (!(await fs.exists(modPath))) await fs.createDir(modPath)
+	if (!(await fs.exists(modPath))) {
+		await fs.createDir(modPath)
+		download(url, modPath, 'mod.zip').then(() => {
+			saveMods(modPath, contentPath)
+		})
+	} else
+		deleteDir(await path.join(modPath)).then(async () => {
+			await fs.createDir(modPath)
 
-	download(url, modPath, 'mod.zip').then(() => {
-		saveMods(modPath)
-	})
+			download(url, modPath, 'mod.zip').then(() => {
+				saveMods(modPath, contentPath)
+			})
+		})
 }
 
 export const downloadVersion: downloadVersion = async (

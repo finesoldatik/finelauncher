@@ -1,5 +1,3 @@
-import { IMods } from '../../ModsPage.interface'
-
 interface IMod {
 	author: {
 		id: number
@@ -23,9 +21,7 @@ interface IMod {
 	title: string
 }
 
-export type setMods = (value: IMods) => void
-
 export interface ModProps {
 	mod: IMod
-	setMods: setMods
+	setTags: (value: number[]) => void
 }

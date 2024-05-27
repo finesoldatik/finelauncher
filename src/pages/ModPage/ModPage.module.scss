@@ -17,9 +17,8 @@
 
 		.author-container {
 			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			width: 500px;
+			flex-direction: column;
+			text-align: start;
 		}
 
 		.description {
@@ -47,6 +46,7 @@
 		cursor: default;
 		overflow-y: auto;
 		text-align: start;
+		height: 90vh;
 
 		.version {
 			border-radius: 0px;

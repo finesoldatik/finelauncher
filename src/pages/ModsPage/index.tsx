@@ -1,40 +1,79 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import styles from './ModsPage.module.scss'
 import ModWrapper from '../../utils/mod/Wrapper'
-import { IMods } from './ModsPage.interface'
 import Mod from './components/Mod'
 import SearchMods from './components/SearchMods'
+import { useQuery } from 'react-query'
+import LoadingModal from '../../modals/LoadingModal'
 
-const modWrapper = new ModWrapper()
+const fetchMods = async (page: number, value: string, tags: number[]) => {
+	console.log('fetchMod')
+
+	const modWrapper = new ModWrapper()
+
+	const { data } = await modWrapper.getMods({
+		params: {
+			page,
+			title: value ? value : undefined,
+			tag_id: tags ? tags : undefined,
+		},
+	})
+
+	return data.data
+}
 
 const ModsPage: FC = () => {
 	console.log('ModsPage Render')
 
-	const [mods, setMods] = useState<IMods>(Object)
+	const [tags, setTags] = useState<Array<number>>([])
+	const [value, setValue] = useState<string>('')
+	const [page, setPage] = useState<number>(1)
+	const { data, isLoading, isError } = useQuery(
+		['mods', page, value, tags],
+		() => fetchMods(page, value, tags),
+		{
+			keepPreviousData: true,
+			refetchOnWindowFocus: false,
+		}
+	)
 
-	useEffect(() => {
-		modWrapper.getMods({ params: { item_count: 1000 } }).then(response => {
-			console.log(response.data.data)
-			setMods(response.data.data)
-		})
-	}, [])
+	if (isLoading) {
+		return <LoadingModal />
+	}
+
+	if (isError) {
+		return <p>Ошибка при получении данных</p>
+	}
+
+	if (!data) {
+		return <p>Нет данных</p>
+	}
 
 	return (
 		<div className={`black-style ${styles['container']}`}>
-			<SearchMods modWrapper={modWrapper} setMods={setMods} />
+			<SearchMods setValue={value => setValue(value)} />
 
 			<div className={styles['mods']}>
-				{mods.content ? (
-					mods.content.map(mod => {
-						return <Mod mod={mod} setMods={setMods} key={mod.id} />
-					})
-				) : (
-					<h2>
-						Моды загружаются. Проверьте правильность поискового
-						запроса/подключение к интернету если они не были загружены.
-					</h2>
-				)}
+				{data.content.map(mod => {
+					return (
+						<Mod mod={mod} setTags={value => setTags(value)} key={mod.id} />
+					)
+				})}
 			</div>
+			<button
+				className='black-style no-boundary-radius'
+				onClick={() => setPage(prev => prev - 1)}
+				disabled={page === 1}
+			>
+				Назад
+			</button>
+			<button
+				className='black-style no-boundary-radius'
+				onClick={() => setPage(prev => prev + 1)}
+				disabled={data.content.length < 10}
+			>
+				Вперед
+			</button>
 		</div>
 	)
 }

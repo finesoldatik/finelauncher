@@ -1,15 +1,11 @@
 import { FC, useRef } from 'react'
 import styles from './SearchMods.module.scss'
-import { getModsBySearchQuery } from '../../../../utils/mod/index.ts'
-import { IMods } from '../../ModsPage.interface'
-import ModWrapper from '../../../../utils/mod/Wrapper'
 
 interface SearchModsProps {
-	modWrapper: ModWrapper
-	setMods: (value: IMods) => void
+	setValue: (value: string) => void
 }
 
-const SearchMods: FC<SearchModsProps> = ({ modWrapper, setMods }) => {
+const SearchMods: FC<SearchModsProps> = ({ setValue }) => {
 	const ref = useRef<HTMLInputElement>(null)
 	return (
 		<div className={styles['container']}>
@@ -22,8 +18,7 @@ const SearchMods: FC<SearchModsProps> = ({ modWrapper, setMods }) => {
 			<button
 				className={`black-style ${styles['btn']}`}
 				onClick={() => {
-					if (ref.current)
-						getModsBySearchQuery(modWrapper, setMods, ref.current.value)
+					if (ref.current) setValue(ref.current.value)
 				}}
 			>
 				Искать

@@ -1,52 +1,52 @@
-import ModWrapper, { ModsConfig } from './Wrapper'
-import { setMods } from '../../pages/ModsPage/components/Mod/Mod.interface'
-import { IMods } from '../../pages/ModsPage/ModsPage.interface'
+// import ModWrapper, { ModsConfig } from './Wrapper'
+// import { setMods } from '../../pages/ModsPage/components/Mod/Mod.interface'
+// import { IMods } from '../../pages/ModsPage/ModsPage.interface'
 import { getInstancePath, normalizeFilename } from '../versionManager'
 import { fs, path } from '@tauri-apps/api'
 import { FileEntry } from '@tauri-apps/api/fs'
 
-type getModsByTag = (
-	modWrapper: ModWrapper,
-	setMods: setMods,
-	tag_id: number[]
-) => void
+// type getModsByTag = (
+// 	modWrapper: ModWrapper,
+// 	setMods: setMods,
+// 	tag_id: number[]
+// ) => void
 
-type getModsBySearchQuery = (
-	modWrapper: ModWrapper,
-	setMods: setMods,
-	searchQuery: string
-) => void
+// type getModsBySearchQuery = (
+// 	modWrapper: ModWrapper,
+// 	setMods: setMods,
+// 	searchQuery: string
+// ) => void
 
 type modExists = (instanceName: string, modName: string) => Promise<boolean>
 
-export const getModsByTag: getModsByTag = (
-	modWrapper: ModWrapper,
-	setMods: setMods,
-	tag_id: number[]
-) => {
-	console.log('Search by Tag:', tag_id)
-	modWrapper.getMods({ params: { tag_id } }).then(response => {
-		console.log(response.data.data)
-		setMods(response.data.data)
-	})
-}
+// export const getModsByTag: getModsByTag = (
+// 	modWrapper: ModWrapper,
+// 	setMods: setMods,
+// 	tag_id: number[]
+// ) => {
+// 	console.log('Search by Tag:', tag_id)
+// 	modWrapper.getMods({ params: { tag_id } }).then(response => {
+// 		console.log(response.data.data)
+// 		setMods(response.data.data)
+// 	})
+// }
 
-export const getModsBySearchQuery: getModsBySearchQuery = (
-	modWrapper: ModWrapper,
-	setMods: setMods,
-	searchQuery: string
-) => {
-	console.log('Search by Query:', searchQuery)
-	let config: ModsConfig = { params: { item_count: 1000 } }
-	if (searchQuery !== '') config = { params: { title: searchQuery } }
-	modWrapper.getMods(config).then(response => {
-		if (response.data.data.content.length) setMods(response.data.data)
-		else {
-			const error: IMods = {}
-			setMods(error)
-		}
-	})
-}
+// export const getModsBySearchQuery: getModsBySearchQuery = (
+// 	modWrapper: ModWrapper,
+// 	setMods: setMods,
+// 	searchQuery: string
+// ) => {
+// 	console.log('Search by Query:', searchQuery)
+// 	let config: ModsConfig = { params: { item_count: 1000 } }
+// 	if (searchQuery !== '') config = { params: { title: searchQuery } }
+// 	modWrapper.getMods(config).then(response => {
+// 		if (response.data.data.content.length) setMods(response.data.data)
+// 		else {
+// 			const error: IMods = {}
+// 			setMods(error)
+// 		}
+// 	})
+// }
 
 export const modExists: modExists = async (
 	instanceName: string,
@@ -73,7 +73,7 @@ const findMods = (file: FileEntry) => {
 	}
 }
 
-export const saveMods = async (modPath: string) => {
+export const saveMods = async (modPath: string, contentPath: string) => {
 	const files = await fs.readDir(modPath, { recursive: true })
 	console.log('paths', files)
 
@@ -82,17 +82,34 @@ export const saveMods = async (modPath: string) => {
 
 	mods.forEach(async mod => {
 		if (mod.name === 'package.json') {
+			const data = JSON.parse(await fs.readTextFile(mod.path))
+			console.log(data)
+			const modDir = await path.join(contentPath, data.id)
+			fs.createDir(modDir)
+
+			const modContent = await fs.readDir(modPath)
+			modContent.forEach(async value => {
+				fs.renameFile(
+					String(value.path),
+					await path.join(modDir, String(value.name))
+				)
+			})
 			console.log('mod saved')
 		} else {
 			const modContent = await fs.readDir(String(mod.path), { recursive: true })
-			console.log(modContent)
+			console.log('modContent', modContent)
 			modContent.forEach(async value => {
-				console.log(value)
-				console.log(await path.join(modPath, String(value.name)))
-				fs.renameFile(
-					String(value.path),
-					await path.join(modPath, String(value.name))
-				)
+				if (value.name === 'package.json') {
+					const data = JSON.parse(await fs.readTextFile(value.path))
+					const modDir = await path.join(contentPath, data.id)
+					fs.createDir(modDir)
+					modContent.forEach(async value => {
+						fs.renameFile(
+							String(value.path),
+							await path.join(modDir, String(value.name))
+						)
+					})
+				}
 			})
 			console.log('mod saved')
 		}
