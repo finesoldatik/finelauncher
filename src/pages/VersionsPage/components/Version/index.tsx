@@ -31,7 +31,7 @@ const Version: FC<IVersionProps> = ({ version, name, isVersion }) => {
 				className={styles['image']}
 			/>
 			<h2 className={styles['text']}>{name}</h2>
-			<p className={styles['text']}>{version}</p>
+			{isVersion ? <p className={styles['text']}>{version}</p> : <></>}
 		</div>
 	)
 }

@@ -35,7 +35,7 @@ const Versions: FC = () => {
 			) : (
 				<Version
 					name='Версий не найдено'
-					version={'VE или RVE, что выберешь ты?'}
+					version={'VE'}
 					isVersion={false}
 				/>
 			)}

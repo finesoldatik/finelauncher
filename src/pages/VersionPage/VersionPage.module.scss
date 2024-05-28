@@ -1,11 +1,45 @@
 .container {
-	background-color: #111;
-	width: 350px;
-	cursor: default;
-	margin: auto;
-	text-align: center;
+	display: flex;
+	flex-direction: column;
 
-	.image {
-		padding: 10px;
+	.top-container {
+		display: flex;
+		flex-direction: row;
+		margin-bottom: 1px;
+
+		.info-container {
+			margin-right: 1px;
+			border-radius: 0;
+			border-top-left-radius: 8px;
+			width: 350px;
+			flex-grow: 2;
+			cursor: default;
+
+			.image-container {
+				width: 300px;
+				text-align: center;
+				.image {
+					padding: 10px;
+				}
+			}
+		}
+		.control-container {
+			width: 200px;
+			flex-grow: 1;
+
+			.control {
+				display: flex;
+				justify-content: space-between;
+			}
+		}
+	}
+
+	.mods-container {
+		.mods {
+			overflow-y: auto;
+		}
+		.empty-mods {
+			margin: 10px;
+		}
 	}
 }

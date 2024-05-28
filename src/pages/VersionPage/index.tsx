@@ -1,22 +1,28 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from './VersionPage.module.scss'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { appWindow } from '@tauri-apps/api/window'
 import { listen } from '@tauri-apps/api/event'
 import Console from './components/Console'
 import ButtonContainer from './components/ButtonContainer'
 import { useGameContext } from '../../contexts/GameProvider'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
+import { getInstancePath } from '../../utils/versionManager'
+import { fs, path } from '@tauri-apps/api'
 
 const VersionPage: FC = () => {
+	console.log('VersionPage Render')
+
 	const params = useParams()
 	const version: string = String(params.version)
 	const name: string = String(params.name)
 
-	console.log('VersionPage Render')
+	const navigate = useNavigate()
 
 	const gameContext = useGameContext()
 	const settingsContext = useSettingsContext()
+
+	const [mods, setMods] = useState<string[]>([])
 
 	useEffect(() => {
 		const unSubscribeLog = listen('log_message', event => {
@@ -62,19 +68,72 @@ const VersionPage: FC = () => {
 	else if (version.split(' ')[0] === 'RVE')
 		image = '/images/version/rve-512.png'
 
+	useEffect(() => {
+		getInstancePath(name).then(async value => {
+			const content = await fs.readDir(await path.join(value, 'game/content'))
+			setMods(content.map(value => String(value.name)))
+		})
+	}, [])
+
 	return (
 		<>
 			{gameContext.gameData.gamePID && <Console></Console>}
-			<div className={`black-style ${styles['container']}`}>
-				<img
-					className={styles['img']}
-					src={image}
-					width={160}
-					height={160}
-					alt='image'
-				/>
-				<h3>Имя версии: {params.name}</h3>
-				<ButtonContainer name={name} />
+			<div className={styles['container']}>
+				<div className={styles['top-container']}>
+					<div className={`black-style ${styles['info-container']}`}>
+						<h3>Информация</h3>
+						<div className={styles['image-container']}>
+							<img
+								className={styles['img']}
+								src={image}
+								width={160}
+								height={160}
+								alt='image'
+							/>
+						</div>
+						<h4>Имя версии: {params.name}</h4>
+						<h4>Версия: VE v12</h4>
+					</div>
+					<div
+						className={`black-style no-boundary-radius ${styles['control-container']}`}
+					>
+						<h3>Управление</h3>
+						<div className={styles['control']}>
+							<button className='black-style no-boundary-radius'>
+								Настройки
+							</button>
+
+							<ButtonContainer name={name} />
+						</div>
+					</div>
+				</div>
+				<div
+					className={`black-style no-boundary-radius ${styles['mods-container']}`}
+				>
+					<h3>Модификации</h3>
+					<div className={styles['mods']}>
+						{mods.length ? (
+							mods.map((value, idx) => {
+								console.log(mods)
+								if (value !== 'temp_dir') return <p key={idx}>{value}</p>
+								else console.log('temp_dir is skipped')
+							})
+						) : (
+							<div className={styles['empty-mods']}>
+								<p>
+									Похоже, что в вашей версии нет модификаций, давайте добавим
+									их?
+								</p>
+								<button
+									className='black-style green-bg'
+									onClick={() => navigate('/mods')}
+								>
+									Искать модификации
+								</button>
+							</div>
+						)}
+					</div>
+				</div>
 			</div>
 		</>
 	)

@@ -22,7 +22,7 @@ const ButtonContainer: FC<IButtonContainer> = memo(({ name }) => {
 				Открыть в проводнике
 			</button>
 			<button
-				className='black-style red-bg'
+				className={`black-style red-bg ${styles['delete-btn']}`}
 				onClick={() =>
 					deleteInstance(name).then(() => {
 						navigate('/versions')
