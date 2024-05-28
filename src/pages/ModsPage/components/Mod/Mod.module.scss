@@ -1,6 +1,7 @@
 .container {
 	flex-wrap: wrap;
-	width: 497px;
+	width: 400px;
+	flex-grow: 1;
 	margin: 1px;
 	background-color: #171717;
 
@@ -8,10 +9,9 @@
 		color: rgb(125, 125, 231);
 	}
 
-	.author-container {
+	author-container {
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
+		flex-direction: column;
 	}
 
 	.description {

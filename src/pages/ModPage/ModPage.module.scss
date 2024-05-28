@@ -5,7 +5,7 @@
 
 	.content {
 		flex-wrap: wrap;
-		width: 65%;
+		flex-grow: 2;
 		margin: 1px;
 		background-color: #171717;
 		border-radius: 0px;
@@ -41,7 +41,8 @@
 	}
 
 	.versions {
-		width: 35%;
+		width: 400px;
+		flex-grow: 1;
 		border-radius: 0px;
 		cursor: default;
 		overflow-y: auto;
