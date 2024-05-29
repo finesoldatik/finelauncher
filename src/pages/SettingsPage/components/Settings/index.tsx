@@ -9,7 +9,7 @@ const Settings: FC = () => {
 	const settingsContext = useSettingsContext()
 
 	return (
-		<div className={`black-style ${styles['container']}`}>
+		<div className={`black-style no-selectable ${styles['container']}`}>
 			<h2>Настройки</h2>
 			<Option
 				label='Скрывать лаунчер при запуске игры'

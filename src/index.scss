@@ -118,6 +118,10 @@ h1 {
 	border-radius: 0;
 }
 
+.no-selectable {
+	cursor: default;
+}
+
 .error-text {
 	color: red;
 	font-weight: 40;

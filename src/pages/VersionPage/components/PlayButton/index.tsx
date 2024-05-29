@@ -2,8 +2,8 @@ import { IPlayButtonProps } from './PlayButton.interface'
 import styles from './PlayButton.module.scss'
 import { FC, memo } from 'react'
 import { appWindow } from '@tauri-apps/api/window'
-import { useSettingsContext } from '../../../../../../contexts/SettingsProvider'
-import { useGameContext } from '../../../../../../contexts/GameProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { useGameContext } from '../../../../contexts/GameProvider'
 
 const PlayButton: FC<IPlayButtonProps> = memo(({ name }) => {
 	console.log('PlayButton Render')

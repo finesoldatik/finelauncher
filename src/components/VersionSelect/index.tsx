@@ -1,10 +1,9 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import ReactSelect, { SingleValue } from 'react-select'
 import './VersionSelect.scss'
 import {
 	IVersionSelectProps,
 	ISelectableVersion,
-	CurrentVersion,
 } from './VersionSelect.interface'
 
 const VersionSelect: FC<IVersionSelectProps> = ({
@@ -14,28 +13,21 @@ const VersionSelect: FC<IVersionSelectProps> = ({
 }) => {
 	console.log('VersionSelect Render')
 
-	const [currentVersion, setCurrentVersion] = useState<CurrentVersion>('')
-
-	const getValue = () =>
-		currentVersion ? versions.find(c => c.value === currentVersion) : ''
-
 	const onChange = (newValue: SingleValue<string> | ISelectableVersion) => {
+		// @ts-expect-error newValue.label: any хотя должно быть string
+		const label: string = String(newValue.label)
 		// @ts-expect-error newValue.value: any хотя должно быть string
 		const value: string = String(newValue.value)
-		setCurrentVersion(value)
-		setVersion({ label: String(getValue()), value: value })
+
+		console.log(label, value)
+		// setCurrentVersion(value)
+		setVersion({ label: label, value: value })
 	}
 
 	return (
 		<ReactSelect
 			classNamePrefix='version-select'
-			styles={{
-				control: baseStyles => ({
-					...baseStyles,
-				}),
-			}}
 			onChange={onChange}
-			value={getValue()}
 			options={versions}
 			placeholder='Выберите версию'
 			isLoading={isLoading}

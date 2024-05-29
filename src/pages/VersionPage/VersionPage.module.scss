@@ -29,6 +29,7 @@
 
 			.control {
 				display: flex;
+				flex-direction: column;
 				justify-content: space-between;
 			}
 		}
@@ -36,6 +37,8 @@
 
 	.mods-container {
 		.mods {
+			margin-top: 5px;
+			height: 60vh;
 			overflow-y: auto;
 		}
 		.empty-mods {

@@ -14,7 +14,11 @@ type downloadMod = (
 	modName: string
 ) => Promise<void>
 
-type downloadVersion = (url: string, instanceName: string) => Promise<void>
+type downloadVersion = (
+	url: string,
+	instanceName: string,
+	instanceVersion: string
+) => Promise<void>
 
 export const download: download = async (
 	url: string,
@@ -33,14 +37,14 @@ export const downloadMod = async (url: string, instanceName: string) => {
 
 	if (!(await fs.exists(modPath))) {
 		await fs.createDir(modPath)
-		download(url, modPath, 'mod.zip').then(() => {
+		return download(url, modPath, 'mod.zip').then(() => {
 			saveMods(modPath, contentPath)
 		})
 	} else
 		deleteDir(await path.join(modPath)).then(async () => {
 			await fs.createDir(modPath)
 
-			download(url, modPath, 'mod.zip').then(() => {
+			return download(url, modPath, 'mod.zip').then(() => {
 				saveMods(modPath, contentPath)
 			})
 		})
@@ -48,7 +52,8 @@ export const downloadMod = async (url: string, instanceName: string) => {
 
 export const downloadVersion: downloadVersion = async (
 	url: string,
-	instanceName: string
+	instanceName: string,
+	instanceVersion: string
 ) => {
 	const instancePath = await getInstancePath(instanceName)
 	await fs.createDir(await path.join(instancePath, 'game/content'), {
@@ -60,7 +65,11 @@ export const downloadVersion: downloadVersion = async (
 	if ((await os.platform()) !== 'win32') outFileName = 'version.AppImage'
 	else outFileName = 'version.zip'
 
-	return download(url, await path.join(instancePath, 'game'), outFileName)
+	return download(url, await path.join(instancePath, 'game'), outFileName).then(
+		async () => {
+			fs.writeFile(await path.join(instancePath, `${instanceVersion}.json`), '')
+		}
+	)
 }
 
 export const deleteDir = async (path: string) => {

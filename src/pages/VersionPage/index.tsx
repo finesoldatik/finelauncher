@@ -9,6 +9,8 @@ import { useGameContext } from '../../contexts/GameProvider'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { getInstancePath } from '../../utils/versionManager'
 import { fs, path } from '@tauri-apps/api'
+import PlayButton from './components/PlayButton'
+import Mod from './components/Mod'
 
 const VersionPage: FC = () => {
 	console.log('VersionPage Render')
@@ -80,7 +82,9 @@ const VersionPage: FC = () => {
 			{gameContext.gameData.gamePID && <Console></Console>}
 			<div className={styles['container']}>
 				<div className={styles['top-container']}>
-					<div className={`black-style ${styles['info-container']}`}>
+					<div
+						className={`black-style no-selectable ${styles['info-container']}`}
+					>
 						<h3>Информация</h3>
 						<div className={styles['image-container']}>
 							<img
@@ -95,27 +99,33 @@ const VersionPage: FC = () => {
 						<h4>Версия: VE v12</h4>
 					</div>
 					<div
-						className={`black-style no-boundary-radius ${styles['control-container']}`}
+						className={`black-style no-boundary-radius no-selectable ${styles['control-container']}`}
 					>
 						<h3>Управление</h3>
 						<div className={styles['control']}>
-							<button className='black-style no-boundary-radius'>
-								Настройки
-							</button>
-
 							<ButtonContainer name={name} />
+							<PlayButton name={name} />
 						</div>
 					</div>
 				</div>
 				<div
-					className={`black-style no-boundary-radius ${styles['mods-container']}`}
+					className={`black-style no-boundary-radius no-selectable ${styles['mods-container']}`}
 				>
 					<h3>Модификации</h3>
 					<div className={styles['mods']}>
-						{mods.length ? (
+						{mods.length > 1 ? (
 							mods.map((value, idx) => {
 								console.log(mods)
-								if (value !== 'temp_dir') return <p key={idx}>{value}</p>
+								if (value !== 'temp_dir')
+									return (
+										<Mod
+											version={name}
+											modName={value}
+											mods={mods}
+											setMods={setMods}
+											key={idx}
+										/>
+									)
 								else console.log('temp_dir is skipped')
 							})
 						) : (

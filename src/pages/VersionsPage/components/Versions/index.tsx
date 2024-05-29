@@ -10,11 +10,21 @@ const Versions: FC = () => {
 
 	useEffect(() => {
 		getInstalledInstances().then(value => {
-			const entries = value.map(version => ({
-				name: version.name,
-				version: 'VE v12',
-				isVersion: true,
-			}))
+			const entries = value.map(version => {
+				const content = version.children?.filter(value => {
+					console.log(version)
+					if (value.name !== 'game') {
+						console.log(value.name)
+						return value.name
+					}
+				})
+				console.log(content)
+				return {
+					name: version.name,
+					version: 'VE v12',
+					isVersion: true,
+				}
+			})
 			console.log(entries)
 
 			setInstances(entries)
@@ -33,11 +43,7 @@ const Versions: FC = () => {
 					/>
 				))
 			) : (
-				<Version
-					name='Версий не найдено'
-					version={'VE'}
-					isVersion={false}
-				/>
+				<Version name='Версий не найдено' version={'VE'} isVersion={false} />
 			)}
 		</>
 	)

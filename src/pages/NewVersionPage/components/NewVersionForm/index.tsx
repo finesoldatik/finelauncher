@@ -26,6 +26,7 @@ const NewVersionForm: FC = () => {
 	} = useForm<ISelectableVersion>()
 
 	const onSubmit: SubmitHandler<ISelectableVersion> = data => {
+		console.log(currentVersion)
 		if (currentVersion.value) {
 			setVersionChanged(true)
 			instanceExists(data.label).then(value => {
@@ -34,7 +35,7 @@ const NewVersionForm: FC = () => {
 					if (progressBarRef.current)
 						progressBarRef.current.innerText = 'Загрузка началась'
 
-					downloadVersion(currentVersion.value, data.label).then(() => {
+					downloadVersion(currentVersion.value, data.label, currentVersion.label).then(() => {
 						if (createBtnRef.current) createBtnRef.current.disabled = false
 						if (progressBarRef.current)
 							progressBarRef.current.innerText = 'Загружено'
