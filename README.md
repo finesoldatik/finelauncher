@@ -1,30 +1,13 @@
-# React + TypeScript + Vite
+# finelauncher
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**finelauncher** - это **лаунчер для Voxel Engine** и некоторых его форков. **Благодаря нему** Вы легко сможете настраивать, отлаживать и запускать игру. Также Вы сможете выбрать разнообразные моды для Вашей сборки из магазина модификаций.
 
-Currently, two official plugins are available:
+Если Вы хотите **начать использовать finelauncher** прямо сейчас, то просто перейдите в **раздел "Releases"** на этой странице и скачайте одну из версий.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Исходный код
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+При желании Вы **можете скачать исходный код**, для этого используйте эту **небольшую инструкцию**:
+* Скачайте и установите **Node.js** с **оффициального** сайта https://nodejs.org/en
+* Установите **необходимые зависимости**, найти их можно на https://tauri.app/v1/guides/getting-started/prerequisites
+* Скачайте **Исходный код**: передите в раздел **"Releases"**, выберите версию и скачайте **Исходный код**.
+* **Распакуйте архив** и откройте код в **Вашем редакторе**.
