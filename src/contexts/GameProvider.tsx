@@ -1,11 +1,12 @@
+'use client'
 import { createContext, useState, useContext, ReactNode, useMemo } from 'react'
 import { getValue, setValue } from '../utils/localStorage'
-import { runGame, terminateProcess } from '../utils/versionManager'
+import { runGame, terminateProcess } from '../utils/instanceManager'
 
 interface IGameContext {
 	setOption: (value: boolean, key: string) => void
 	gameData: IGameData
-	setGamePID: (pid: number | null) => void
+	setGamePId: (pid: number | null) => void
 	addGameLogs: (logs: string) => void
 	deleteGameLogs: () => void
 	startGame: (version_name: string) => void
@@ -16,10 +17,10 @@ interface IGameContext {
 export const GameContext = createContext<IGameContext>({
 	setOption: () => {},
 	gameData: {
-		gamePID: null,
+		gamePId: null,
 		gameLogs: [],
 	},
-	setGamePID: () => {},
+	setGamePId: () => {},
 	addGameLogs: () => {},
 	deleteGameLogs: () => {},
 	startGame: () => {},
@@ -30,13 +31,13 @@ export const GameContext = createContext<IGameContext>({
 export const useGameContext = () => useContext(GameContext)
 
 interface IGameData {
-	gamePID: number | null
+	gamePId: number | null
 	gameLogs: string[]
 }
 
 export const GameProvider = ({ children }: { children: ReactNode }) => {
 	const [gameData, setGameData] = useState<IGameData>({
-		gamePID: getValue('gamePID') || null,
+		gamePId: getValue('gamePId') || null,
 		gameLogs: getValue('gameLogs') || [],
 	})
 	const [logs, setLogs] = useState<string[]>([])
@@ -46,8 +47,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 		setValue(value, key)
 	}
 
-	const setGamePID = (value: number | null) => {
-		setOption(value, 'gamePID')
+	const setGamePId = (value: number | null) => {
+		setOption(value, 'gamePId')
 	}
 
 	const addGameLogs = (value: string) => {
@@ -67,19 +68,19 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	const stopGame = () => {
-		setOption(null, 'gamePID')
+		setOption(null, 'gamePId')
 	}
 
 	const terminateGame = (PID: number) => {
 		terminateProcess(PID)
-		setOption(null, 'gamePID')
+		setOption(null, 'gamePId')
 	}
 
 	const value = useMemo(
 		() => ({
 			setOption,
 			gameData,
-			setGamePID,
+			setGamePId,
 			addGameLogs,
 			deleteGameLogs,
 			startGame,

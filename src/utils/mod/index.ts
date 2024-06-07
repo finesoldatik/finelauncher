@@ -1,8 +1,7 @@
 // import ModWrapper, { ModsConfig } from './Wrapper'
 // import { setMods } from '../../pages/ModsPage/components/Mod/Mod.interface'
 // import { IMods } from '../../pages/ModsPage/ModsPage.interface'
-import { getInstancePath, normalizeFilename } from '../versionManager'
-import { fs, path } from '@tauri-apps/api'
+import { getInstancePath, normalizeFilename } from '../instanceManager'
 import { FileEntry } from '@tauri-apps/api/fs'
 
 // type getModsByTag = (
@@ -16,8 +15,6 @@ import { FileEntry } from '@tauri-apps/api/fs'
 // 	setMods: setMods,
 // 	searchQuery: string
 // ) => void
-
-type modExists = (instanceName: string, modName: string) => Promise<boolean>
 
 // export const getModsByTag: getModsByTag = (
 // 	modWrapper: ModWrapper,
@@ -48,10 +45,11 @@ type modExists = (instanceName: string, modName: string) => Promise<boolean>
 // 	})
 // }
 
-export const modExists: modExists = async (
+export const modExists = async (
 	instanceName: string,
 	modName: string
 ) => {
+	const { fs, path } = await import('@tauri-apps/api')
 	const modPath = await getInstancePath(instanceName).then(v =>
 		path.join(v, 'game/content', normalizeFilename(modName))
 	)
@@ -74,6 +72,7 @@ const findMods = (file: FileEntry) => {
 }
 
 export const saveMods = async (modPath: string, contentPath: string) => {
+	const { fs, path } = await import('@tauri-apps/api')
 	const files = await fs.readDir(modPath, { recursive: true })
 	console.log('paths', files)
 

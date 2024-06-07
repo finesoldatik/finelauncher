@@ -1,7 +1,7 @@
 import axios from 'axios'
 import util from './Util'
 
-const defaultRepos = [
+export const defaultRepos = [
 	{
 		name: 'VE',
 		url: 'https://api.github.com/repos/MihailRis/VoxelEngine-Cpp/releases',

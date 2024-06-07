@@ -1,12 +1,10 @@
-import { FC } from 'react'
-import styles from './LoadingModal.module.scss'
+import styles from './LoadingModal.module.css'
 
-const LoadingModal: FC = () => {
+export default function LoadingModal() {
 	return (
 		<div className={styles['modal']}>
-			<h3 className={styles['content']}>Идет загрузка</h3>
+			<span className='loading loading-ring loading-lg'></span>
+			<h3>Идет загрука...</h3>
 		</div>
 	)
 }
-
-export default LoadingModal

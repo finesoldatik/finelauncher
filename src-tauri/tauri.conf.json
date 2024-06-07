@@ -1,4 +1,5 @@
 {
+	"$schema": "../node_modules/@tauri-apps/cli/schema.json",
 	"build": {
 		"beforeBuildCommand": "yarn build",
 		"beforeDevCommand": "yarn dev",
@@ -7,7 +8,7 @@
 	},
 	"package": {
 		"productName": "finelauncher",
-		"version": "0.0.1"
+		"version": "0.1.0"
 	},
 	"tauri": {
 		"allowlist": {
@@ -205,17 +206,9 @@
 				"minHeight": 675,
 				"resizable": true,
 				"fullscreen": false,
-				"decorations": false,
-				"visible": false,
+				"decorations": true,
+				"visible": true,
 				"label": "main",
-				"center": true
-			},
-			{
-				"width": 400,
-				"height": 200,
-				"decorations": false,
-				"url": "splashscreen.html",
-				"label": "splashscreen",
 				"center": true
 			}
 		]

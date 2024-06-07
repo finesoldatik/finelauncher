@@ -1,26 +1,13 @@
 import { fs, path, invoke, os } from '@tauri-apps/api' // http,
-import { getInstancePath } from './versionManager'
+import {
+	InstanceData,
+	getInstancePath,
+	saveInstanceData,
+} from './instanceManager'
 import { saveMods } from './mod'
+import { defaultRepos } from './version'
 
-type download = (
-	url: string,
-	dest: string,
-	out_filename: string
-) => Promise<void>
-
-type downloadMod = (
-	url: string,
-	instanceName: string,
-	modName: string
-) => Promise<void>
-
-type downloadVersion = (
-	url: string,
-	instanceName: string,
-	instanceVersion: string
-) => Promise<void>
-
-export const download: download = async (
+export const download = async (
 	url: string,
 	dest: string,
 	out_filename: string
@@ -50,7 +37,7 @@ export const downloadMod = async (url: string, instanceName: string) => {
 		})
 }
 
-export const downloadVersion: downloadVersion = async (
+export const downloadVersion = async (
 	url: string,
 	instanceName: string,
 	instanceVersion: string
@@ -62,13 +49,30 @@ export const downloadVersion: downloadVersion = async (
 
 	let outFileName: string
 
-	if ((await os.platform()) !== 'win32') outFileName = 'version.AppImage'
+	const platform = await os.platform()
+
+	if (platform !== 'win32') outFileName = 'version.AppImage'
 	else outFileName = 'version.zip'
 
+	const repo = defaultRepos.find(
+		value => value.name === instanceVersion.split(' ')[0]
+	)
+
+	const icon = `/img/instance/${repo?.name.toLowerCase()}.png`
+
+	console.log(icon)
+
+	const instanceData: InstanceData = {
+		name: instanceName,
+		gameVersion: instanceVersion,
+		icon,
+		runParameters: '',
+		platform,
+		options: null,
+	}
+
 	return download(url, await path.join(instancePath, 'game'), outFileName).then(
-		async () => {
-			fs.writeFile(await path.join(instancePath, `${instanceVersion}.json`), '')
-		}
+		() => saveInstanceData(instanceName, instanceData)
 	)
 }
 

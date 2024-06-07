@@ -1,3 +1,4 @@
+'use client'
 type GetValue = (key: string) => any
 type SetValue = (value: any, key: string) => void
 

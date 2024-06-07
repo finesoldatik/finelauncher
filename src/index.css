@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body,
+#root {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	min-width: 320px;
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	place-items: center;
+	background-image: url('/background/background.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+}
+
+#root {
+	display: flex;
+	flex-flow: row-reverse wrap;
+	justify-content: space-around;
+
+	min-width: 100%;
+	min-height: 100%;
+	position: relative;
+
+	main {
+		height: 100vh;
+		flex: 1 0 0px;
+		overflow-y: auto;
+	}
+}
+
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #242424;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+* {
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
+}
+
+/* Стилизация полосы прокрутки для всех элементов */
+* {
+	scrollbar-width: thin; /* Для Firefox */
+	scrollbar-color: rgba(0, 0, 0, 0.5) transparent; /* Для Firefox */
+}
+
+/* Стилизация для Webkit-браузеров, таких как Chrome, Safari и новых версий Edge */
+*::-webkit-scrollbar {
+	width: 7px;
+	height: 7px; /* Можно добавить, если нужна горизонтальная полоса прокрутки */
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+*::-webkit-scrollbar-track {
+	background-color: transparent; /* Сделать дорожку полосы прокрутки прозрачной */
+}

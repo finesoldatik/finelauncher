@@ -1,26 +1,42 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { FC } from 'react'
-import { IItemProps } from './Item.interface'
-import styles from './Item.module.scss'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+
+interface IElement {
+	id: number
+	active: number
+	setActive: (value: number) => void
+	icon: IconDefinition
+	link: string
+	tooltip: string
+}
+
+export interface IItemProps {
+	element: IElement
+}
 
 const Item: FC<IItemProps> = ({ element }) => {
 	console.log('Sidebar Item Render')
 
-	const navigate = useNavigate()
-
 	return (
 		<div
-			className={
-				element.active === element.id
-					? `${styles['item']} ${styles['active']}`
-					: styles['item']
-			}
-			onClick={() => {
-				element.setActive(element.id)
-				navigate(element.link)
-			}}
+			className='tooltip tooltip-primary tooltip-right w-full'
+			data-tip={element.tooltip}
 		>
-			<img src={element.image} alt='image' width='30px' />
+			<Link
+				className={
+					element.active === element.id
+						? `btn btn-sm btn-primary join-item w-full h-10`
+						: 'btn btn-sm join-item w-full'
+				}
+				to={element.link}
+				onClick={() => {
+					element.setActive(element.id)
+				}}
+			>
+				<FontAwesomeIcon icon={element.icon} />
+			</Link>
 		</div>
 	)
 }

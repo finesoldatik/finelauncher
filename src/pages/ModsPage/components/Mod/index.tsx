@@ -1,38 +1,63 @@
+import { IContent } from '../../ModsPage.types'
 import { FC } from 'react'
-import styles from './Mod.module.scss'
-import { ModProps } from './Mod.interface'
-import { useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faCloudArrowDown,
+	faHeart,
+	faUser,
+} from '@fortawesome/free-solid-svg-icons'
 
-const Mod: FC<ModProps> = ({ mod, setTags }) => {
-	const navigate = useNavigate()
+interface IModProps {
+	mod: IContent
+}
+
+const Mod: FC<IModProps> = ({ mod }) => {
 	return (
-		<div
-			className={`black-style no-boundary-radius ${styles['container']}`}
-			onClick={() => navigate(`/mods/${mod.id}`)}
-		>
-			<img
-				width={128}
-				height={128}
-				src={'https://voxelworld.ru' + mod.pathLogo}
-				alt='Лого мода'
-			/>
-			<h2 className={styles['title']}>{mod.title}</h2>
-			<div className={styles['author-container']}>
-				<h4 className='violet-text'>Автор: {mod.author.name}</h4>
-				<h4 className='violet-text'>Скачиваний: {mod.downloads}</h4>
-			</div>
-
-			<p className={styles['description']}>{mod.description}</p>
-			<div className={styles['tags']}>
-				{mod.tags.map(tag => (
-					<button
-						className={`black-style ${styles['tag']}`}
-						onClick={() => setTags([tag.id])}
-						key={tag.id}
-					>
-						{tag.title}
-					</button>
-				))}
+		<div className='btn w-64 h-80 bg-base-200 shadow-xl rounded-none m-0.5 flex-grow flex-wrap'>
+			<figure className='mt-3'>
+				<img
+					src={'https://voxelworld.ru' + mod.pathLogo}
+					alt='mod icon'
+					width={128}
+					height={128}
+				/>
+			</figure>
+			<div className='card-body p-0'>
+				<h3 className='card-title'>{mod.title}</h3>
+				<label>
+					<FontAwesomeIcon icon={faCloudArrowDown} /> {mod.downloads}{' '}
+					<FontAwesomeIcon icon={faHeart} /> {mod.likes}
+				</label>
+				<label className='flex'>
+					<div className='avatar'>
+						{mod.author.isAvatar ? (
+							<>
+								<div className='w-6 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
+									<img
+										src={`https://voxelworld.ru/${mod.author.avatar}`}
+										alt='avatar'
+									/>
+								</div>
+								<p className='ml-3 mt-1'>{mod.author.name}</p>
+							</>
+						) : (
+							<>
+								<FontAwesomeIcon icon={faUser} />
+								<p className='ml-2'>{mod.author.name}</p>
+							</>
+						)}
+					</div>
+				</label>
+				<div className='w-56 text-sm breadcrumbs'>
+					<ul>
+						<li>теги:</li>
+						{mod.tags.length ? (
+							mod.tags.map(tag => <li key={tag.id}>{tag.title}</li>)
+						) : (
+							<li>нет</li>
+						)}
+					</ul>
+				</div>
 			</div>
 		</div>
 	)

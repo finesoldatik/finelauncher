@@ -17,16 +17,16 @@ const router = createBrowserRouter([
 				element: <Pages.Home />,
 			},
 			{
-				path: '/versions',
-				element: <Pages.Versions />,
+				path: '/instances',
+				element: <Pages.Instances />,
 			},
 			{
-				path: '/versions/:name/:version',
-				element: <Pages.Version />,
+				path: '/instances/:name',
+				element: <Pages.Instance />,
 			},
 			{
-				path: '/new-version',
-				element: <Pages.NewVersion />,
+				path: '/new-instance',
+				element: <Pages.NewInstance />,
 			},
 			{
 				path: '/mods',
@@ -44,8 +44,6 @@ const router = createBrowserRouter([
 	},
 ])
 
-const Router = () => {
+export default function Router() {
 	return <RouterProvider router={router} />
 }
-
-export default Router

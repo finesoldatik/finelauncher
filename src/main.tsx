@@ -1,23 +1,16 @@
 import ReactDOM from 'react-dom/client'
 import Router from './Router'
-import './index.scss'
-import { invoke } from '@tauri-apps/api/tauri'
+import './index.css'
 import { SettingsProvider } from './contexts/SettingsProvider'
 import { GameProvider } from './contexts/GameProvider'
-import { QueryClient, QueryClientProvider } from 'react-query'
-
-const queryClient = new QueryClient()
+import { ReactQueryProvider } from './contexts/ReactQueryProvider'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<SettingsProvider>
 		<GameProvider>
-			<QueryClientProvider client={queryClient}>
+			<ReactQueryProvider>
 				<Router />
-			</QueryClientProvider>
+			</ReactQueryProvider>
 		</GameProvider>
 	</SettingsProvider>
 )
-
-document.addEventListener('DOMContentLoaded', async () => {
-	invoke('close_splashscreen')
-})

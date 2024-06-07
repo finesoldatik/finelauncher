@@ -1,26 +1,37 @@
+import {
+	faHouse,
+	faGamepad,
+	faCube,
+	faGear,
+} from '@fortawesome/free-solid-svg-icons'
+
 export const topItems = [
 	{
 		id: 0,
-		image: '/images/sidebar/home-96.png',
+		icon: faHouse,
 		link: '/',
+		tooltip: 'Главная',
 	},
 	{
 		id: 1,
-		image: '/images/sidebar/gamepad-64.png',
-		link: '/versions',
+		icon: faGamepad,
+		link: '/instances',
+		tooltip: 'Инстансы',
 	},
 	{
 		id: 2,
-		image: '/images/sidebar/box-48.png',
+		icon: faCube,
 		link: '/mods',
+		tooltip: 'Моды',
 	},
 ]
 
 export const bottomItems = [
 	{
 		id: 3,
-		image: '/images/sidebar/settings-96.png',
+		icon: faGear,
 		link: '/settings',
+		tooltip: 'Настройки',
 	},
 ]
 
