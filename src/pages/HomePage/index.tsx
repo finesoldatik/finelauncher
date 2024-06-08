@@ -1,4 +1,4 @@
-import BoxAnimation from '../../components/BoxAnimation'
+import BoxesAnimation from '../../components/BoxesAnimation'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
@@ -18,8 +18,8 @@ export default function HomePage() {
 	}, [])
 
 	return (
-		<div>
-			<BoxAnimation />
+		<>
+			<BoxesAnimation />
 			<div className='hero w-full min-h-screen bg-base-200'>
 				<div className='hero-content text-center'>
 					<div className='max-w-md'>
@@ -40,6 +40,6 @@ export default function HomePage() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	)
 }

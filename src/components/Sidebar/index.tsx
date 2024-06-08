@@ -10,7 +10,10 @@ const Sidebar: FC = () => {
 
 	return (
 		<>
-			<div className='flex h-screen bg-base-300 flex-col justify-between flex-grow-0 flex-shrink-0 basis-12'>
+			<div
+				className='flex h-screen bg-base-300 flex-col justify-between flex-grow-0 flex-shrink-0 basis-12'
+				// onContextMenu={event => event.preventDefault()}
+			>
 				<div className='join join-vertical flex-col mt-1'>
 					{topItems.map(el => (
 						<Item

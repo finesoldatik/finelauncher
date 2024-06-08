@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import './BoxAnimation.css'
+import './BoxesAnimation.css'
 
-const BoxAnimation: FC = () => {
+const BoxesAnimation: FC = () => {
 	return (
 		<ul className='box-area'>
 			<li></li>
@@ -18,4 +18,4 @@ const BoxAnimation: FC = () => {
 	)
 }
 
-export default BoxAnimation
+export default BoxesAnimation

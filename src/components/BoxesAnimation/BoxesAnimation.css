@@ -14,7 +14,7 @@
 	list-style: none;
 	width: 25px;
 	height: 25px;
-	animation: animate 25s linear infinite;
+	animation: boxes 25s linear infinite;
 	bottom: -150px;
 	border-radius: 5px;
 }
@@ -85,13 +85,13 @@
 	animation-duration: 11s;
 }
 
-@keyframes animate {
+@keyframes boxes {
 	0% {
-		transform: translateY(0) rotate(0deg);
-		opacity: 1;
+		transform: translateY(7vh) rotate(0deg);
+		opacity: 0;
 	}
 	100% {
-		transform: translateY(-820px) rotate(360deg);
+		transform: translateY(-125vh) rotate(360deg);
 		opacity: 1;
 	}
 }

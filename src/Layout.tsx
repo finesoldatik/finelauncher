@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom'
 const Layout: FC = () => {
 	return (
 		<>
+			{/*  onContextMenu={event => event.preventDefault()} */}
 			<main>
 				<Outlet />
 			</main>
