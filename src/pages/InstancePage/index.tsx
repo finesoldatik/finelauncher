@@ -64,14 +64,14 @@ export default function InstancePage() {
 	useEffect(() => {
 		if (
 			gameContext.gameData.gamePId === null &&
-			settingsContext.settings.hideLauncherOnLaunchGame
+			settingsContext.settings.launcher.hideLauncherOnLaunchGame
 		) {
 			appWindow.unminimize()
 			appWindow.setFocus()
 		}
 	}, [
 		gameContext.gameData.gamePId,
-		settingsContext.settings.hideLauncherOnLaunchGame,
+		settingsContext.settings.launcher.hideLauncherOnLaunchGame,
 	])
 
 	useEffect(() => {
@@ -83,7 +83,7 @@ export default function InstancePage() {
 
 	return (
 		<div className='h-full'>
-			<div className='flex flex-row bg-base-300 p-2 h-[calc(100%-74%)]'>
+			<div className='flex flex-row bg-base-300 p-2 h-[26%]'>
 				<img height={160} src={data?.icon} alt='version icon' />
 				<div className='flex items-center ml-2 text-xl'>
 					<div>
@@ -92,7 +92,7 @@ export default function InstancePage() {
 					</div>
 				</div>
 			</div>
-			<div className='bg-base-200 p-3 h-[calc(100%-36%)]'>
+			<div className='bg-base-200 p-3 h-[64%]'>
 				<div className='flex flex-row justify-between'>
 					<h1 className='text-2xl ml-2 mt-1'>Моды</h1>
 					<div>
@@ -122,7 +122,7 @@ export default function InstancePage() {
 						</div>
 					</div>
 				</div>
-				<div className='h-[calc(100%-15%)] overflow-y-auto'>
+				<div className='h-[85%] overflow-y-auto'>
 					{mods.length > 1 ? (
 						mods.map((value, idx) => {
 							console.log(mods)
@@ -160,11 +160,11 @@ export default function InstancePage() {
 				<div
 					className='btn btn-success w-56'
 					onClick={() => {
-						if (settingsContext.settings.hideLauncherOnLaunchGame)
+						if (settingsContext.settings.launcher.hideLauncherOnLaunchGame)
 							appWindow.minimize()
 						console.log(
 							'hideLauncherOnLaunchGame: ',
-							settingsContext.settings.hideLauncherOnLaunchGame
+							settingsContext.settings.launcher.hideLauncherOnLaunchGame
 						)
 						gameContext.startGame(String(params.name))
 					}}

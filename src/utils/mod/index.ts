@@ -1,6 +1,7 @@
 // import ModWrapper, { ModsConfig } from './Wrapper'
 // import { setMods } from '../../pages/ModsPage/components/Mod/Mod.interface'
 // import { IMods } from '../../pages/ModsPage/ModsPage.interface'
+import { fs, path } from '@tauri-apps/api'
 import { getInstancePath, normalizeFilename } from '../instanceManager'
 import { FileEntry } from '@tauri-apps/api/fs'
 
@@ -45,10 +46,7 @@ import { FileEntry } from '@tauri-apps/api/fs'
 // 	})
 // }
 
-export const modExists = async (
-	instanceName: string,
-	modName: string
-) => {
+export const modExists = async (instanceName: string, modName: string) => {
 	const { fs, path } = await import('@tauri-apps/api')
 	const modPath = await getInstancePath(instanceName).then(v =>
 		path.join(v, 'game/content', normalizeFilename(modName))
@@ -113,4 +111,45 @@ export const saveMods = async (modPath: string, contentPath: string) => {
 			console.log('mod saved')
 		}
 	})
+}
+
+export const getModDataFromInstancePath = async (
+	instancePath: string,
+	modName: string
+) => {
+	const data = JSON.parse(
+		await path
+			.join(instancePath, 'game', 'content', modName, 'mod.json')
+			.then(p => fs.readTextFile(p))
+	) as ModData
+
+	return data
+}
+
+export const getModData = async (instanceName: string, modName: string) => {
+	const data = JSON.parse(
+		await getInstancePath(instanceName).then(v =>
+			path
+				.join(v, 'game', 'content', modName, 'mod.json')
+				.then(p => fs.readTextFile(p))
+		)
+	) as ModData
+
+	return data
+}
+
+export const saveModData = async function (
+	instanceName: string,
+	modName: string,
+	data: ModData
+) {
+	getInstancePath(instanceName).then(v =>
+		path
+			.join(v, 'game', 'content', modName, 'mod.json')
+			.then(p => fs.writeTextFile(p, JSON.stringify(data)))
+	)
+}
+
+export interface ModData {
+	id: number
 }

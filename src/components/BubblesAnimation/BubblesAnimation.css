@@ -1,14 +1,15 @@
 .bubbles-container {
   top: 0;
   left: 0;
+	margin-left: 49px;
 	position: absolute;
-	width: 100%;
+	width: 95.9%;
 	height: 100%;
 	overflow: hidden;
 }
 
 .bubbles {
-  margin-left: 58px;
+  margin-left: 2px;
 	position: relative;
 	display: flex;
 }

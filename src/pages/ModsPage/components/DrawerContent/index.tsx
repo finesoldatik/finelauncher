@@ -1,9 +1,10 @@
-import { FC, SetStateAction, useRef } from 'react'
+import { FC, SetStateAction, useRef, useState } from 'react'
 import { IContent } from '../../ModsPage.types'
 import Mod from '../Mod'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { IParams } from '../Mods'
+import ModModal from '../../../../modals/ModModal'
 
 interface IDrawerContentProps {
 	content: IContent[]
@@ -16,6 +17,9 @@ const DrawerContent: FC<IDrawerContentProps> = ({
 	setParams,
 	params,
 }) => {
+	const [active, setActive] = useState<boolean>(false)
+	const [currentModId, setCurrentModId] = useState<number>()
+
 	const searchRef = useRef<HTMLInputElement>(null)
 
 	return (
@@ -73,9 +77,23 @@ const DrawerContent: FC<IDrawerContentProps> = ({
 			</div>
 			<div className='flex flex-row flex-wrap'>
 				{content.map(mod => {
-					return <Mod mod={mod} key={mod.id} />
+					return (
+						<Mod
+							mod={mod}
+							setCurrentModId={setCurrentModId}
+							setActive={setActive}
+							key={mod.id}
+						/>
+					)
 				})}
 			</div>
+			{active && (
+				<ModModal
+					active={active}
+					setActive={setActive}
+					modId={Number(currentModId)}
+				/>
+			)}
 		</div>
 	)
 }

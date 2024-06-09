@@ -16,41 +16,51 @@ interface IVersion {
 const Instances: FC = () => {
 	console.log('Instances Render')
 
-	const [instances, setInstances] = useState<IVersion[]>([])
+	const [instances, setInstances] = useState<IVersion[] | undefined[]>([])
 
 	useEffect(() => {
 		const getInstances = async () => {
 			const installedInstances = await getInstalledInstances()
 			Promise.all(
 				installedInstances.map(async instance => {
-					const instanceData = await getInstanceData(String(instance.name))
-					return {
-						name: String(instance.name),
-						version: instanceData.gameVersion,
-						image: instanceData.icon,
+					if (
+						instance.children?.find(value => {
+							return value.name === 'instance.json'
+						}) &&
+						instance.name
+					) {
+						const instanceData = await getInstanceData(String(instance.name))
+						return {
+							name: String(instance.name),
+							version: instanceData.gameVersion,
+							image: instanceData.icon,
+						}
 					}
 				})
 			).then(value => {
 				console.log(value)
+				//@ts-expect-error все работает, но всеравно на что-то ругается
 				setInstances(value)
 			})
 		}
 
 		getInstances()
 	}, [])
-
 	return (
 		<div className='flex flex-row'>
 			<NewInstance />
 			{instances.length ? (
-				instances.map((el, idx) => (
-					<Instance
-						name={el.name}
-						version={el.version}
-						image={el.image}
-						key={idx}
-					/>
-				))
+				instances.map((el, idx) => {
+					if (el === undefined) return
+					return (
+						<Instance
+							name={String(el?.name)}
+							version={String(el?.version)}
+							image={String(el?.image)}
+							key={idx}
+						/>
+					)
+				})
 			) : (
 				<NoInstances />
 			)}

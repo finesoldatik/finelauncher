@@ -1,4 +1,5 @@
 import BoxesAnimation from '../../components/BoxesAnimation'
+import BubblesAnimation from '../../components/BubblesAnimation'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
@@ -19,7 +20,12 @@ export default function HomePage() {
 
 	return (
 		<>
-			<BoxesAnimation />
+			{settingsContext.settings.launcher.homePageAnimation === 0 && (
+				<BoxesAnimation />
+			)}
+			{settingsContext.settings.launcher.homePageAnimation === 1 && (
+				<BubblesAnimation />
+			)}
 			<div className='hero w-full min-h-screen bg-base-200'>
 				<div className='hero-content text-center'>
 					<div className='max-w-md'>

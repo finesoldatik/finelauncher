@@ -12,7 +12,7 @@ import { getValue, setValue } from '../utils/localStorage'
 interface ISettingsContext {
 	theme: string
 	setTheme: (value: string) => void
-	changeSettings: (value: any, key: string) => void
+	changeSettings: (optionGroup: string, key: string, value: any) => void
 	resetSettings: () => void
 	settings: ISettings
 	tabId: number
@@ -20,11 +20,17 @@ interface ISettingsContext {
 }
 
 export const defaultSettings = {
-	hideLauncherOnLaunchGame: false,
+	launcher: {
+		homePageAnimation: 0,
+		hideLauncherOnLaunchGame: false,
+	},
 }
 
 interface ISettings {
-	hideLauncherOnLaunchGame: boolean
+	launcher: {
+		homePageAnimation: number
+		hideLauncherOnLaunchGame: boolean
+	}
 }
 
 export const SettingsContext = createContext<ISettingsContext>({
@@ -46,10 +52,12 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		getValue('settings') || defaultSettings
 	)
 
-	const changeSettings = (value: any, key: string) => {
+	const changeSettings = (optionGroup: string, key: string, value: any) => {
 		setSettings(prev => {
-			setOption({ ...prev, [key]: value }, 'settings')
-			return { ...prev, [key]: value }
+			console.log({ ...prev, [optionGroup]: { [key]: value } })
+			setOption({ ...prev, [optionGroup]: { [key]: value } }, 'settings')
+			// @ts-expect-error получение объекта optionGroup из prev, но ругается, что optionGroup строка..
+			return { ...prev, [optionGroup]: { ...prev[optionGroup], [key]: value } }
 		})
 	}
 

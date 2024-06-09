@@ -6,10 +6,10 @@ const Layout: FC = () => {
 	return (
 		<>
 			{/*  onContextMenu={event => event.preventDefault()} */}
+			<Sidebar />
 			<main>
 				<Outlet />
 			</main>
-			<Sidebar />
 		</>
 	)
 }

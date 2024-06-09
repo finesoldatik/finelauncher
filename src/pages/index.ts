@@ -10,21 +10,21 @@ import { lazy } from 'react'
 // import Settings from './pages/SettingsPage'
 
 const Layout = lazy(() => import('../Layout.tsx'))
+const About = lazy(() => import('./AboutPage'))
 const Home = lazy(() => import('./HomePage'))
 const Instances = lazy(() => import('./InstancesPage'))
 const NewInstance = lazy(() => import('./NewInstancePage'))
 const Instance = lazy(() => import('./InstancePage'))
 const Mods = lazy(() => import('./ModsPage'))
-const Mod = lazy(() => import('./ModPage'))
 const Settings = lazy(() => import('./SettingsPage'))
 
 export default {
 	Layout,
+	About,
 	Home,
 	Instances,
 	NewInstance,
 	Instance,
 	Mods,
-	Mod,
 	Settings,
 }

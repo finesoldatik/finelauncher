@@ -135,7 +135,7 @@ export const saveInstanceData = async function (
 	)
 }
 
-export type InstanceData = {
+export interface InstanceData {
 	name: string
 	gameVersion: string
 	icon: string // Можно назначить кастомную иконку ы

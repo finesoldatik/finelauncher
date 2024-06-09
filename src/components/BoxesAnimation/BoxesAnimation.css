@@ -2,7 +2,8 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
+	margin-left: 49px;
+	width: 95.9%;
 	height: 100%;
 	overflow: hidden;
 }
