@@ -57,30 +57,36 @@ export const modExists = async (instanceName: string, modName: string) => {
 const findMods = (file: FileEntry) => {
 	if (file.children) {
 		const children = file.children.filter(value => {
-			console.log('value', value)
 			if (value.name === 'package.json') return value
 		})
-		console.log('children', children)
 
 		if (children.length) return children
 	} else {
-		console.log('file', file)
 		if (file.name === 'package.json') return file
 	}
 }
 
-export const saveMods = async (modPath: string, contentPath: string) => {
+export const saveMods = async (
+	modPath: string,
+	contentPath: string,
+	instanceName: string,
+	modId: number
+) => {
 	const { fs, path } = await import('@tauri-apps/api')
 	const files = await fs.readDir(modPath, { recursive: true })
-	console.log('paths', files)
 
 	const mods = files.filter(file => findMods(file))
-	console.log('mods', mods)
 
 	mods.forEach(async mod => {
 		if (mod.name === 'package.json') {
 			const data = JSON.parse(await fs.readTextFile(mod.path))
-			console.log(data)
+
+			const modData: ModData = {
+				name: data.id,
+				id: modId,
+			}
+			saveModData(instanceName, data.id, modData)
+
 			const modDir = await path.join(contentPath, data.id)
 			fs.createDir(modDir)
 
@@ -93,11 +99,19 @@ export const saveMods = async (modPath: string, contentPath: string) => {
 			})
 			console.log('mod saved')
 		} else {
-			const modContent = await fs.readDir(String(mod.path), { recursive: true })
-			console.log('modContent', modContent)
+			const modContent = await fs.readDir(String(mod.path), {
+				recursive: true,
+			})
 			modContent.forEach(async value => {
 				if (value.name === 'package.json') {
 					const data = JSON.parse(await fs.readTextFile(value.path))
+
+					const modData: ModData = {
+						name: data.id,
+						id: modId,
+					}
+					saveModData(instanceName, data.id, modData)
+
 					const modDir = await path.join(contentPath, data.id)
 					fs.createDir(modDir)
 					modContent.forEach(async value => {
@@ -151,5 +165,6 @@ export const saveModData = async function (
 }
 
 export interface ModData {
+	name: string
 	id: number
 }

@@ -1,6 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
+use chrono::Utc;
+
 mod download;
 mod run;
 mod unzip;
@@ -10,6 +13,19 @@ use crate::run::{run_game, terminate_process};
 use crate::unzip::unzip;
 
 fn main() {
+  let client_id = "1249433232915824751";
+  let mut client = DiscordIpcClient::new(client_id).unwrap();
+  client.connect().unwrap();
+
+  let timestamp = Utc::now().timestamp();
+
+  let payload = activity::Activity::new()
+    .details("В лаунчере")
+    .timestamps(discord_rich_presence::activity::Timestamps::new().start(timestamp))
+    .assets(discord_rich_presence::activity::Assets::new().large_image("logo"));
+
+  client.set_activity(payload).expect("Cannot set activity message!");
+
   #[cfg(target_os = "linux")]
   std::env::set_var(
     "GDK_BACKEND",

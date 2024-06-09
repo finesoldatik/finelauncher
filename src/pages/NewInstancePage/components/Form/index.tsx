@@ -4,6 +4,7 @@ import { instanceExists } from '../../../../utils/instanceManager'
 import VersionWrapper, { IVersion } from '../../../../utils/version'
 import { FC, useEffect, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { os } from '@tauri-apps/api'
 
 interface INewInstance {
 	name: string
@@ -30,7 +31,6 @@ const Form: FC = () => {
 	useEffect(() => {
 		const versionWrapper = new VersionWrapper()
 		const getVersions = async () => {
-			const os = await import('@tauri-apps/api/os')
 			const platform = await os.platform()
 			let releases: IVersion[] = []
 

@@ -20,6 +20,8 @@ downloader = "0.2.7"
 tauri = { version = "1.5.4", features = [ "fs-read-file", "fs-remove-dir", "shell-execute", "shell-open", "fs-rename-file", "fs-write-file", "http-all", "fs-exists", "fs-create-dir", "path-all", "window-set-focus", "window-show", "window-start-dragging", "window-set-fullscreen", "fs-read-dir", "window-unminimize", "window-close", "window-minimize", "window-maximize", "window-hide", "os-all", "window-unmaximize", "system-tray", "cli"] }
 tokio = { version = "1.37.0", features = ["full"] }
 nix = { version = "0.28.0", features = ["signal"] }
+discord-rich-presence = "0.2.4"
+chrono = "0.4.38"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

@@ -4,7 +4,7 @@ import {
 	getInstancePath,
 	saveInstanceData,
 } from './instanceManager'
-import { ModData, saveModData, saveMods } from './mod'
+import { saveMods } from './mod'
 import { defaultRepos } from './version'
 
 export const download = async (
@@ -18,7 +18,6 @@ export const download = async (
 export const downloadMod = async (
 	url: string,
 	instanceName: string,
-	modName: string,
 	modId: number
 ) => {
 	const contentPath = await getInstancePath(instanceName).then(v =>
@@ -27,26 +26,18 @@ export const downloadMod = async (
 
 	const modPath = await path.join(contentPath, 'temp_dir')
 
-	const modData: ModData = {
-		id: modId,
-	}
-
 	if (!(await fs.exists(modPath))) {
 		await fs.createDir(modPath)
 		return download(url, modPath, 'mod.zip').then(() => {
-			saveMods(modPath, contentPath)
+			saveMods(modPath, contentPath, instanceName, modId)
 		})
 	} else
 		deleteDir(await path.join(modPath)).then(async () => {
 			await fs.createDir(modPath)
 
-			return download(url, modPath, 'mod.zip')
-				.then(() => {
-					saveMods(modPath, contentPath)
-				})
-				.then(() => {
-					saveModData(instanceName, modName, modData)
-				})
+			return download(url, modPath, 'mod.zip').then(() => {
+				saveMods(modPath, contentPath, instanceName, modId)
+			})
 		})
 }
 
