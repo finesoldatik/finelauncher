@@ -4,7 +4,6 @@ import {
 	InstanceData,
 	getInstanceContent,
 	getInstanceData,
-	getInstancePath,
 	openInFileManager,
 } from '../../utils/instanceManager'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,8 +12,6 @@ import { appWindow } from '@tauri-apps/api/window'
 import { listen } from '@tauri-apps/api/event'
 import { useGameContext } from '../../contexts/GameProvider'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
-import { fs } from '@tauri-apps/api'
-import path from 'path'
 import { deleteInstance, deleteMod } from '../../utils/download'
 
 export default function InstancePage() {
@@ -76,7 +73,7 @@ export default function InstancePage() {
 	])
 
 	useEffect(() => {
-		getInstanceContent(params.name).then(content => {
+		getInstanceContent(String(params.name)).then(content => {
 			console.log(content)
 			setMods(content.map(value => String(value.name)))
 		})

@@ -13,8 +13,8 @@ export default function HomePage() {
 
 	useEffect(() => {
 		if (settingsContext.tabId !== 0) {
-			navigate(items[settingsContext.tabId].link)
-			console.log('page changed to:', items[settingsContext.tabId].link)
+			navigate(items[settingsContext.tabId || 0].link)
+			console.log('page changed to:', items[settingsContext.tabId || 0].link)
 		}
 	}, [])
 
