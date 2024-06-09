@@ -3,6 +3,8 @@ use std::process::Stdio;
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
 
+const CREATE_NO_WINDOW: u32 = 0x08000000;
+
 #[tauri::command(rename_all = "snake_case")]
 pub async fn run_game(
   window: tauri::Window,
@@ -12,6 +14,7 @@ pub async fn run_game(
   let mut child = Command::new(&executable)
     .current_dir(Path::new(&instance_path))
     .args(["--dir", &instance_path])
+    .creation_flags(CREATE_NO_WINDOW)
     .stdout(Stdio::piped())
     .spawn()
     .map_err(|e| e.to_string())?;
