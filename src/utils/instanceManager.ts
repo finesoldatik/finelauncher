@@ -36,6 +36,12 @@ export const getInstancePath = async (instanceName: string) => {
 	)
 }
 
+export const getInstanceContent = async (instanceName: string) => {
+	return await fs.readDir(
+		await path.join(await getInstancePath(instanceName), 'game', 'content')
+	)
+}
+
 // Remove/Check
 
 export const createInstance = async (instanceName: string) => {

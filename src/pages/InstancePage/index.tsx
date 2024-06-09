@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
 	InstanceData,
+	getInstanceContent,
 	getInstanceData,
 	getInstancePath,
 	openInFileManager,
@@ -75,8 +76,8 @@ export default function InstancePage() {
 	])
 
 	useEffect(() => {
-		getInstancePath(String(params.name)).then(async value => {
-			const content = await fs.readDir(await path.join(value, 'game/content'))
+		getInstanceContent(params.name).then(content => {
+			console.log(content)
 			setMods(content.map(value => String(value.name)))
 		})
 	}, [])
@@ -132,7 +133,7 @@ export default function InstancePage() {
 										className='flex bg-base-100 mx-2 my-1 justify-between rounded-lg'
 										key={idx}
 									>
-										<h1 className='text-lg mt-2 ml-2'>Название мода</h1>
+										<h1 className='text-lg mt-2 ml-2'>{value}</h1>
 										<div
 											className='btn btn-error'
 											onClick={async () => {
