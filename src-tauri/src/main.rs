@@ -29,7 +29,7 @@ fn main() {
   #[cfg(target_os = "linux")]
   std::env::set_var(
     "GDK_BACKEND",
-    std::env::var("XDG_SESSION_TYPE").unwrap_or("x11"),
+    std::env::var("XDG_SESSION_TYPE").unwrap_or("x11".to_owned()),
   );
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![download_file, unzip, run_game, terminate_process])
