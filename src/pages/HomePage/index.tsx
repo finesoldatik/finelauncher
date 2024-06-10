@@ -20,12 +20,12 @@ export default function HomePage() {
 
 	return (
 		<>
-			{settingsContext.settings.launcher.homePageAnimation === 0 || true && (
+			{settingsContext.settings.launcher.homePageAnimation ? (
+				<BubblesAnimation />
+			) : (
 				<BoxesAnimation />
 			)}
-			{settingsContext.settings.launcher.homePageAnimation === 1 || true && (
-				<BubblesAnimation />
-			)}
+
 			<div className='hero w-full min-h-screen bg-base-200'>
 				<div className='hero-content text-center'>
 					<div className='max-w-md'>
