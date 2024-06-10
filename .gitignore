@@ -42,6 +42,7 @@ typings/
 # Local env files
 .env
 .env.*
+.direnv
 !.env.example
 src-tauri/settings.toml
 src-tauri/settings.json
