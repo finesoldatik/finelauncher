@@ -11,7 +11,7 @@ const Instance: FC<IInstanceProps> = ({ name, version, image }) => {
 	return (
 		<Link
 			to={name}
-			className='btn min-w-64 h-64 bg-base-200 shadow-xl rounded-none m-0.5 flex-col'
+			className='flex grow btn min-w-64 h-64 bg-base-200 shadow-xl rounded-none m-0.5 flex-col'
 		>
 			<figure>
 				<img

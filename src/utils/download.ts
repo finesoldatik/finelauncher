@@ -47,6 +47,7 @@ export const downloadVersion = async (
 	instanceVersion: string
 ) => {
 	const instancePath = await getInstancePath(instanceName)
+	console.log(instancePath)
 	await fs.createDir(await path.join(instancePath, 'game/content'), {
 		recursive: true,
 	})

@@ -38,7 +38,7 @@ export default function DownloadModModal({
 	const [instance, setInstance] = useState<IOption>()
 
 	const [instances, setInstances] = useState<IOption[]>([])
-	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isLoading, setLoading] = useState<boolean>(true)
 	const [isExists, setExists] = useState<boolean>(false)
 	const [downloaded, setDownloaded] = useState<boolean>(false)
 
@@ -75,15 +75,32 @@ export default function DownloadModModal({
 	}, [instance])
 
 	useEffect(() => {
-		getInstalledInstances().then(value => {
-			const entries: IOption[] = value.map(instance => ({
-				label: String(instance.name),
-				value: String(instance.name),
-			}))
-			console.log('entries:', entries)
-			setInstances(entries)
-			setIsLoading(false)
-		})
+		const getInstances = async () => {
+			const installedInstances = await getInstalledInstances()
+			Promise.all(
+				installedInstances.map(async instance => {
+					if (
+						instance.children?.find(value => {
+							return value.name === 'instance.json'
+						}) &&
+						instance.name
+					) {
+						return {
+							label: instance.name,
+							value: instance.name,
+						}
+					}
+				})
+			).then(value => {
+				const filtered = value.filter(val => val !== undefined)
+				console.log(filtered)
+				//@ts-expect-error все работает, но всеравно на что-то ругается
+				setInstances(filtered)
+				setLoading(false)
+			})
+		}
+
+		getInstances()
 	}, [])
 
 	const onSubmit: SubmitHandler<{ instance: string }> = () => {
@@ -136,11 +153,14 @@ export default function DownloadModModal({
 							<option value='' disabled>
 								Выберите версию игры
 							</option>
-							{instances.map(version => (
-								<option value={version.value} key={version.value}>
-									{version.label}
-								</option>
-							))}
+							{instances.map((version, idx) => {
+								console.log(version)
+								return (
+									<option value={version.value} key={idx}>
+										{version.label}
+									</option>
+								)
+							})}
 						</select>
 
 						{errors?.instance && (

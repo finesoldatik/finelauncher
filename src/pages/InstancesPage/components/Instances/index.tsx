@@ -31,27 +31,30 @@ const Instances: FC = () => {
 					) {
 						const instanceData = await getInstanceData(String(instance.name))
 						return {
-							name: String(instance.name),
+							name: instanceData.name,
 							version: instanceData.gameVersion,
 							image: instanceData.icon,
 						}
 					}
 				})
 			).then(value => {
-				console.log(value)
+				const filtered = value.filter(val => val !== undefined)
+				console.log(filtered)
 				//@ts-expect-error все работает, но всеравно на что-то ругается
-				setInstances(value)
+				setInstances(filtered)
 			})
 		}
 
 		getInstances()
 	}, [])
+
 	return (
-		<div className='flex flex-row'>
+		<div className='flex flex-row flex-wrap'>
 			<NewInstance />
 			{instances.length ? (
 				instances.map((el, idx) => {
 					if (el === undefined) return
+					console.log(instances)
 					return (
 						<Instance
 							name={String(el?.name)}

@@ -89,10 +89,10 @@
 @keyframes boxes {
 	0% {
 		transform: translateY(7vh) rotate(0deg);
-		opacity: 0;
+		
 	}
 	100% {
 		transform: translateY(-125vh) rotate(360deg);
-		opacity: 1;
+		
 	}
 }
