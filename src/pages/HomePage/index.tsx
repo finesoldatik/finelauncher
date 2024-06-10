@@ -20,11 +20,12 @@ export default function HomePage() {
 
 	return (
 		<>
-			{settingsContext.settings.launcher.homePageAnimation ? (
+			{/* {settingsContext.settings.launcher.homePageAnimation ? (
 				<BubblesAnimation />
 			) : (
 				<BoxesAnimation />
-			)}
+			)} */}
+			<BoxesAnimation />
 
 			<div className='hero w-full min-h-screen bg-base-200'>
 				<div className='hero-content text-center'>
