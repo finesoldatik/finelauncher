@@ -1,5 +1,5 @@
 import BoxesAnimation from '../../components/BoxesAnimation'
-import BubblesAnimation from '../../components/BubblesAnimation'
+// import BubblesAnimation from '../../components/BubblesAnimation'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
