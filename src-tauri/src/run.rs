@@ -11,13 +11,26 @@ pub async fn run_game(
   executable: String,
   instance_path: String,
 ) -> Result<(), String> {
-  let mut child = Command::new(&executable)
-    .current_dir(Path::new(&instance_path))
-    .args(["--dir", &instance_path])
-    .creation_flags(CREATE_NO_WINDOW)
-    .stdout(Stdio::piped())
-    .spawn()
-    .map_err(|e| e.to_string())?;
+  let mut child: tokio::process::Child;
+  #[cfg(target_os = "windows")]
+  {
+    child = Command::new(&executable)
+      .current_dir(Path::new(&instance_path))
+      .args(["--dir", &instance_path])
+      .creation_flags(CREATE_NO_WINDOW)
+      .stdout(Stdio::piped())
+      .spawn()
+      .map_err(|e| e.to_string())?;
+  }
+  #[cfg(not(target_os = "windows"))]
+  {
+    child = Command::new(&executable)
+      .current_dir(Path::new(&instance_path))
+      .args(["--dir", &instance_path])
+      .stdout(Stdio::piped())
+      .spawn()
+      .map_err(|e| e.to_string())?;
+  }
   let pid = child.id().expect("Failed to get PID of the game process");
   window
     .emit("game_process_started", pid)

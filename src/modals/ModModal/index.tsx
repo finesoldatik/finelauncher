@@ -118,22 +118,16 @@ export default function ModModal({ active, setActive, modId }: IModModalProps) {
 							))}
 						</div>
 					</div>
-					{/* <div className='flex flex-row mt-3'>
-					<progress
-						className='progress progress-primary h-3 mt-4 mx-4'
-						value={0}
-						max='100'
-					></progress>
-					<button className='btn btn-primary'>Скачать</button>
-				</div> */}
 				</div>
 			</div>
-			<DownloadModModal
-				active={modalActive}
-				setActive={setModalActive}
-				mod={data}
-				modDownloadUrl={String(modDownloadUrl)}
-			/>
+			{modalActive && (
+				<DownloadModModal
+					active={modalActive}
+					setActive={setModalActive}
+					mod={data}
+					modDownloadUrl={String(modDownloadUrl)}
+				/>
+			)}
 		</>
 	)
 }

@@ -10,6 +10,8 @@ import {
 import { getModData } from '../../utils/mod'
 import { downloadMod } from '../../utils/download'
 import { fs, path } from '@tauri-apps/api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 interface IDownloadModModalProps {
 	active: boolean
@@ -38,33 +40,38 @@ export default function DownloadModModal({
 	const [instances, setInstances] = useState<IOption[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isExists, setExists] = useState<boolean>(false)
+	const [downloaded, setDownloaded] = useState<boolean>(false)
 
 	useEffect(() => {
-		const modExists = async () => {
-			const content = await fs.readDir(
-				await path.join(
-					await getInstancePath(String(instance?.value)),
-					'game',
-					'content'
+		if (instance !== undefined) {
+			const modExists = async () => {
+				const content = await fs.readDir(
+					await path.join(
+						await getInstancePath(String(instance?.value)),
+						'game',
+						'content'
+					)
 				)
-			)
-			content.forEach(async value => {
-				const modContent = await fs.readDir(value.path)
-				console.log(value)
-				const modDataFile = modContent.find(file => {
-					console.log('file', file)
-					return file.name === 'mod.json'
+				content.forEach(async value => {
+					if (value.name !== 'temp_dir') {
+						const modContent = await fs.readDir(value.path)
+						const modDataFile = modContent.find(file => {
+							return file.name === 'mod.json'
+						})
+						console.log('modification', modDataFile)
+						const modData = await getModData(
+							String(instance?.value),
+							String(value?.name)
+						)
+						if (modData.id === mod.content.id) {
+							console.log('exists?', true)
+							setExists(true)
+						}
+					}
 				})
-				console.log('modification', modDataFile)
-				const modData = await getModData(
-					String(instance?.value),
-					String(value?.name)
-				)
-				console.log(modData.id === mod.content.id)
-				setExists(modData.id === mod.content.id)
-			})
+			}
+			modExists()
 		}
-		modExists()
 	}, [instance])
 
 	useEffect(() => {
@@ -84,14 +91,13 @@ export default function DownloadModModal({
 
 		if (instance?.value && !isExists) {
 			if (downloadBtnRef.current) downloadBtnRef.current.disabled = true
-			if (progressRef.current)
-				progressRef.current.value = 50
+			if (progressRef.current) progressRef.current.value = 50
 
 			downloadMod(modDownloadUrl, instance.value, mod.content.id).then(() => {
 				if (downloadBtnRef.current) downloadBtnRef.current.disabled = false
 				if (progressRef.current) progressRef.current.value = 100
 			})
-			setExists(true)
+			setDownloaded(true)
 		}
 	}
 
@@ -103,11 +109,11 @@ export default function DownloadModModal({
 			onClick={() => setActive(false)}
 		>
 			<div className={styles['content']} onClick={e => e.stopPropagation()}>
-				{!isExists ? (
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<h1>
-							ChangeVersionModal {modDownloadUrl} {mod.content.title}
-						</h1>
+				{!isExists && !downloaded && (
+					<form
+						className='flex h-full flex-col justify-center items-center'
+						onSubmit={handleSubmit(onSubmit)}
+					>
 						<select
 							{...register('instance', {
 								required: 'Заполните это поле!',
@@ -156,8 +162,18 @@ export default function DownloadModModal({
 							Скачать
 						</button>
 					</form>
-				) : (
-					<h1>Этот мод уже есть в этой версии</h1>
+				)}
+				{isExists && (
+					<div className='flex h-full justify-center items-center'>
+						<h1 className='text-2xl'>Мод уже установлен в выбранной версии.</h1>
+					</div>
+				)}
+				{downloaded && (
+					<div className='flex h-full justify-center items-center'>
+						<h1 className='text-2xl'>
+							Мод успешно установлен! <FontAwesomeIcon icon={faCheck} />
+						</h1>
+					</div>
 				)}
 			</div>
 		</div>

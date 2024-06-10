@@ -14,8 +14,8 @@ use crate::unzip::unzip;
 
 fn main() {
   let client_id = "1249433232915824751";
-  let mut client = DiscordIpcClient::new(client_id).unwrap();
-  client.connect().unwrap();
+  let mut client = DiscordIpcClient::new(client_id).expect("Discord Rich Presence error");
+  client.connect().expect("Discord Rich Presence not connected");
 
   let timestamp = Utc::now().timestamp();
 
@@ -29,7 +29,7 @@ fn main() {
   #[cfg(target_os = "linux")]
   std::env::set_var(
     "GDK_BACKEND",
-    std::env::var("XDG_SESSION_TYPE").expect("x11"),
+    std::env::var("XDG_SESSION_TYPE").unwrap_or("x11"),
   );
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![download_file, unzip, run_game, terminate_process])
