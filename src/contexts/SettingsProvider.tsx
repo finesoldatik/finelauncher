@@ -9,6 +9,13 @@ import {
 } from 'react'
 import { getValue, setValue } from '../utils/localStorage'
 
+interface ISettings {
+	launcher: {
+		homePageAnimation: number
+		hideLauncherOnLaunchGame: boolean
+	}
+}
+
 interface ISettingsContext {
 	theme: string
 	setTheme: (value: string) => void
@@ -19,18 +26,11 @@ interface ISettingsContext {
 	setTab: (value: number) => void
 }
 
-export const defaultSettings = {
+const defaultSettings: ISettings = {
 	launcher: {
 		homePageAnimation: 0,
 		hideLauncherOnLaunchGame: false,
 	},
-}
-
-interface ISettings {
-	launcher: {
-		homePageAnimation: number
-		hideLauncherOnLaunchGame: boolean
-	}
 }
 
 export const SettingsContext = createContext<ISettingsContext>({
@@ -45,7 +45,7 @@ export const SettingsContext = createContext<ISettingsContext>({
 
 export const useSettingsContext = () => useContext(SettingsContext)
 
-export const SettingsProvider = ({ children }: { children: ReactNode }) => {
+export default function SettingsProvider({ children }: { children: ReactNode }) {
 	const [theme, setTheme] = useState<string>(getValue('theme') || 'dark')
 	const [tabId, setTabId] = useState<number>(0)
 	const [settings, setSettings] = useState<ISettings>(

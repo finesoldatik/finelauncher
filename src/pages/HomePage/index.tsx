@@ -15,7 +15,6 @@ export default function HomePage() {
 		if (settingsContext.tabId !== 0) {
 			navigate(items[settingsContext.tabId || 0].link)
 			settingsContext.setTab(0)
-			settingsContext.changeSettings('launcher', 'homePageAnimation', 0)
 			console.log('page changed to:', items[settingsContext.tabId || 0].link)
 		}
 	}, [])

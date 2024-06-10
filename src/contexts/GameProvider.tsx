@@ -35,7 +35,7 @@ interface IGameData {
 	gameLogs: string[]
 }
 
-export const GameProvider = ({ children }: { children: ReactNode }) => {
+export default function GameProvider({ children }: { children: ReactNode }) {
 	const [gameData, setGameData] = useState<IGameData>({
 		gamePId: getValue('gamePId') || null,
 		gameLogs: getValue('gameLogs') || [],
