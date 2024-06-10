@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
 import { items } from '../../components/Sidebar/data'
+import { getValue } from '../../utils/localStorage'
 
 export default function HomePage() {
 	console.log('HomePage Render')
@@ -21,7 +22,8 @@ export default function HomePage() {
 
 	return (
 		<>
-			{settingsContext.settings.launcher.homePageAnimation ? (
+			{/* settingsContext.settings.launcher.homePageAnimation */}
+			{getValue('settings').launcher.homePageAnimation ? (
 				<BubblesAnimation />
 			) : (
 				<BoxesAnimation />
