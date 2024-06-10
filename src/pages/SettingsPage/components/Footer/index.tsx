@@ -8,8 +8,8 @@ const Footer: FC = () => {
 	const settingsContext = useSettingsContext()
 
 	return (
-		<div className='flex flex-row items-center'>
-			<p className='text-1xl ml-2'>
+		<div className='flex flex-row items-center mb-2'>
+			<p className='text-1xl ml-2 mt-4'>
 				Спасибо за использование finelauncher!{' '}
 				<FontAwesomeIcon icon={faHeart} color='red' />{' '}
 				<Link className='link link-primary' to='/about'>
