@@ -4,11 +4,27 @@ import util from './Util'
 export const defaultRepos = [
 	{
 		name: 'VE',
-		url: 'https://api.github.com/repos/MihailRis/VoxelEngine-Cpp/releases',
+    owner: 'MihailRis',
+    repository: 'VoxelEngine-Cpp',
+    buildCommands: {
+      'linux': [
+        'mkdir build',
+        '@build cmake -DCMAKE_BUILD_TYPE=Release ..',
+        '@build cmake --build .',
+        "build/VoxelEngine",
+      ],
+      'win32': [
+        'mkdir build',
+        '@build cmake -DCMAKE_BUILD_TYPE=Release -DVOXELENGINE_BUILD_WINDOWS_VCPKG=ON ..',
+        '@build cmake --build . --config Release',
+        "build/VoxelEngine.exe",
+      ]
+    }
 	},
 	{
 		name: 'RVE',
-		url: 'https://api.github.com/repos/wampal/RustyVoxelEngine/releases',
+    owner: 'wampal',
+    repository: 'RustyVoxelEngine',
 	},
 ]
 
@@ -43,15 +59,26 @@ export default class VersionWrapper {
 		}[]
 	>
 
-	constructor(repoUrls: { name: string; url: string }[] = defaultRepos) {
+	constructor(repoUrls: { name: string; owner: string, repository: string }[] = defaultRepos) {
 		this.repoUrls = repoUrls
 		this.repositories = new Map()
 	}
 
 	async getRepositories() {
 		for (const repoUrl of this.repoUrls) {
-			const response = await axios.get(repoUrl.url).catch(() => {})
-			if (response) this.repositories.set(repoUrl.name, response.data)
+			const response = await axios.get(`https://api.github.com/repos/${repoUrl.owner}/${repoUrl.repository}/releases`).catch(() => {})
+			if (response) this.repositories.set(repoUrl.name, response.data.concat([
+        {
+          name: "Git",
+          assets: [
+            {
+              name: "git",
+              browser_download_url: `https://github.com/${repoUrl.owner}/${repoUrl.repository}.git`,
+              content_type: "git"
+            }
+          ]
+        }
+      ]))
 		}
 		return this.repositories
 	}

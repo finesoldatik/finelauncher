@@ -1,4 +1,4 @@
-import { fs, path, invoke, os } from '@tauri-apps/api' // http,
+import { fs, path, invoke, os, shell } from '@tauri-apps/api' // http,
 import {
 	InstanceData,
 	getInstancePath,
@@ -48,15 +48,18 @@ export const downloadVersion = async (
 ) => {
 	const instancePath = await getInstancePath(instanceName)
 	console.log(instancePath)
-	await fs.createDir(await path.join(instancePath, 'game/content'), {
-		recursive: true,
-	})
+  if (!url.endsWith('.git')) {
+    await fs.createDir(await path.join(instancePath, 'game/content'), {
+      recursive: true,
+    })
+  }
 
 	let outFileName: string
 
 	const platform = await os.platform()
 
-	if (platform !== 'win32') outFileName = 'version.AppImage'
+  if (url.endsWith('.git')) outFileName = 'game'
+  else if (platform !== 'win32') outFileName = 'version.AppImage'
 	else outFileName = 'version.zip'
 
 	const repo = defaultRepos.find(
@@ -67,18 +70,30 @@ export const downloadVersion = async (
 
 	console.log(icon)
 
-	const instanceData: InstanceData = {
+	let instanceData = {
 		name: instanceName,
 		gameVersion: instanceVersion,
 		icon,
+    buildCommands: null,
 		runParameters: '',
 		platform,
 		options: null,
 	}
 
-	return download(url, await path.join(instancePath, 'game'), outFileName).then(
-		() => saveInstanceData(instanceName, instanceData)
-	)
+  if (url.endsWith('.git')) {
+    instanceData.buildCommands = repo.buildCommands[platform]
+		return new shell.Command('git', ['clone', url, await path.join(instancePath, 'game')]).execute().then(
+      () => {
+        path.join(instancePath, 'game/content')
+          .then(gamePath => fs.createDir(gamePath, { recursive: true }))
+          .then(() => saveInstanceData(instanceName, instanceData))
+      }
+    )
+  } else {
+    return download(url, await path.join(instancePath, 'game'), outFileName).then(
+      () => saveInstanceData(instanceName, instanceData)
+    )
+  }
 }
 
 export const deleteDir = async (path: string) => {
