@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { IOption } from '../../components/Select'
 import {
 	getInstalledInstances,
+	getInstanceData,
 	getInstancePath,
 } from '../../utils/instanceManager'
 import { getModData } from '../../utils/mod'
@@ -85,8 +86,9 @@ export default function DownloadModModal({
 						}) &&
 						instance.name
 					) {
+						const instanceData = await getInstanceData(String(instance.name))
 						return {
-							label: instance.name,
+							label: instanceData.name,
 							value: instance.name,
 						}
 					}
