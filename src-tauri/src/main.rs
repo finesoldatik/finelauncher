@@ -9,7 +9,7 @@ mod run;
 mod unzip;
 
 use crate::download::download_file;
-use crate::run::{run_game, terminate_process};
+use crate::run::{run_game, build_game, terminate_process};
 use crate::unzip::unzip;
 
 fn main() {
@@ -42,6 +42,7 @@ fn main() {
             download_file,
             unzip,
             run_game,
+            build_game,
             terminate_process
         ])
         .run(tauri::generate_context!())

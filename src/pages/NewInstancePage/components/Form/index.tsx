@@ -1,4 +1,3 @@
-import { IOption } from '../../../../components/Select'
 import { downloadVersion } from '../../../../utils/download'
 import { instanceExists } from '../../../../utils/instanceManager'
 import VersionWrapper, { IVersion } from '../../../../utils/version'
@@ -23,9 +22,7 @@ const Form: FC = () => {
 	const createBtnRef = useRef<HTMLButtonElement>(null)
 	const progressRef = useRef<HTMLProgressElement>(null)
 
-	const [version, setVersion] = useState<IOption>()
-
-	const [versions, setVersions] = useState<IOption[]>([])
+	const [versions, setVersions] = useState<IVersion[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 
 	useEffect(() => {
@@ -35,18 +32,12 @@ const Form: FC = () => {
 			let releases: IVersion[] = []
 
 			if (platform === 'win32') releases = versionWrapper.getWindowsVersions()
-			else if (platform === 'linux')
-				releases = versionWrapper.getLinuxVersions()
+			else if (platform === 'linux') releases = versionWrapper.getLinuxVersions()
 
-			const versionList = releases.map(version => ({
-				label: `${version.repository} ${version.name}`,
-				value: version.url,
-			}))
-
-			setVersions(versionList)
+			setVersions(releases)
 			setIsLoading(false)
 		}
-		versionWrapper.getRepositories().then(() => getVersions())
+		versionWrapper.updateRepositories().then(() => getVersions())
 	}, [])
 
 	const onSubmit: SubmitHandler<INewInstance> = data => {
@@ -58,9 +49,8 @@ const Form: FC = () => {
 				if (progressRef.current) progressRef.current.value = 50
 
 				downloadVersion(
-					String(version?.value),
+					versions.find(ver => ver.url == data?.version)!,
 					data.name,
-					String(version?.label)
 				).then(() => {
 					if (createBtnRef.current) createBtnRef.current.disabled = false
 					if (progressRef.current) progressRef.current.value = 100
@@ -105,24 +95,14 @@ const Form: FC = () => {
 					className={`select select-primary w-full my-2`}
 					title='select'
 					disabled={isLoading}
-					onChange={event => {
-						const option = versions.find(
-							option => option.value === event.target.value
-						)
-						setVersion({
-							label: String(option?.label),
-							value: String(option?.value),
-						})
-						console.log(option)
-					}}
 					defaultValue=''
 				>
 					<option value='' disabled>
 						Выберите версию игры
 					</option>
 					{versions.map(version => (
-						<option value={version.value} key={version.value}>
-							{version.label}
+						<option value={version.url} key={version.url}>
+              {`${version.repository.name} ${version.name}`}
 						</option>
 					))}
 				</select>

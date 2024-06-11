@@ -6,17 +6,18 @@ import {
 	getInstanceData,
 } from '../../../../utils/instanceManager'
 import { FC, useEffect, useState } from 'react'
+import { IVersion } from '../../../../utils/version'
 
-interface IVersion {
+interface IVersionDisplay {
 	name: string
-	version: string
+	version: IVersion
 	image: string
 }
 
 const Instances: FC = () => {
 	console.log('Instances Render')
 
-	const [instances, setInstances] = useState<IVersion[] | undefined[]>([])
+	const [instances, setInstances] = useState<IVersionDisplay[] | undefined[]>([])
 
 	useEffect(() => {
 		const getInstances = async () => {
@@ -32,7 +33,7 @@ const Instances: FC = () => {
 						const instanceData = await getInstanceData(String(instance.name))
 						return {
 							name: instanceData.name,
-							version: instanceData.gameVersion,
+							version: instanceData.version,
 							image: instanceData.icon,
 						}
 					}
@@ -58,7 +59,7 @@ const Instances: FC = () => {
 					return (
 						<Instance
 							name={String(el?.name)}
-							version={String(el?.version)}
+							version={String(el?.version.name)}
 							image={String(el?.image)}
 							key={idx}
 						/>
