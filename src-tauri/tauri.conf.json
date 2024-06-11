@@ -172,7 +172,7 @@
 				"icons/icon.icns",
 				"icons/icon.ico"
 			],
-			"identifier": "com.finelauncher",
+			"identifier": "com.finesoldatik.finelauncher",
 			"longDescription": "",
 			"macOS": {
 				"entitlements": null,
