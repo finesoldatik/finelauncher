@@ -161,7 +161,7 @@ export default function InstancePage() {
 			</div>
 			<div className='flex justify-end items-end h-[calc(100%-90%)]'>
 				<progress
-					className='progress progress-success my-2'
+					className='progress progress-success m-2'
 					value={0}
 					max='100'
 					ref={progressRef}
