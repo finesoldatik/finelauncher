@@ -62,7 +62,7 @@ export const downloadVersion = async (
   else outFileName = 'version.zip'
 
   const icon = `/img/instance/${version.repository?.name.toLowerCase()}.png`
-  let instanceData: InstanceData = {
+  const instanceData: InstanceData = {
     name: instanceName,
     version,
     icon,

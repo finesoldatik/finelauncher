@@ -90,11 +90,11 @@ pub async fn build_game(
                 .first()
                 .ok_or(format!("Malformed command: {}", command_str))?,
         );
-        #[cfg(target_os = "windows")]
-        {
-            const CREATE_NO_WINDOW: u32 = 0x08000000;
-            process.creation_flags(CREATE_NO_WINDOW)
-        }
+        // #[cfg(target_os = "windows")]
+        // {
+        //     const CREATE_NO_WINDOW: u32 = 0x08000000;
+        //     process.creation_flags(CREATE_NO_WINDOW);
+        // }
         process
             .current_dir(path)
             .args(&command[1..])
