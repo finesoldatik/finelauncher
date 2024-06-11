@@ -1,96 +1,102 @@
-import { fs, path, invoke, os } from '@tauri-apps/api' // http,
+import { fs, path, invoke, os, shell } from '@tauri-apps/api' // http,
 import {
-	InstanceData,
-	getInstancePath,
-	saveInstanceData,
+  InstanceData,
+  getInstancePath,
+  saveInstanceData,
 } from './instanceManager'
+import { IVersion } from '../utils/version'
 import { saveMods } from './mod'
-import { defaultRepos } from './version'
 
 export const download = async (
-	url: string,
-	dest: string,
-	out_filename: string
+  url: string,
+  dest: string,
+  out_filename: string
 ) => {
-	return invoke('download_file', { url, dest, out_filename })
+  return invoke('download_file', { url, dest, out_filename })
 }
 
 export const downloadMod = async (
-	url: string,
-	instanceName: string,
-	modId: number
+  url: string,
+  instanceName: string,
+  modId: number
 ) => {
-	const contentPath = await getInstancePath(instanceName).then(v =>
-		path.join(v, 'game/content/')
-	)
+  const contentPath = await getInstancePath(instanceName).then(v =>
+    path.join(v, 'game/content/')
+  )
 
-	const modPath = await path.join(contentPath, 'temp_dir')
+  const modPath = await path.join(contentPath, 'temp_dir')
 
-	if (!(await fs.exists(modPath))) {
-		await fs.createDir(modPath)
-		return download(url, modPath, 'mod.zip').then(() => {
-			saveMods(modPath, contentPath, instanceName, modId)
-		})
-	} else
-		deleteDir(await path.join(modPath)).then(async () => {
-			await fs.createDir(modPath)
+  if (!(await fs.exists(modPath))) {
+    await fs.createDir(modPath)
+    return download(url, modPath, 'mod.zip').then(() => {
+      saveMods(modPath, contentPath, instanceName, modId)
+    })
+  } else
+    deleteDir(await path.join(modPath)).then(async () => {
+      await fs.createDir(modPath)
 
-			return download(url, modPath, 'mod.zip').then(() => {
-				saveMods(modPath, contentPath, instanceName, modId)
-			})
-		})
+      return download(url, modPath, 'mod.zip').then(() => {
+        saveMods(modPath, contentPath, instanceName, modId)
+      })
+    })
 }
 
 export const downloadVersion = async (
-	url: string,
-	instanceName: string,
-	instanceVersion: string
+  version: IVersion,
+  instanceName: string,
 ) => {
-	const instancePath = await getInstancePath(instanceName)
-	console.log(instancePath)
-	await fs.createDir(await path.join(instancePath, 'game/content'), {
-		recursive: true,
-	})
+  version.repository.releases = []
 
-	let outFileName: string
+  const instancePath = await getInstancePath(instanceName)
+  if (!version.git) {
+    await fs.createDir(await path.join(instancePath, 'game/content'), {
+      recursive: true,
+    })
+  }
 
-	const platform = await os.platform()
 
-	if (platform !== 'win32') outFileName = 'version.AppImage'
-	else outFileName = 'version.zip'
+  const platform = await os.platform()
+  let outFileName: string
+  if (version.git) outFileName = 'game'
+  else if (platform !== 'win32') outFileName = 'version.AppImage'
+  else outFileName = 'version.zip'
 
-	const repo = defaultRepos.find(
-		value => value.name === instanceVersion.split(' ')[0]
-	)
+  const icon = `/img/instance/${version.repository?.name.toLowerCase()}.png`
+  let instanceData: InstanceData = {
+    name: instanceName,
+    version,
+    icon,
+    runParameters: '',
+    platform,
+    options: null,
+  }
 
-	const icon = `/img/instance/${repo?.name.toLowerCase()}.png`
-
-	console.log(icon)
-
-	const instanceData: InstanceData = {
-		name: instanceName,
-		gameVersion: instanceVersion,
-		icon,
-		runParameters: '',
-		platform,
-		options: null,
-	}
-
-	return download(url, await path.join(instancePath, 'game'), outFileName).then(
-		() => saveInstanceData(instanceName, instanceData)
-	)
+  if (version.git) {
+    instanceData.platform = null
+    return new shell.Command('git', ['clone', version.url, await path.join(instancePath, 'game')]).execute().then(
+      () => {
+        path.join(instancePath, 'game/content')
+          .then(contentPath => fs.createDir(contentPath, { recursive: true }))
+          .then(() => saveInstanceData(instanceName, instanceData))
+      }
+    )
+  } else {
+    return download(version.url, await path.join(instancePath, 'game'), outFileName).then(
+      () => saveInstanceData(instanceName, instanceData)
+    )
+  }
 }
 
 export const deleteDir = async (path: string) => {
-	return fs.removeDir(path, { recursive: true })
+  return fs.removeDir(path, { recursive: true })
 }
 
 export const deleteMod = async (version: string, mod: string) => {
-	return deleteDir(
-		await path.join(await getInstancePath(version), 'game/content', mod)
-	)
+  return deleteDir(
+    await path.join(await getInstancePath(version), 'game/content', mod)
+  )
 }
 
 export const deleteInstance = async (version: string) => {
-	return deleteDir(await getInstancePath(version))
+  return deleteDir(await getInstancePath(version))
 }

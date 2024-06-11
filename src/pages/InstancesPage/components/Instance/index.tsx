@@ -27,7 +27,7 @@ const Instance: FC<IInstanceProps> = ({ name, version, image }) => {
 					</div> */}
 					<div className='indicator'>
 						<div className='indicator-item indicator-bottom badge badge-primary'>
-							{version.split(' ')[1]}
+							{version}
 						</div>
 						<img
 							className='mt-3'

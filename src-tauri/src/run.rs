@@ -13,7 +13,7 @@ pub async fn run_game(
     #[cfg(target_os = "windows")]
     {
         const CREATE_NO_WINDOW: u32 = 0x08000000;
-        child = Command::new(&executable)
+        child = Command::new(executable)
             .current_dir(Path::new(&instance_path))
             .args(["--dir", &instance_path])
             .creation_flags(CREATE_NO_WINDOW)
@@ -23,7 +23,7 @@ pub async fn run_game(
     }
     #[cfg(not(target_os = "windows"))]
     {
-        child = Command::new(&executable)
+        child = Command::new(executable)
             .current_dir(Path::new(&instance_path))
             .args(["--dir", &instance_path])
             .stdout(Stdio::piped())
@@ -65,6 +65,48 @@ pub async fn run_game(
         }
     });
     Ok(())
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub async fn build_game(
+    source_path: String,
+    build_commands: Vec<String>,
+) -> Result<String, String> {
+    let source_path = std::path::PathBuf::from(source_path);
+    for command in &build_commands[..build_commands.len() - 1] {
+        println!("{}", command);
+        let (path, command_str) = if command.starts_with("@") {
+            let (path, command) = command
+                .split_once(' ')
+                .ok_or(format!("Invalid @path, missing command: {}", command))?;
+            (source_path.join(&path[1..]), command)
+        } else {
+            (source_path.clone(), command.as_str())
+        };
+        let command = command_str.split(' ').collect::<Vec<_>>();
+
+        let mut process = Command::new(
+            command
+                .first()
+                .ok_or(format!("Malformed command: {}", command_str))?,
+        );
+        #[cfg(target_os = "windows")]
+        {
+            const CREATE_NO_WINDOW: u32 = 0x08000000;
+            process.creation_flags(CREATE_NO_WINDOW)
+        }
+        process
+            .current_dir(path)
+            .args(&command[1..])
+            .status()
+            .await
+            .map_err(|e| println!("{}", e))
+            .ok();
+    }
+    build_commands
+        .into_iter()
+        .last()
+        .ok_or("No build artifact in build instructions".to_owned())
 }
 
 #[tauri::command(rename_all = "snake_case")]

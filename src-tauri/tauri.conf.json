@@ -96,6 +96,11 @@
 						"name": "echo",
 						"cmd": "echo",
 						"args": true
+					},
+					{
+						"name": "git",
+						"cmd": "git",
+						"args": true
 					}
 				],
 				"sidecar": false
