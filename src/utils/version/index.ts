@@ -2,8 +2,8 @@ import axios from 'axios'
 import util from './Util'
 
 const defaultRepos = [
-	{
-		name: 'VE',
+  {
+    name: 'VE',
     owner: 'MihailRis',
     repository: 'VoxelEngine-Cpp',
     buildCommands: {
@@ -20,9 +20,9 @@ const defaultRepos = [
         "build/VoxelEngine.exe",
       ]
     }
-	},
-	{
-		name: 'RVE',
+  },
+  {
+    name: 'RVE',
     owner: 'wampal',
     repository: 'RustyVoxelEngine',
     buildCommands: {
@@ -35,16 +35,16 @@ const defaultRepos = [
         'target/release/voxel_engine',
       ]
     }
-	},
+  },
 ]
 
 export interface IAsset {
-	/** Also known as filename */
-	name: string
-	/** Direct download link */
-	browser_download_url: string
-	/** Type of file. Example: application/zip */
-	content_type: string
+  /** Also known as filename */
+  name: string
+  /** Direct download link */
+  browser_download_url: string
+  /** Type of file. Example: application/zip */
+  content_type: string
 }
 
 export interface IRepository {
@@ -61,13 +61,13 @@ export interface IRepository {
 }
 
 export interface IVersion {
-	/** Release name */
-	name: string
-	filename: string
-	/** Direct download link */
-	url: string
-	/** Repository */
-	repository: IRepository
+  /** Release name */
+  name: string
+  filename: string
+  /** Direct download link */
+  url: string
+  /** Repository */
+  repository: IRepository
   /** is it a git version */
   git: boolean
 }
@@ -75,18 +75,18 @@ export interface IVersion {
 type platformCheckCallback = (asset: IAsset) => boolean
 
 export default class VersionWrapper {
-	repositories: IRepository[]
+  repositories: IRepository[]
 
-	constructor(repositories: IRepository[] = defaultRepos) {
-		this.repositories = repositories
-	}
+  constructor(repositories: IRepository[] = defaultRepos) {
+    this.repositories = repositories
+  }
 
-	async updateRepositories() {
+  async updateRepositories() {
     console.log(this.repositories)
-		for (const i in this.repositories) {
+    for (const i in this.repositories) {
       const repository = this.repositories[i]
-			const response = await axios.get(`https://api.github.com/repos/${repository.owner}/${repository.repository}/releases`).catch(() => {})
-			if (response) this.repositories[i].assets = response.data.concat([
+      const response = await axios.get(`https://api.github.com/repos/${repository.owner}/${repository.repository}/releases`).catch(() => {})
+      if (response) this.repositories[i].assets = response.data.concat([
         {
           name: 'Git',
           assets: [
@@ -98,32 +98,32 @@ export default class VersionWrapper {
           ]
         }
       ])
-		}
-	}
+    }
+  }
 
-	private getPlatformVersions = (
-		platformCheckCallback: platformCheckCallback
-	) => {
-		const versions: IVersion[] = []
-		this.repositories.forEach(repository => {
-			repository.assets.forEach(release => {
-				release.assets.forEach(asset => {
-					if (platformCheckCallback(asset)) {
-						versions.push({
-							name: release.name,
-							filename: asset.name,
-							url: asset.browser_download_url,
-							repository,
+  private getPlatformVersions = (
+    platformCheckCallback: platformCheckCallback
+  ) => {
+    const versions: IVersion[] = []
+    this.repositories.forEach(repository => {
+      repository.assets.forEach(release => {
+        release.assets.forEach(asset => {
+          if (platformCheckCallback(asset)) {
+            versions.push({
+              name: release.name,
+              filename: asset.name,
+              url: asset.browser_download_url,
+              repository,
               git: asset.content_type == 'git',
-						})
-					}
-				})
-			})
-		})
-		console.log('versions:', versions)
-		return versions
-	}
+            })
+          }
+        })
+      })
+    })
+    console.log('versions:', versions)
+    return versions
+  }
 
-	getWindowsVersions = () => this.getPlatformVersions(util.isWindows)
-	getLinuxVersions = () => this.getPlatformVersions(util.isLinux)
+  getWindowsVersions = () => this.getPlatformVersions(util.isWindows)
+  getLinuxVersions = () => this.getPlatformVersions(util.isLinux)
 }

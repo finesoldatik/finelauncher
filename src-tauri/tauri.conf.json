@@ -41,7 +41,7 @@
 				"removeDir": true,
 				"removeFile": false,
 				"renameFile": true,
-				"scope": ["$DOCUMENT/finelauncher/**", "$DOCUMENT/finelauncher/**/.git"],
+				"scope": ["$DOCUMENT/finelauncher/**"],
 				"writeFile": true
 			},
 			"globalShortcut": {

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { FC } from 'react'
-import { IVersion } from '../../../../utils/version'
 
 interface IInstanceProps {
 	name: string
