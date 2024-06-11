@@ -4,6 +4,7 @@ import {
   getInstancePath,
   saveInstanceData,
 } from './instanceManager'
+import { IVersion } from '../utils/version'
 import { saveMods } from './mod'
 
 export const download = async (
@@ -44,7 +45,7 @@ export const downloadVersion = async (
   version: IVersion,
   instanceName: string,
 ) => {
-  version.repository.assets = null
+  version.repository.releases = []
 
   const instancePath = await getInstancePath(instanceName)
   if (!version.git) {
@@ -61,7 +62,7 @@ export const downloadVersion = async (
   else outFileName = 'version.zip'
 
   const icon = `/img/instance/${version.repository?.name.toLowerCase()}.png`
-  let instanceData = {
+  let instanceData: InstanceData = {
     name: instanceName,
     version,
     icon,

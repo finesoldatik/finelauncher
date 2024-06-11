@@ -1,4 +1,3 @@
-import { IOption } from '../../../../components/Select'
 import { downloadVersion } from '../../../../utils/download'
 import { instanceExists } from '../../../../utils/instanceManager'
 import VersionWrapper, { IVersion } from '../../../../utils/version'
@@ -8,7 +7,7 @@ import { os } from '@tauri-apps/api'
 
 interface INewInstance {
 	name: string
-	version: IVersion
+	version: string
 }
 
 const Form: FC = () => {
@@ -23,7 +22,6 @@ const Form: FC = () => {
 	const createBtnRef = useRef<HTMLButtonElement>(null)
 	const progressRef = useRef<HTMLProgressElement>(null)
 
-	const [version, setVersion] = useState<IOption>()
 	const [versions, setVersions] = useState<IVersion[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -51,7 +49,7 @@ const Form: FC = () => {
 				if (progressRef.current) progressRef.current.value = 50
 
 				downloadVersion(
-					versions.find(ver => ver.url == data?.version),
+					versions.find(ver => ver.url == data?.version)!,
 					data.name,
 				).then(() => {
 					if (createBtnRef.current) createBtnRef.current.disabled = false
@@ -97,16 +95,6 @@ const Form: FC = () => {
 					className={`select select-primary w-full my-2`}
 					title='select'
 					disabled={isLoading}
-					onChange={event => {
-						const option = versions.find(
-							option => option.value === event.target.value
-						)
-						setVersion({
-							label: String(option?.label),
-							value: String(option?.value),
-						})
-						console.log(option)
-					}}
 					defaultValue=''
 				>
 					<option value='' disabled>

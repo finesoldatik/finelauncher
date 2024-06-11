@@ -6,6 +6,7 @@ const defaultRepos = [
     name: 'VE',
     owner: 'MihailRis',
     repository: 'VoxelEngine-Cpp',
+    releases: [],
     buildCommands: {
       'linux': [
         'mkdir build',
@@ -25,6 +26,7 @@ const defaultRepos = [
     name: 'RVE',
     owner: 'wampal',
     repository: 'RustyVoxelEngine',
+    releases: [],
     buildCommands: {
       'linux': [
         'cargo build --release',
@@ -57,7 +59,7 @@ export interface IRepository {
   /** Releases provided */
   releases: { name: string; assets: IAsset[] }[]
   /** Build commands to build from source */
-  buildCommands: Map<string, string[]>,
+  buildCommands: any,
 }
 
 export interface IVersion {
@@ -86,7 +88,7 @@ export default class VersionWrapper {
     for (const i in this.repositories) {
       const repository = this.repositories[i]
       const response = await axios.get(`https://api.github.com/repos/${repository.owner}/${repository.repository}/releases`).catch(() => {})
-      if (response) this.repositories[i].assets = response.data.concat([
+      if (response) this.repositories[i].releases = response.data.concat([
         {
           name: 'Git',
           assets: [
@@ -106,7 +108,7 @@ export default class VersionWrapper {
   ) => {
     const versions: IVersion[] = []
     this.repositories.forEach(repository => {
-      repository.assets.forEach(release => {
+      repository.releases.forEach(release => {
         release.assets.forEach(asset => {
           if (platformCheckCallback(asset)) {
             versions.push({

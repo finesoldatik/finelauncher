@@ -1,4 +1,5 @@
 import { fs, invoke, os, path, shell } from '@tauri-apps/api'
+import { IVersion } from '../utils/version'
 
 // Util
 
@@ -93,7 +94,6 @@ export const runGame = async (instanceName: string) => {
   let executable: string
   if (instanceData.version.git) {
     console.log('Git repo detected, building from source')
-    console.log(instanceData.version.repository.buildCommands[platform]);
     executable = await path.join(gamePath, await invoke('build_game', {
       source_path: gamePath,
       build_commands: instanceData.version.repository.buildCommands[platform],
@@ -153,6 +153,6 @@ export interface InstanceData {
   version: IVersion
   icon: string // Можно назначить кастомную иконку
   runParameters: string // И аргументы для запуска свои
-  platform: string // Если придётся таскать папку с инстансами по компам, поможет. Можно тупа не отображать эту версию, либо докачать саму игру под нужную платформу.
+  platform: string | null // Если придётся таскать папку с инстансами по компам, поможет. Можно тупа не отображать эту версию, либо докачать саму игру под нужную платформу.
   options: any // Можно менять непосредственно этот тип и добавить ещё параметры, но думаю пока норм.
 }
