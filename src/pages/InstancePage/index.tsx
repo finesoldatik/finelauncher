@@ -86,7 +86,7 @@ export default function InstancePage() {
 				<div className='flex items-center ml-2 text-xl'>
 					<div>
 						<h1>Имя: {params.name}</h1>
-						<h1>Версия: {data?.gameVersion}</h1>
+						<h1>Версия: {data?.version.name}</h1>
 					</div>
 				</div>
 			</div>

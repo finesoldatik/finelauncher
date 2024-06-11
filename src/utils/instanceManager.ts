@@ -87,29 +87,24 @@ export const openInFileManager = async (instanceName: string) => {
 export const runGame = async (instanceName: string) => {
 	const platform = await os.platform()
 	const instancePath = await getInstancePath(instanceName);
+  const instanceData = await getInstanceDataFromPath(instancePath);
   const gamePath = await path.join(instancePath, 'game')
 
   let executable: string
-  console.log(await path.join(gamePath, '.git'))
-  if (await fs.exists(await path.join(gamePath, '.git'))) {
+  if (instanceData.version.git) {
     console.log('Git repo detected, building from source')
+    console.log(instanceData.version.repository.buildCommands[platform]);
     executable = await path.join(gamePath, await invoke('build_game', {
       source_path: gamePath,
-      build_commands: await getInstanceDataFromPath(instancePath).then(data => data.buildCommands),
+      build_commands: instanceData.version.repository.buildCommands[platform],
     }))
   } else {
-    executable = (
-      await getFilesByExtension(
-        gamePath,
-        platform == 'win32' ? '.exe' : '.AppImage'
-      )
-    ).shift()?.path
+    executable = instanceData.version.filename
   }
 
-  console.log(executable);
+  console.log('Running game: ' + executable);
 	if (!executable) return console.error('No game executable found!')
-	if (platform == 'linux')
-		await new shell.Command('chmod', ['+x', executable]).execute()
+	if (platform == 'linux') await new shell.Command('chmod', ['+x', executable]).execute()
 
 	invoke('run_game', {
 		executable: executable,
@@ -155,9 +150,8 @@ export const saveInstanceData = async function (
 
 export interface InstanceData {
 	name: string
-	gameVersion: string
+  version: IVersion
 	icon: string // Можно назначить кастомную иконку
-  buildCommands: Map<string, string[]> // Что надо сделать при запуске
 	runParameters: string // И аргументы для запуска свои
 	platform: string // Если придётся таскать папку с инстансами по компам, поможет. Можно тупа не отображать эту версию, либо докачать саму игру под нужную платформу.
 	options: any // Можно менять непосредственно этот тип и добавить ещё параметры, но думаю пока норм.

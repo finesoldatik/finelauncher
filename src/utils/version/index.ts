@@ -1,7 +1,7 @@
 import axios from 'axios'
 import util from './Util'
 
-export const defaultRepos = [
+const defaultRepos = [
 	{
 		name: 'VE',
     owner: 'MihailRis',
@@ -25,18 +25,18 @@ export const defaultRepos = [
 		name: 'RVE',
     owner: 'wampal',
     repository: 'RustyVoxelEngine',
+    buildCommands: {
+      'linux': [
+        'cargo build --release',
+        'target/release/voxel_engine',
+      ],
+      'win32': [
+        'cargo build --release',
+        'target/release/voxel_engine',
+      ]
+    }
 	},
 ]
-
-export interface IVersion {
-	/** Release name */
-	name: string
-	filename: string
-	/** Direct download link */
-	url: string
-	/** Repository id. Example: ve, rve */
-	repository: string
-}
 
 export interface IAsset {
 	/** Also known as filename */
@@ -47,55 +47,74 @@ export interface IAsset {
 	content_type: string
 }
 
+export interface IRepository {
+  /** Repository name */
+  name: string
+  /** Repository owner */
+  owner: string
+  /** GitHub repository name */
+  repository: string
+  /** Releases provided */
+  releases: { name: string; assets: IAsset[] }[]
+  /** Build commands to build from source */
+  buildCommands: Map<string, string[]>,
+}
+
+export interface IVersion {
+	/** Release name */
+	name: string
+	filename: string
+	/** Direct download link */
+	url: string
+	/** Repository */
+	repository: IRepository
+  /** is it a git version */
+  git: boolean
+}
+
 type platformCheckCallback = (asset: IAsset) => boolean
 
 export default class VersionWrapper {
-	repoUrls: { name: string; url: string }[]
-	repositories: Map<
-		string,
-		{
-			name: string
-			assets: IAsset[]
-		}[]
-	>
+	repositories: IRepository[]
 
-	constructor(repoUrls: { name: string; owner: string, repository: string }[] = defaultRepos) {
-		this.repoUrls = repoUrls
-		this.repositories = new Map()
+	constructor(repositories: IRepository[] = defaultRepos) {
+		this.repositories = repositories
 	}
 
-	async getRepositories() {
-		for (const repoUrl of this.repoUrls) {
-			const response = await axios.get(`https://api.github.com/repos/${repoUrl.owner}/${repoUrl.repository}/releases`).catch(() => {})
-			if (response) this.repositories.set(repoUrl.name, response.data.concat([
+	async updateRepositories() {
+    console.log(this.repositories)
+		for (const i in this.repositories) {
+      const repository = this.repositories[i]
+			const response = await axios.get(`https://api.github.com/repos/${repository.owner}/${repository.repository}/releases`).catch(() => {})
+			if (response) this.repositories[i].assets = response.data.concat([
         {
-          name: "Git",
+          name: 'Git',
           assets: [
             {
-              name: "git",
-              browser_download_url: `https://github.com/${repoUrl.owner}/${repoUrl.repository}.git`,
-              content_type: "git"
+              name: 'git',
+              browser_download_url: `https://github.com/${repository.owner}/${repository.repository}.git`,
+              content_type: 'git'
             }
           ]
         }
-      ]))
+      ])
 		}
-		return this.repositories
 	}
 
 	private getPlatformVersions = (
 		platformCheckCallback: platformCheckCallback
 	) => {
 		const versions: IVersion[] = []
-		this.repositories.forEach((releases, repoid) => {
-			releases.forEach(release => {
+		this.repositories.forEach(repository => {
+			repository.assets.forEach(release => {
 				release.assets.forEach(asset => {
 					if (platformCheckCallback(asset)) {
 						versions.push({
 							name: release.name,
 							filename: asset.name,
 							url: asset.browser_download_url,
-							repository: repoid,
+							repository,
+              git: asset.content_type == 'git',
 						})
 					}
 				})

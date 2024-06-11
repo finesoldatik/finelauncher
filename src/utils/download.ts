@@ -5,7 +5,6 @@ import {
 	saveInstanceData,
 } from './instanceManager'
 import { saveMods } from './mod'
-import { defaultRepos } from './version'
 
 export const download = async (
 	url: string,
@@ -42,55 +41,46 @@ export const downloadMod = async (
 }
 
 export const downloadVersion = async (
-	url: string,
+  version: IVersion,
 	instanceName: string,
-	instanceVersion: string
 ) => {
+  version.repository.assets = null
+
 	const instancePath = await getInstancePath(instanceName)
-	console.log(instancePath)
-  if (!url.endsWith('.git')) {
+  if (!version.git) {
     await fs.createDir(await path.join(instancePath, 'game/content'), {
       recursive: true,
     })
   }
 
-	let outFileName: string
 
 	const platform = await os.platform()
-
-  if (url.endsWith('.git')) outFileName = 'game'
+	let outFileName: string
+  if (version.git) outFileName = 'game'
   else if (platform !== 'win32') outFileName = 'version.AppImage'
 	else outFileName = 'version.zip'
 
-	const repo = defaultRepos.find(
-		value => value.name === instanceVersion.split(' ')[0]
-	)
-
-	const icon = `/img/instance/${repo?.name.toLowerCase()}.png`
-
-	console.log(icon)
-
+	const icon = `/img/instance/${version.repository?.name.toLowerCase()}.png`
 	let instanceData = {
 		name: instanceName,
-		gameVersion: instanceVersion,
+    version,
 		icon,
-    buildCommands: null,
 		runParameters: '',
 		platform,
 		options: null,
 	}
 
-  if (url.endsWith('.git')) {
-    instanceData.buildCommands = repo.buildCommands[platform]
-		return new shell.Command('git', ['clone', url, await path.join(instancePath, 'game')]).execute().then(
+  if (version.git) {
+    instanceData.platform = null
+		return new shell.Command('git', ['clone', version.url, await path.join(instancePath, 'game')]).execute().then(
       () => {
         path.join(instancePath, 'game/content')
-          .then(gamePath => fs.createDir(gamePath, { recursive: true }))
+          .then(contentPath => fs.createDir(contentPath, { recursive: true }))
           .then(() => saveInstanceData(instanceName, instanceData))
       }
     )
   } else {
-    return download(url, await path.join(instancePath, 'game'), outFileName).then(
+    return download(version.url, await path.join(instancePath, 'game'), outFileName).then(
       () => saveInstanceData(instanceName, instanceData)
     )
   }
