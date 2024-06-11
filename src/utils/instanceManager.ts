@@ -99,7 +99,12 @@ export const runGame = async (instanceName: string) => {
       build_commands: instanceData.version.repository.buildCommands[platform],
     }))
   } else {
-    executable = instanceData.version.filename
+    executable = (
+      await getFilesByExtension(
+        gamePath,
+        platform == 'win32' ? '.exe' : '.AppImage'
+      )
+    ).shift()?.path || instanceData.version.filename
   }
 
   console.log('Running game: ' + executable);

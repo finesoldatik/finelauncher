@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
 	InstanceData,
@@ -18,6 +18,7 @@ export default function InstancePage() {
 	console.log('InstancePage Render')
 
 	const params = useParams<{ name: string }>()
+	const progressRef = useRef<HTMLProgressElement>(null)
 
 	const [data, setData] = useState<InstanceData>()
 
@@ -35,9 +36,9 @@ export default function InstancePage() {
 	}, [])
 
 	useEffect(() => {
-		const unSubscribeLog = listen('log_message', event => {
-			// console.log('Событие log_message:', event.payload)
-			gameContext.addGameLogs(String(event.payload))
+		const unSubscribeProgress = listen('build_progress', event => {
+			// console.log('Событие build_process:', event.payload)
+			progressRef.current.value = event.payload;
 		})
 
 		const unSubscribeStart = listen('game_process_started', event => {
@@ -47,12 +48,17 @@ export default function InstancePage() {
 		})
 		const unSubscribeEnd = listen('game_process_ended', event => {
 			// console.log('Событие game_process_ended:', event.payload)
-			console.log(event)
 			gameContext.stopGame()
 			gameContext.deleteGameLogs()
 		})
 
+		const unSubscribeLog = listen('log_message', event => {
+			// console.log('Событие log_message:', event.payload)
+			gameContext.addGameLogs(String(event.payload))
+		})
+
 		return () => {
+			unSubscribeProgress.then(unsub => unsub())
 			unSubscribeLog.then(unsub => unsub())
 			unSubscribeStart.then(unsub => unsub())
 			unSubscribeEnd.then(unsub => unsub())
@@ -74,7 +80,6 @@ export default function InstancePage() {
 
 	useEffect(() => {
 		getInstanceContent(String(params.name)).then(content => {
-			console.log(content)
 			setMods(content.map(value => String(value.name)))
 		})
 	}, [])
@@ -155,6 +160,12 @@ export default function InstancePage() {
 				</div>
 			</div>
 			<div className='flex justify-end items-end h-[calc(100%-90%)]'>
+				<progress
+					className='progress progress-success my-2'
+					value={0}
+					max='100'
+					ref={progressRef}
+				></progress>
 				<div
 					className='btn btn-success w-56'
 					onClick={() => {
