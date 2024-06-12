@@ -33,7 +33,8 @@ const Form: FC = () => {
 			let releases: IVersion[] = []
 
 			if (platform === 'win32') releases = versionWrapper.getWindowsVersions()
-			else if (platform === 'linux') releases = versionWrapper.getLinuxVersions()
+			else if (platform === 'linux')
+				releases = versionWrapper.getLinuxVersions()
 
 			setVersions(releases)
 			setIsLoading(false)
@@ -47,48 +48,45 @@ const Form: FC = () => {
 		instanceExists(data.name).then(value => {
 			if (!value) {
 				if (createBtnRef.current) createBtnRef.current.disabled = true
-        const unSubscribeProgress = listen('download_progress', event => {
-          progressRef.current.value = event.payload;
-        })
 
 				downloadVersion(
 					versions.find(ver => ver.url == data?.version)!,
-					data.name,
+					data.name
 				).then(() => {
 					if (createBtnRef.current) createBtnRef.current.disabled = false
-          unSubscribeProgress.then(unsub => unsub())
-				}).catch(() => {
-          unSubscribeProgress.then(unsub => unsub())
 				})
 			}
 		})
 	}
 
-	// useEffect(() => {
-	// 	const unSubscribe = listen('update-version-download-progress', event => {
-	// 		console.log('Событие update_process:', event.payload)
-	// 		if (progressBarRef.current)
-	// 			// @ts-expect-error message: any хотя должно быть string
-	// 			progressBarRef.current.innerText = event.payload.message
-	// 	})
+	useEffect(() => {
+		const unSubscribeProgress = listen('download_progress', event => {
+			console.log('Событие download_progress:', event.payload)
+			if (progressRef.current) progressRef.current.value = Number(event.payload)
+		})
 
-	// 	return () => {
-	// 		unSubscribe.then(unsub => unsub())
-	// 	}
-	// }, [])
+		return () => {
+			unSubscribeProgress.then(unsub => unsub())
+		}
+	}, [])
 
 	return (
 		<div className='flex w-full h-full justify-center items-center'>
 			<form className='flex flex-col w-1/3' onSubmit={handleSubmit(onSubmit)}>
-				<input
-					{...register('name', {
-						required: 'Заполните это поле!',
-						maxLength: 12,
-					})}
-					type='text'
-					placeholder='Введите имя инстанса'
-					className='input input-bordered input-primary w-full my-2'
-				/>
+				<label className='form-control w-full'>
+					<div className='label'>
+						<span className='label-text'>До 12 символов</span>
+					</div>
+					<input
+						{...register('name', {
+							required: 'Заполните это поле!',
+							maxLength: 12,
+						})}
+						type='text'
+						placeholder='Введите имя инстанса'
+						className='input input-bordered input-primary w-full my-2'
+					/>
+				</label>
 				{errors?.name && (
 					<div className='text-error my-1'>{errors.name.message}</div>
 				)}
@@ -107,7 +105,7 @@ const Form: FC = () => {
 					</option>
 					{versions.map(version => (
 						<option value={version.url} key={version.url}>
-              {`${version.repository.name} ${version.name}`}
+							{`${version.repository.name} ${version.name}`}
 						</option>
 					))}
 				</select>

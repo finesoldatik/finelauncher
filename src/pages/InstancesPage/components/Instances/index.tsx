@@ -7,6 +7,7 @@ import {
 } from '../../../../utils/instanceManager'
 import { FC, useEffect, useState } from 'react'
 import { IVersion } from '../../../../utils/version'
+import LoadingInstances from '../LoadingInstances'
 
 interface IVersionDisplay {
 	name: string
@@ -17,10 +18,14 @@ interface IVersionDisplay {
 const Instances: FC = () => {
 	console.log('Instances Render')
 
-	const [instances, setInstances] = useState<IVersionDisplay[] | undefined[]>([])
+	const [instances, setInstances] = useState<IVersionDisplay[] | undefined[]>(
+		[]
+	)
+	const [isLoading, setLoading] = useState<boolean>(false)
 
 	useEffect(() => {
 		const getInstances = async () => {
+			setLoading(true)
 			const installedInstances = await getInstalledInstances()
 			Promise.all(
 				installedInstances.map(async instance => {
@@ -43,6 +48,7 @@ const Instances: FC = () => {
 				console.log(filtered)
 				//@ts-expect-error все работает, но всеравно на что-то ругается
 				setInstances(filtered)
+				setLoading(false)
 			})
 		}
 
@@ -52,7 +58,10 @@ const Instances: FC = () => {
 	return (
 		<div className='flex flex-row flex-wrap'>
 			<NewInstance />
-			{instances.length ? (
+			{isLoading && <LoadingInstances />}
+			{!isLoading && !instances.length && <NoInstances />}
+			{!isLoading &&
+				instances.length &&
 				instances.map((el, idx) => {
 					if (el === undefined) return
 					console.log(instances)
@@ -64,10 +73,7 @@ const Instances: FC = () => {
 							key={idx}
 						/>
 					)
-				})
-			) : (
-				<NoInstances />
-			)}
+				})}
 		</div>
 	)
 }

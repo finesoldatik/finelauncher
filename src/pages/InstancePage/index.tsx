@@ -37,23 +37,23 @@ export default function InstancePage() {
 
 	useEffect(() => {
 		const unSubscribeProgress = listen('build_progress', event => {
-			// console.log('Событие build_process:', event.payload)
-			progressRef.current.value = event.payload;
+			console.log('Событие build_process:', event.payload)
+			if (progressRef.current) progressRef.current.value = Number(event.payload)
 		})
 
 		const unSubscribeStart = listen('game_process_started', event => {
-			// console.log('Событие game_process_started:', event.payload)
+			console.log('Событие game_process_started:', event.payload)
 			gameContext.deleteGameLogs()
 			gameContext.setGamePId(Number(event.payload))
 		})
 		const unSubscribeEnd = listen('game_process_ended', event => {
-			// console.log('Событие game_process_ended:', event.payload)
+			console.log('Событие game_process_ended:', event.payload)
 			gameContext.stopGame()
 			gameContext.deleteGameLogs()
 		})
 
 		const unSubscribeLog = listen('log_message', event => {
-			// console.log('Событие log_message:', event.payload)
+			console.log('Событие log_message:', event.payload)
 			gameContext.addGameLogs(String(event.payload))
 		})
 
@@ -68,14 +68,14 @@ export default function InstancePage() {
 	useEffect(() => {
 		if (
 			gameContext.gameData.gamePId === null &&
-			settingsContext.settings.launcher.hideLauncherOnLaunchGame
+			settingsContext.hideLauncherOnLaunchGame
 		) {
 			appWindow.unminimize()
 			appWindow.setFocus()
 		}
 	}, [
 		gameContext.gameData.gamePId,
-		settingsContext.settings.launcher.hideLauncherOnLaunchGame,
+		settingsContext.hideLauncherOnLaunchGame,
 	])
 
 	useEffect(() => {
@@ -169,11 +169,11 @@ export default function InstancePage() {
 				<div
 					className='btn btn-success w-56'
 					onClick={() => {
-						if (settingsContext.settings.launcher.hideLauncherOnLaunchGame)
+						if (settingsContext.hideLauncherOnLaunchGame)
 							appWindow.minimize()
 						console.log(
 							'hideLauncherOnLaunchGame: ',
-							settingsContext.settings.launcher.hideLauncherOnLaunchGame
+							settingsContext.hideLauncherOnLaunchGame
 						)
 						gameContext.startGame(String(params.name))
 					}}

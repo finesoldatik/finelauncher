@@ -20,7 +20,7 @@ export default function HomePage() {
 
 	return (
 		<>
-			{settingsContext.settings.launcher.homePageAnimation ? (
+			{settingsContext.homePageAnimation ? (
 				<BubblesAnimation />
 			) : (
 				<BoxesAnimation />

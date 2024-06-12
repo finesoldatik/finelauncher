@@ -4,7 +4,7 @@ pub async fn download(
     mut progress_callback: impl FnMut(f32),
 ) -> Result<Vec<u8>, String> {
     let bytes = match reqwest::ClientBuilder::new()
-        .user_agent("VoxelLauncherWGET/1.0")
+        .user_agent("finelauncherWGET/1.0")
         .build()
         .unwrap()
         .get(url)

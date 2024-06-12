@@ -24,22 +24,18 @@ const LauncherTab: FC<ITabProps> = ({ currentTab, setCurrentTab }) => {
 		>
 			<Option
 				title='Скрывать лаунчер при запуске игры'
-				value={settingsContext.settings.launcher.hideLauncherOnLaunchGame}
+				value={settingsContext.hideLauncherOnLaunchGame}
 				setOption={value => {
 					console.log(value)
-					settingsContext.changeSettings(
-						'launcher',
-						'hideLauncherOnLaunchGame',
-						value
-					)
+					settingsContext.setHideLauncher(value)
 				}}
 			/>
 			<Option
 				title='Новый фон главной страницы (BETA)'
-				value={Boolean(settingsContext.settings.launcher.homePageAnimation)}
+				value={Boolean(settingsContext.homePageAnimation)}
 				setOption={value => {
 					console.log(value)
-					settingsContext.changeSettings('launcher', 'homePageAnimation', Number(value))
+					settingsContext.setHomeAnimation(Number(value))
 				}}
 			/>
 			<h2 className='text-lg my-1'>Другие опции</h2>

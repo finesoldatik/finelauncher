@@ -10,8 +10,6 @@ async fn run_command(
     windows_no_console: bool,
     mut line_callback: impl FnMut(&str, bool),
 ) -> Result<std::process::ExitStatus, String> {
-    use std::process::Stdio;
-    use tokio::process::Command;
     use tokio_process_stream::ProcessLineStream;
     use tokio_stream::StreamExt;
     let mut command = Command::new(command);

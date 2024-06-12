@@ -9,60 +9,59 @@ import {
 } from 'react'
 import { getValue, setValue } from '../utils/localStorage'
 
-interface ISettings {
-	launcher: {
-		homePageAnimation: number
-		hideLauncherOnLaunchGame: boolean
-	}
-}
-
 interface ISettingsContext {
 	theme: string
-	setTheme: (value: string) => void
-	changeSettings: (optionGroup: string, key: string, value: any) => void
-	resetSettings: () => void
-	settings: ISettings
+	homePageAnimation: number
+	hideLauncherOnLaunchGame: boolean
 	tabId: number
 	setTab: (value: number) => void
-}
-
-const defaultSettings: ISettings = {
-	launcher: {
-		homePageAnimation: 0,
-		hideLauncherOnLaunchGame: false,
-	},
+	setTheme: (value: string) => void
+	setHomeAnimation: (value: number) => void
+	setHideLauncher: (value: boolean) => void
+	resetSettings: () => void
 }
 
 export const SettingsContext = createContext<ISettingsContext>({
 	theme: 'dark',
-	setTheme: () => {},
-	changeSettings: () => {},
-	resetSettings: () => {},
-	settings: defaultSettings,
+	homePageAnimation: 0,
+	hideLauncherOnLaunchGame: false,
 	tabId: 0,
 	setTab: () => {},
+	setTheme: () => {},
+	setHomeAnimation: () => {},
+	setHideLauncher: () => {},
+	resetSettings: () => {},
 })
 
 export const useSettingsContext = () => useContext(SettingsContext)
 
-export default function SettingsProvider({ children }: { children: ReactNode }) {
+export default function SettingsProvider({
+	children,
+}: {
+	children: ReactNode
+}) {
 	const [theme, setTheme] = useState<string>(getValue('theme') || 'dark')
 	const [tabId, setTabId] = useState<number>(0)
-	const [settings, setSettings] = useState<ISettings>(
-		getValue('settings') || defaultSettings
+	const [homePageAnimation, setHomePageAnimation] = useState(
+		getValue('homePageAnimation') || 0
+	)
+	const [hideLauncherOnLaunchGame, setHideLauncherOnLaunchGame] = useState(
+		getValue('hideLauncherOnLaunchGame') || false
 	)
 
-	const changeSettings = (optionGroup: string, key: string, value: any) => {
-		setSettings(prev => {
-			console.log({ ...prev, [optionGroup]: { [key]: value } })
-			setOption({ ...prev, [optionGroup]: { [key]: value } }, 'settings')
-			// @ts-expect-error получение объекта optionGroup из prev, но ругается, что optionGroup строка..
-			return { ...prev, [optionGroup]: { ...prev[optionGroup], [key]: value } }
-		})
+	const resetSettings = () => {
+		setHomePageAnimation(0)
+		setHideLauncherOnLaunchGame(false)
 	}
 
-	const resetSettings = () => {
-		setSettings(defaultSettings)
+	const setHomeAnimation = (value: number) => {
+		setOption(value, 'homePageAnimation')
+		setHomePageAnimation(value)
+	}
+
+	const setHideLauncher = (value: boolean) => {
+		setOption(value, 'hideLauncherOnLaunchGame')
+		setHideLauncherOnLaunchGame(value)
 	}
 
 	const setOption = (value: any, key: string) => {
@@ -79,10 +78,6 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
 	}, [])
 
 	useEffect(() => {
-		setValue(settings, 'settings')
-	}, [settings])
-
-	useEffect(() => {
 		document.body.setAttribute('data-theme', theme)
 		setValue(theme, 'theme')
 	}, [theme])
@@ -90,14 +85,16 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
 	const value = useMemo(
 		() => ({
 			theme,
-			setTheme,
-			changeSettings,
-			resetSettings,
-			settings,
+			homePageAnimation,
+			hideLauncherOnLaunchGame,
 			tabId,
 			setTab,
+			setTheme,
+			setHomeAnimation,
+			setHideLauncher,
+			resetSettings,
 		}),
-		[theme, settings, tabId]
+		[theme, tabId]
 	)
 
 	return (
