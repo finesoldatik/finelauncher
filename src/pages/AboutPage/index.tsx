@@ -65,6 +65,18 @@ export default function AboutPage() {
 					Подробнее в нашем Discord.
 				</Link>
 			</h2>
+			<div className='ml-2 mt-1'>
+				<p>
+					finelauncher использует API{' '}
+					<Link
+						className='link link-primary'
+						to='https://voxelworld.ru/'
+						target='_blank'
+					>
+						VoxelWorld'a
+					</Link>
+				</p>
+			</div>
 			<div className='divider'></div>
 			<h2 className='text-lg ml-2'>Контрибьютеры</h2>
 			<ul className='list-none'>
