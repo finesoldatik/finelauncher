@@ -61,18 +61,14 @@ const Instances: FC = () => {
 			{isLoading && <LoadingInstances />}
 			{!isLoading && !instances.length && <NoInstances />}
 			{!isLoading && instances.length ? (
-				instances.map((el, idx) => {
-					if (el === undefined) return
-					console.log(instances)
-					return (
-						<Instance
-							name={String(el?.name)}
-							version={String(el?.version.name)}
-							image={String(el?.image)}
-							key={idx}
-						/>
-					)
-				})
+				instances.map((el, idx) => (
+					<Instance
+						name={String(el?.name)}
+						version={String(el?.version.name)}
+						image={String(el?.image)}
+						key={idx}
+					/>
+				))
 			) : (
 				<></>
 			)}

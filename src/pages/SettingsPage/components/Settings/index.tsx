@@ -4,6 +4,8 @@ import GameTab from '../tabs/GameTab/index.tsx'
 import Footer from '../Footer/index.tsx'
 
 const Settings: FC = () => {
+	console.log('Settings Render')
+
 	const [currentTab, setCurrentTab] = useState<number>(0)
 
 	return (

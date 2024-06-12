@@ -7,6 +7,8 @@ interface IOptionProps {
 }
 
 const Option: FC<IOptionProps> = ({ title, value, setOption }) => {
+	console.log('Option Render')
+
 	return (
 		<div className='form-control'>
 			<label className='label cursor-pointer'>

@@ -1,4 +1,4 @@
-import { FC, SetStateAction, useRef, useState } from 'react'
+import { FC, SetStateAction, memo, useRef, useState } from 'react'
 import { IContent } from '../../ModsPage.types'
 import Mod from '../Mod'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,11 +12,13 @@ interface IDrawerContentProps {
 	params: IParams
 }
 
-const DrawerContent: FC<IDrawerContentProps> = ({
+const DrawerContent: FC<IDrawerContentProps> = memo(({
 	content,
 	setParams,
 	params,
 }) => {
+	console.log('DrawerContent Render')
+
 	const [active, setActive] = useState<boolean>(false)
 	const [currentModId, setCurrentModId] = useState<number>()
 
@@ -96,6 +98,6 @@ const DrawerContent: FC<IDrawerContentProps> = ({
 			)}
 		</div>
 	)
-}
+})
 
 export default DrawerContent

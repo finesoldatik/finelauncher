@@ -8,6 +8,8 @@ import { ITabProps } from '../tab.types'
 import Option from '../../Option'
 
 const LauncherTab: FC<ITabProps> = ({ currentTab, setCurrentTab }) => {
+	console.log('LauncherTab Render')
+
 	const [currentTheme, setCurrentTheme] = useState<string>('dark')
 	const settingsContext = useSettingsContext()
 

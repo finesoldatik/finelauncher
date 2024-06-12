@@ -8,6 +8,8 @@ interface IInstanceProps {
 }
 
 const Instance: FC<IInstanceProps> = ({ name, version, image }) => {
+	console.log('Instance Render')
+
 	return (
 		<Link
 			to={name}

@@ -20,6 +20,8 @@ const Select: FC<ISelectProps> = ({
 	disabled,
 	styles,
 }) => {
+	console.log('Select Render')
+	
 	return (
 		<select
 			className={`select select-primary w-full ${styles}`}

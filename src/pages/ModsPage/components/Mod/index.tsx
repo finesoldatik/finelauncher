@@ -1,5 +1,5 @@
 import { IContent } from '../../ModsPage.types'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faCloudArrowDown,
@@ -13,7 +13,9 @@ interface IModProps {
 	setActive: (value: boolean) => void
 }
 
-const Mod: FC<IModProps> = ({ mod, setCurrentModId, setActive }) => {
+const Mod: FC<IModProps> = memo(({ mod, setCurrentModId, setActive }) => {
+	console.log('Mod Render')
+
 	return (
 		<div
 			className='btn w-64 h-80 bg-base-200 shadow-xl rounded-none m-0.5 flex-grow flex-wrap'
@@ -69,6 +71,6 @@ const Mod: FC<IModProps> = ({ mod, setCurrentModId, setActive }) => {
 			</div>
 		</div>
 	)
-}
+})
 
 export default Mod

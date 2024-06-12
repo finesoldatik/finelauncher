@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, memo, useState } from 'react'
 import { IMods } from '../../ModsPage.types'
 import ModWrapper from '../../../../utils/mod/Wrapper'
 import { useQuery } from 'react-query'
@@ -32,8 +32,8 @@ const fetchMods = async (params: IParams) => {
 	return result
 }
 
-const Mods: FC = () => {
-	console.log('ModsPage Render')
+const Mods: FC = memo(() => {
+	console.log('Mods Render')
 
 	const [params, setParams] = useState<IParams>({
 		sort: 1,
@@ -86,6 +86,6 @@ const Mods: FC = () => {
 			</div>
 		</div>
 	)
-}
+})
 
 export default Mods

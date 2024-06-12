@@ -1,6 +1,8 @@
 import { FC } from 'react'
 
 const ModSkeleton: FC = () => {
+	console.log('ModSkeleton Render')
+
 	return (
 		<div className='card w-64 h-80 bg-base-200 shadow-xl rounded-none m-0.5 flex-grow flex-wrap'>
 			<div className='card-body p-0'>

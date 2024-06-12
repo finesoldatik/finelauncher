@@ -1,6 +1,8 @@
 import { FC } from 'react'
 
 const LoadingInstances: FC = () => {
+	console.log('LoadingInstances Render')
+	
 	return (
 		<div className='btn w-64 h-64 bg-base-200 shadow-xl rounded-none m-0.5'>
 			<figure>

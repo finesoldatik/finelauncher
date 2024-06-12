@@ -1,9 +1,11 @@
 import { FC } from 'react'
-import './BoxesAnimation.css'
+import styles from './BoxesAnimation.module.css'
 
 const BoxesAnimation: FC = () => {
+	console.log('BoxesAnimation Render')
+
 	return (
-		<ul className='box-area'>
+		<ul className={styles['box-area']}>
 			<li></li>
 			<li></li>
 			<li></li>

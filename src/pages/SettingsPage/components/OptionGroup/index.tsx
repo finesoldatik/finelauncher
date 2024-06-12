@@ -13,6 +13,8 @@ const OptionGroup: FC<IOptionGroupProps> = ({
 	children,
 	styles,
 }) => {
+	console.log('OptionGroup Render')
+
 	return (
 		<div className={`collapse bg-base-200 ${styles}`}>
 			<input type='checkbox' title='checkbox' defaultChecked={defaultChecked} />

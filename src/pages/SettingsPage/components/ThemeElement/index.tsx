@@ -12,6 +12,8 @@ const ThemeElement: FC<IThemeElementProps> = ({
 	theme,
 	onClick,
 }) => {
+	console.log('ThemeElement Render')
+
 	return (
 		<div
 			className={`border-base-content/20 hover:border-base-content/40 overflow-hidden 

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react"
+import { FC, ReactNode } from 'react'
 
 interface ITabProps {
 	title: string
@@ -17,6 +17,8 @@ const Tab: FC<ITabProps> = ({
 	children,
 	styles,
 }) => {
+	console.log('Tab Render')
+
 	return (
 		<>
 			<input

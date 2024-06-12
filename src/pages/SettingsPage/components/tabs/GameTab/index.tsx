@@ -1,8 +1,10 @@
-import { FC } from "react";
-import Tab from "../../Tab";
-import { ITabProps } from "../tab.types";
+import { FC } from 'react'
+import Tab from '../../Tab'
+import { ITabProps } from '../tab.types'
 
 const GameTab: FC<ITabProps> = ({ currentTab, setCurrentTab }) => {
+	console.log('GameTab Render')
+
 	return (
 		<Tab
 			title='Игра'

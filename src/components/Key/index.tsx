@@ -6,6 +6,8 @@ interface IKeyProps {
 }
 
 const Key: FC<IKeyProps> = ({ title }) => {
+	console.log('Key Render')
+
 	return (
 		<div className={styles['key-container']}>
 			<span>

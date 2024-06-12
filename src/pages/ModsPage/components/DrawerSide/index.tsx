@@ -1,4 +1,4 @@
-import { FC, SetStateAction } from 'react'
+import { FC, SetStateAction, memo } from 'react'
 import { ITag } from '../../ModsPage.types'
 import { IParams } from '../Mods'
 
@@ -22,7 +22,9 @@ const sorts = [
 	},
 ]
 
-const DrawerSide: FC<IDrawerSideProps> = ({ tags, setParams }) => {
+const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
+	console.log('DrawerSide Render')
+
 	return (
 		<div className='drawer-side'>
 			<label
@@ -104,6 +106,6 @@ const DrawerSide: FC<IDrawerSideProps> = ({ tags, setParams }) => {
 			</div>
 		</div>
 	)
-}
+})
 
 export default DrawerSide

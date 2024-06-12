@@ -5,6 +5,8 @@ import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 import { Link } from 'react-router-dom'
 
 const Footer: FC = () => {
+	console.log('Footer Render')
+
 	const settingsContext = useSettingsContext()
 
 	return (
