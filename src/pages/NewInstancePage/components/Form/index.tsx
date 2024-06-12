@@ -1,7 +1,7 @@
 import { downloadVersion } from '../../../../utils/download'
 import { instanceExists } from '../../../../utils/instanceManager'
 import VersionWrapper, { IVersion } from '../../../../utils/version'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { os } from '@tauri-apps/api'
 import { listen } from '@tauri-apps/api/event'
