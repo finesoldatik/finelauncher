@@ -13,6 +13,7 @@ import { downloadMod } from '../../utils/download'
 import { fs, path } from '@tauri-apps/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { listen } from '@tauri-apps/api/event'
 
 interface IDownloadModModalProps {
 	active: boolean
@@ -34,7 +35,8 @@ export default function DownloadModModal({
 	} = useForm<{ instance: string }>()
 
 	const downloadBtnRef = useRef<HTMLButtonElement>(null)
-	const progressRef = useRef<HTMLProgressElement>(null)
+
+	const [progress, setProgress] = useState<number>(0)
 
 	const [instance, setInstance] = useState<IOption>()
 
@@ -76,6 +78,17 @@ export default function DownloadModModal({
 	}, [instance])
 
 	useEffect(() => {
+		const unSubscribeProgress = listen('download_progress', event => {
+			console.log('Событие download_progress:', event.payload)
+			setProgress(Number(event.payload))
+		})
+
+		return () => {
+			unSubscribeProgress.then(unsub => unsub())
+		}
+	}, [])
+
+	useEffect(() => {
 		const getInstances = async () => {
 			const installedInstances = await getInstalledInstances()
 			Promise.all(
@@ -105,18 +118,19 @@ export default function DownloadModModal({
 		getInstances()
 	}, [])
 
+	useEffect(() => {
+		if (progress === 100) setDownloaded(true)
+	}, [progress])
+
 	const onSubmit: SubmitHandler<{ instance: string }> = () => {
 		console.log(instance)
 
 		if (instance?.value && !isExists) {
 			if (downloadBtnRef.current) downloadBtnRef.current.disabled = true
-			if (progressRef.current) progressRef.current.value = 50
 
 			downloadMod(modDownloadUrl, instance.value, mod.content.id).then(() => {
 				if (downloadBtnRef.current) downloadBtnRef.current.disabled = false
-				if (progressRef.current) progressRef.current.value = 100
 			})
-			setDownloaded(true)
 		}
 	}
 
@@ -171,9 +185,8 @@ export default function DownloadModModal({
 
 						<progress
 							className='progress progress-success my-2'
-							value={0}
+							value={progress}
 							max='100'
-							ref={progressRef}
 						></progress>
 
 						<button
