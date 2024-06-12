@@ -59,7 +59,7 @@ export const downloadVersion = async (
   let outFileName: string
   if (version.git) outFileName = 'game'
   else if (platform !== 'win32') outFileName = 'version.AppImage'
-  else outFileName = 'version.zip'
+  else outFileName = ''
 
   const icon = `/img/instance/${version.repository?.name.toLowerCase()}.png`
   const instanceData: InstanceData = {
