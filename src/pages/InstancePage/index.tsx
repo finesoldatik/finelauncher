@@ -1,33 +1,20 @@
-import { useRef, useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import {
-	InstanceData,
-	getInstanceContent,
-	getInstanceData,
-	openInFileManager,
-} from '../../utils/instanceManager'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { appWindow } from '@tauri-apps/api/window'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { InstanceData, getInstanceData } from '../../utils/instanceManager'
 import { listen } from '@tauri-apps/api/event'
 import { useGameContext } from '../../contexts/GameProvider'
-import { useSettingsContext } from '../../contexts/SettingsProvider'
-import { deleteInstance, deleteMod } from '../../utils/download'
+import TitleContent from './components/TitleContent'
+import PlayPanel from './components/PlayPanel'
+import MainContent from './components/MainContent'
 
 export default function InstancePage() {
 	console.log('InstancePage Render')
 
 	const params = useParams<{ name: string }>()
-	const progressRef = useRef<HTMLProgressElement>(null)
 
 	const [data, setData] = useState<InstanceData>()
 
-	const navigate = useNavigate()
-
 	const gameContext = useGameContext()
-	const settingsContext = useSettingsContext()
-
-	const [mods, setMods] = useState<string[]>([])
 
 	useEffect(() => {
 		getInstanceData(String(params.name)).then(value => {
@@ -35,152 +22,27 @@ export default function InstancePage() {
 		})
 	}, [])
 
+	// позже это вынести надо в компонент с консолью
 	useEffect(() => {
-		const unSubscribeProgress = listen('build_progress', event => {
-			console.log('Событие build_process:', event.payload)
-			if (progressRef.current) progressRef.current.value = Number(event.payload)
-		})
-
-		const unSubscribeStart = listen('game_process_started', event => {
-			console.log('Событие game_process_started:', event.payload)
-			gameContext.deleteGameLogs()
-			gameContext.setGamePId(Number(event.payload))
-		})
-		const unSubscribeEnd = listen('game_process_ended', event => {
-			console.log('Событие game_process_ended:', event.payload)
-			gameContext.stopGame()
-			gameContext.deleteGameLogs()
-		})
-
 		const unSubscribeLog = listen('log_message', event => {
 			console.log('Событие log_message:', event.payload)
 			gameContext.addGameLogs(String(event.payload))
 		})
 
 		return () => {
-			unSubscribeProgress.then(unsub => unsub())
 			unSubscribeLog.then(unsub => unsub())
-			unSubscribeStart.then(unsub => unsub())
-			unSubscribeEnd.then(unsub => unsub())
 		}
-	}, [])
-
-	useEffect(() => {
-		if (
-			gameContext.gameData.gamePId === null &&
-			settingsContext.hideLauncherOnLaunchGame
-		) {
-			appWindow.unminimize()
-			appWindow.setFocus()
-		}
-	}, [
-		gameContext.gameData.gamePId,
-		settingsContext.hideLauncherOnLaunchGame,
-	])
-
-	useEffect(() => {
-		getInstanceContent(String(params.name)).then(content => {
-			setMods(content.map(value => String(value.name)))
-		})
 	}, [])
 
 	return (
 		<div className='h-full'>
-			<div className='flex flex-row bg-base-300 p-2 h-[26%]'>
-				<img height={160} src={data?.icon} alt='version icon' />
-				<div className='flex items-center ml-2 text-xl'>
-					<div>
-						<h1>Имя: {params.name}</h1>
-						<h1>Версия: {data?.version.name}</h1>
-					</div>
-				</div>
-			</div>
-			<div className='bg-base-200 p-3 h-[64%]'>
-				<div className='flex flex-row justify-between'>
-					<h1 className='text-2xl ml-2 mt-1'>Моды</h1>
-					<div>
-						<div className='join rounded-none rounded-l-lg'>
-							<div
-								className='btn join-item bg-base-100'
-								onClick={() => openInFileManager(String(params.name))}
-							>
-								Открыть в проводнике
-							</div>
-							<div
-								className='btn join-item bg-base-100'
-								onClick={() => console.log('Ещё не готово')}
-							>
-								<FontAwesomeIcon icon={faGear} />
-							</div>
-							<div
-								className='btn btn-error join-item'
-								onClick={() =>
-									deleteInstance(String(params.name)).then(() => {
-										navigate('/instances')
-									})
-								}
-							>
-								<FontAwesomeIcon icon={faTrash} />
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className='h-[85%] overflow-y-auto'>
-					{mods.length > 1 ? (
-						mods.map((value, idx) => {
-							console.log(mods)
-							if (value !== 'temp_dir')
-								return (
-									<div
-										className='flex bg-base-100 mx-2 my-1 justify-between rounded-lg'
-										key={idx}
-									>
-										<h1 className='text-lg mt-2 ml-2'>{value}</h1>
-										<div
-											className='btn btn-error'
-											onClick={async () => {
-												deleteMod(String(params.name), value)
-												setMods(mods.filter(val => val !== value))
-											}}
-										>
-											<FontAwesomeIcon icon={faTrash} />
-										</div>
-									</div>
-								)
-							else console.log('temp_dir is skipped')
-						})
-					) : (
-						<p>
-							Здесь пусто, давайте{' '}
-							<Link to={'/mods'} className='link link-primary'>
-								добавим парочку модов
-							</Link>
-						</p>
-					)}
-				</div>
-			</div>
-			<div className='flex justify-end items-end h-[calc(100%-90%)]'>
-				<progress
-					className='progress progress-success m-2'
-					value={0}
-					max='100'
-					ref={progressRef}
-				></progress>
-				<div
-					className='btn btn-success w-56'
-					onClick={() => {
-						if (settingsContext.hideLauncherOnLaunchGame)
-							appWindow.minimize()
-						console.log(
-							'hideLauncherOnLaunchGame: ',
-							settingsContext.hideLauncherOnLaunchGame
-						)
-						gameContext.startGame(String(params.name))
-					}}
-				>
-					Играть
-				</div>
-			</div>
+			<TitleContent
+				icon={String(data?.icon)}
+				name={String(params.name)}
+				versionName={String(data?.version.name)}
+			/>
+			<MainContent name={String(params.name)} />
+			<PlayPanel name={String(params.name)} />
 		</div>
 	)
 }
