@@ -9,16 +9,16 @@ const defaultRepos = [
     releases: [],
     buildCommands: {
       'linux': [
-        'mkdir build',
+        'mkdir -p build',
         '@build cmake -DCMAKE_BUILD_TYPE=Release ..',
         '@build cmake --build .',
         "build/VoxelEngine",
       ],
       'win32': [
-        'mkdir build',
+        '!mkdir build',
         '@build cmake -DCMAKE_BUILD_TYPE=Release -DVOXELENGINE_BUILD_WINDOWS_VCPKG=ON ..',
         '@build cmake --build . --config Release',
-        "build/VoxelEngine.exe",
+        "build/Release/VoxelEngine.exe",
       ]
     }
   },
@@ -34,7 +34,7 @@ const defaultRepos = [
       ],
       'win32': [
         'cargo build --release',
-        'target/release/voxel_engine',
+        'target/release/voxel_engine.exe',
       ]
     }
   },

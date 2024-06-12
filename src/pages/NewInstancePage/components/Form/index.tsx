@@ -4,6 +4,7 @@ import VersionWrapper, { IVersion } from '../../../../utils/version'
 import { FC, useEffect, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { os } from '@tauri-apps/api'
+import { listen } from '@tauri-apps/api/event'
 
 interface INewInstance {
 	name: string
@@ -46,14 +47,18 @@ const Form: FC = () => {
 		instanceExists(data.name).then(value => {
 			if (!value) {
 				if (createBtnRef.current) createBtnRef.current.disabled = true
-				if (progressRef.current) progressRef.current.value = 50
+        const unSubscribeProgress = listen('download_progress', event => {
+          progressRef.current.value = event.payload;
+        })
 
 				downloadVersion(
 					versions.find(ver => ver.url == data?.version)!,
 					data.name,
 				).then(() => {
 					if (createBtnRef.current) createBtnRef.current.disabled = false
-					if (progressRef.current) progressRef.current.value = 100
+          unSubscribeProgress.then(unsub => unsub())
+				}).catch(() => {
+          unSubscribeProgress.then(unsub => unsub())
 				})
 			}
 		})
