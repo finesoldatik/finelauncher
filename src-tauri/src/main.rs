@@ -34,7 +34,8 @@ fn main() {
             let payload = activity::Activity::new()
                 .details("В лаунчере")
                 .timestamps(discord_rich_presence::activity::Timestamps::new().start(timestamp))
-                .assets(discord_rich_presence::activity::Assets::new().large_image("logo"));
+                .assets(discord_rich_presence::activity::Assets::new().large_image("logo"))
+                .buttons(vec![activity::Button::new("Присоединиться к Discord серверу", "https://discord.com/invite/KU4dXuWBVv")]);
 
             client
                 .set_activity(payload)
