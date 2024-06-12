@@ -213,8 +213,8 @@
 				"fullscreen": false,
 				"decorations": true,
 				"visible": true,
-				"label": "main",
-				"center": true
+				"center": true,
+				"label": "main"
 			}
 		]
 	}

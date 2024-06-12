@@ -12,6 +12,18 @@ use crate::download::download_file;
 use crate::run::{run_game, build_game, terminate_process};
 use crate::unzip::unzip;
 
+// Из tauri.conf.json, это конфиг для окна оверлея (когда будет готов функционал для поддержки оверлея нужно будет это вернуть)
+// {
+// 	"title": "finelauncher Overlay",
+// 	"fullscreen": true,
+// 	"maximized": true,
+// 	"resizable": false,
+// 	"transparent": true,
+// 	"decorations": false,
+// 	"url": "/overlay",
+//     "label": "overlay"
+// }
+
 fn main() {
     let client_id = "1249433232915824751";
     let mut client = DiscordIpcClient::new(client_id).expect("Discord Rich Presence error");

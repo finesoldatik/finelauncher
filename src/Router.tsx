@@ -2,8 +2,13 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import LoadingModal from './modals/LoadingModal'
 import Pages from './pages'
 import { Suspense } from 'react'
+import Overlay from './Overlay'
 
 const router = createBrowserRouter([
+	{
+		path: '/overlay',
+		element: <Overlay />,
+	},
 	{
 		path: '',
 		element: (
