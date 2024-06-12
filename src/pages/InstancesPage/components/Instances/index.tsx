@@ -60,8 +60,7 @@ const Instances: FC = () => {
 			<NewInstance />
 			{isLoading && <LoadingInstances />}
 			{!isLoading && !instances.length && <NoInstances />}
-			{!isLoading &&
-				instances.length &&
+			{!isLoading && instances.length ? (
 				instances.map((el, idx) => {
 					if (el === undefined) return
 					console.log(instances)
@@ -73,7 +72,10 @@ const Instances: FC = () => {
 							key={idx}
 						/>
 					)
-				})}
+				})
+			) : (
+				<></>
+			)}
 		</div>
 	)
 }

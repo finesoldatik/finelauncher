@@ -6,7 +6,7 @@ const LoadingInstances: FC = () => {
 			<figure>
 				<img
 					className='mt-3'
-					src='/img/instance/no-instances.png'
+					src='/img/instance/loading-instances.png'
 					alt='version icon'
 					width={128}
 					height={128}

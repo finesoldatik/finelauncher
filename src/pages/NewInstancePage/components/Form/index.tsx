@@ -20,11 +20,10 @@ const Form: FC = () => {
 		formState: { errors },
 	} = useForm<INewInstance>()
 
-	const createBtnRef = useRef<HTMLButtonElement>(null)
-	const progressRef = useRef<HTMLProgressElement>(null)
-
 	const [versions, setVersions] = useState<IVersion[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isDownloading, setDownloading] = useState<boolean>(false)
+	const [progress, setProgress] = useState<number>(0)
 
 	useEffect(() => {
 		const versionWrapper = new VersionWrapper()
@@ -47,13 +46,12 @@ const Form: FC = () => {
 
 		instanceExists(data.name).then(value => {
 			if (!value) {
-				if (createBtnRef.current) createBtnRef.current.disabled = true
-
+				setDownloading(true)
 				downloadVersion(
 					versions.find(ver => ver.url == data?.version)!,
 					data.name
 				).then(() => {
-					if (createBtnRef.current) createBtnRef.current.disabled = false
+					setDownloading(false)
 				})
 			}
 		})
@@ -62,7 +60,7 @@ const Form: FC = () => {
 	useEffect(() => {
 		const unSubscribeProgress = listen('download_progress', event => {
 			console.log('Событие download_progress:', event.payload)
-			if (progressRef.current) progressRef.current.value = Number(event.payload)
+			setProgress(Number(event.payload))
 		})
 
 		return () => {
@@ -85,6 +83,7 @@ const Form: FC = () => {
 						type='text'
 						placeholder='Введите имя инстанса'
 						className='input input-bordered input-primary w-full my-2'
+						disabled={isDownloading}
 					/>
 				</label>
 				{errors?.name && (
@@ -95,36 +94,50 @@ const Form: FC = () => {
 					{...register('version', {
 						required: 'Заполните это поле!',
 					})}
-					className={`select select-primary w-full my-2`}
+					className='select select-primary w-full my-2'
 					title='select'
-					disabled={isLoading}
+					disabled={isLoading || isDownloading}
 					defaultValue=''
 				>
 					<option value='' disabled>
 						Выберите версию игры
 					</option>
-					{versions.map(version => (
-						<option value={version.url} key={version.url}>
-							{`${version.repository.name} ${version.name}`}
-						</option>
-					))}
+					<optgroup label='Voxel Engine'>
+						{versions
+							.filter(value => value.repository.name === 'VE')
+							.map(version => (
+								<option value={version.url} key={version.url}>
+									{version.name}
+								</option>
+							))}
+					</optgroup>
+					<optgroup label='Rusty Voxel Engine'>
+						{versions
+							.filter(value => value.repository.name === 'RVE')
+							.map(version => (
+								<option value={version.url} key={version.url}>
+									{version.name}
+								</option>
+							))}
+					</optgroup>
 				</select>
 
 				{errors?.version && (
 					<div className='text-error my-1'>{errors.version.message}</div>
 				)}
-
-				<progress
-					className='progress progress-success my-2'
-					value={0}
-					max='100'
-					ref={progressRef}
-				></progress>
+				<div className='flex flex-row'>
+					<progress
+						className='progress progress-success my-2'
+						value={progress}
+						max='100'
+					></progress>
+					<h4 className='ml-2'>{progress}%</h4>
+				</div>
 
 				<button
 					className='btn btn-primary my-2'
-					ref={createBtnRef}
 					type='submit'
+					disabled={isDownloading}
 				>
 					Создать
 				</button>
