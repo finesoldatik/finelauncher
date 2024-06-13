@@ -6,9 +6,11 @@ import { useGameContext } from '../../contexts/GameProvider'
 import TitleContent from './components/TitleContent'
 import PlayPanel from './components/PlayPanel'
 import MainContent from './components/MainContent'
+import { discordPresence } from '../../utils/discordRPC'
 
 export default function InstancePage() {
 	console.log('InstancePage Render')
+  discordPresence("Готовится к игре");
 
 	const params = useParams<{ name: string }>()
 
