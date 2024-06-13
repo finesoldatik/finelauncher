@@ -38,7 +38,7 @@
         devShell = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [ cmake pkg-config ];
           buildInputs = packages ++ (with pkgs; [ glm glfw glew zlib libpng libvorbis openal luajit  ]);
-          packages = with pkgs; [ mesa freeglut ];
+          packages = with pkgs; [ mesa freeglut entt ];
           shellHook =
             ''
               export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath libraries}:${pkgs.wayland}/lib:$LD_LIBRARY_PATH

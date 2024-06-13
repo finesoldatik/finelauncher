@@ -4,9 +4,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
 import { items } from '../../components/Sidebar/data'
+import { discordPresence } from '../../utils/discordRPC'
 
 export default function HomePage() {
 	console.log('HomePage Render')
+
+  discordPresence("В лаунчере");
 
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()

@@ -4,9 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ContributorsWrapper, { IContributor } from '../../utils/contributors'
+import { discordPresence } from '../../utils/discordRPC'
 
 export default function AboutPage() {
 	const [contributors, setContributors] = useState<IContributor[]>([])
+
+  discordPresence("Разглядывает страничку \"о нас\"");
 
 	useEffect(() => {
 		const contributorsWrapper = new ContributorsWrapper()
