@@ -3,7 +3,7 @@ import { discordPresence } from '../../utils/discordRPC'
 
 export default function SettingsPage() {
 	console.log('SettingsPage Render')
-  discordPresence("Ковыряется в настройках");
+	discordPresence('Ковыряется в настройках')
 
 	return <Settings />
 }

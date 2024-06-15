@@ -10,7 +10,7 @@ import { discordPresence } from '../../utils/discordRPC'
 
 export default function InstancePage() {
 	console.log('InstancePage Render')
-  discordPresence("Готовится к игре");
+	discordPresence('Сидит в инстансе')
 
 	const params = useParams<{ name: string }>()
 

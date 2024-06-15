@@ -3,6 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 import { Link } from 'react-router-dom'
+import { faDiscord } from '@fortawesome/free-brands-svg-icons'
+import {
+	discordPresence,
+	reconnectDiscordRPC,
+} from '../../../../utils/discordRPC'
 
 const Footer: FC = () => {
 	console.log('Footer Render')
@@ -20,7 +25,16 @@ const Footer: FC = () => {
 			</p>
 			<div className='flex flex-grow'></div>
 			<button
-				className='btn btn-error btn-sm'
+				className='btn btn-accent btn-sm'
+				onClick={() => {
+					reconnectDiscordRPC()
+					discordPresence('Ковыряется в настройках')
+				}}
+			>
+				Перезапустить Дискорд Присутствие <FontAwesomeIcon icon={faDiscord} />
+			</button>
+			<button
+				className='ml-1 btn btn-error btn-sm'
 				onClick={() => {
 					settingsContext.setTheme('dark')
 					settingsContext.resetSettings()

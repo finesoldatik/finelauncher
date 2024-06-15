@@ -8,8 +8,7 @@ import { discordPresence } from '../../utils/discordRPC'
 
 export default function HomePage() {
 	console.log('HomePage Render')
-
-  discordPresence("В лаунчере");
+	discordPresence('В лаунчере')
 
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()

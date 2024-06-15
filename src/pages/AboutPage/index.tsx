@@ -9,7 +9,7 @@ import { discordPresence } from '../../utils/discordRPC'
 export default function AboutPage() {
 	const [contributors, setContributors] = useState<IContributor[]>([])
 
-  discordPresence("Разглядывает страничку \"о нас\"");
+	discordPresence('Разглядывает страничку "О нас"')
 
 	useEffect(() => {
 		const contributorsWrapper = new ContributorsWrapper()
