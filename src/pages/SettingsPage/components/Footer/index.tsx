@@ -8,6 +8,7 @@ import {
 	discordPresence,
 	reconnectDiscordRPC,
 } from '../../../../utils/discordRPC'
+import { LAUNCHER_VERSION } from '../../../../constants'
 
 const Footer: FC = () => {
 	console.log('Footer Render')
@@ -18,7 +19,7 @@ const Footer: FC = () => {
 		<div className='flex flex-row items-center mb-2'>
 			<p className='text-1xl ml-2 mt-4'>
 				Спасибо за использование finelauncher!{' '}
-				<FontAwesomeIcon icon={faHeart} color='red' /> (v0.1.2){' '}
+				<FontAwesomeIcon icon={faHeart} color='red' /> ({LAUNCHER_VERSION}){' '}
 				<Link className='link link-primary' to='/about'>
 					О нас
 				</Link>
