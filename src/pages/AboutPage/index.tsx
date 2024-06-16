@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ContributorsWrapper, { IContributor } from '../../utils/contributors'
 import { discordPresence } from '../../utils/discordRPC'
+import { LAUNCHER_DISCORD, LAUNCHER_GITHUB, VOXELWORLD } from '../../constants'
 
 export default function AboutPage() {
 	const [contributors, setContributors] = useState<IContributor[]>([])
@@ -29,7 +30,7 @@ export default function AboutPage() {
 					<li>
 						<Link
 							className='link link-primary'
-							to='https://github.com/finesoldatik/finelauncher'
+							to={LAUNCHER_GITHUB}
 							target='_blank'
 						>
 							<FontAwesomeIcon className='mr-1' icon={faGithub} />
@@ -39,7 +40,7 @@ export default function AboutPage() {
 					<li>
 						<Link
 							className='link link-primary'
-							to='https://discord.com/invite/KU4dXuWBVv'
+							to={LAUNCHER_DISCORD}
 							target='_blank'
 						>
 							<FontAwesomeIcon icon={faDiscord} />
@@ -49,7 +50,7 @@ export default function AboutPage() {
 					<li>
 						<Link
 							className='link link-primary'
-							to='https://github.com/finesoldatik/finelauncher/wiki'
+							to={`${LAUNCHER_GITHUB}/wiki`}
 							target='_blank'
 						>
 							<FontAwesomeIcon className='mr-1' icon={faCircleQuestion} />
@@ -62,7 +63,7 @@ export default function AboutPage() {
 				Сейчас используется 2 версия дизайна (полностью переработанная).{' '}
 				<Link
 					className='link link-primary'
-					to='https://discord.com/invite/KU4dXuWBVv'
+					to={LAUNCHER_DISCORD}
 					target='_blank'
 				>
 					Подробнее в нашем Discord.
@@ -71,11 +72,7 @@ export default function AboutPage() {
 			<div className='ml-2 mt-1'>
 				<p>
 					finelauncher использует API{' '}
-					<Link
-						className='link link-primary'
-						to='https://voxelworld.ru/'
-						target='_blank'
-					>
+					<Link className='link link-primary' to={VOXELWORLD} target='_blank'>
 						VoxelWorld'a
 					</Link>
 				</p>
