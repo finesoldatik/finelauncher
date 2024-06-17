@@ -1,5 +1,5 @@
 export const LAUNCHER_NAME = 'finelauncher'
-export const LAUNCHER_VERSION = '0.2.0'
+export const LAUNCHER_VERSION = '1.0.0'
 export const LAUNCHER_DISCORD = 'https://discord.com/invite/KU4dXuWBVv'
 export const LAUNCHER_GITHUB = 'https://github.com/finesoldatik/finelauncher'
 export const VOXELWORLD = 'https://voxelworld.ru/'
