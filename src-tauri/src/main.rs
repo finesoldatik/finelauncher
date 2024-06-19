@@ -39,7 +39,7 @@ async fn discord_presence(
     match client.lock().unwrap().set_activity(payload) {// .map_err(|err| format!("Failed to set activity: {}", err))
         Ok(()) => Ok(()),
         Err(err) if format!("{}", err) == "Couldn't set activity to the Discord IPC socket" => Ok(()),
-        Err(..) => panic!("Activity is not set"),
+        Err(..) => Ok(()),
     }
 }
 
@@ -57,7 +57,7 @@ fn main() {
     match client.connect() {
         Ok(()) => (),
         Err(err) if format!("{}", err) == "Couldn't connect to the Discord IPC socket" => (),
-        Err(..) => panic!("Discord Rich Presence not connected"),
+        Err(..) => (),
     };
 
     #[cfg(target_os = "linux")]
