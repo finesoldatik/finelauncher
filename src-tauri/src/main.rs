@@ -36,9 +36,11 @@ async fn discord_presence(
         .assets(discord_rich_presence::activity::Assets::new().large_image("logo"))
         .buttons(vec![activity::Button::new("Присоединиться к Discord серверу", "https://discord.com/invite/KU4dXuWBVv")]);
 
-    client.lock().unwrap()
-        .set_activity(payload)
-        .map_err(|err| format!("Failed to set activity: {}", err))
+    match client.lock().unwrap().set_activity(payload) {// .map_err(|err| format!("Failed to set activity: {}", err))
+        Ok(()) => Ok(()),
+        Err(err) if format!("{}", err) == "Couldn't set activity to the Discord IPC socket" => Ok(()),
+        Err(..) => panic!("Activity is not set"),
+    }
 }
 
 #[tauri::command(rename_all = "snake_case")]
