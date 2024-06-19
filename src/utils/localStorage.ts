@@ -1,8 +1,7 @@
-'use client'
-type GetValue = (key: string) => any
-type SetValue = (value: any, key: string) => void
+type GetValue = <T = any>(key: string) => T | null
+type SetValue = <T = any>(value: T, key: string) => void
 
-export const getValue: GetValue = (key: string) => {
+export const getValue: GetValue = key => {
 	const storage = localStorage.getItem(key) // string || null
 
 	if (storage) {
@@ -12,6 +11,6 @@ export const getValue: GetValue = (key: string) => {
 	return null
 }
 
-export const setValue: SetValue = (value: any, key: string) => {
+export const setValue: SetValue = (value, key) => {
 	localStorage.setItem(key, JSON.stringify(value))
 }
