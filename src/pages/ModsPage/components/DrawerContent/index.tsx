@@ -27,7 +27,7 @@ const DrawerContent: FC<IDrawerContentProps> = memo(({
 	return (
 		<div className='drawer-content w-[calc(100%-1px)]'>
 			{/* Page content here */}
-			<div className='flex justify-center mb-1 bg-base-300'>
+			<div className='flex justify-center mb-1 bg-base-300 py-3'>
 				<label htmlFor='my-drawer-4' className='drawer-button btn btn-primary'>
 					Изменить фильтры
 				</label>
