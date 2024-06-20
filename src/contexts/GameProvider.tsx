@@ -1,12 +1,11 @@
-'use client'
 import { createContext, useState, useContext, ReactNode, useMemo } from 'react'
-import { getValue, setValue } from '../utils/localStorage'
+import { setValue } from '../utils/localStorage'
 import { runGame, terminateProcess } from '../utils/instanceManager'
 
 interface IGameContext {
-	setOption: (value: boolean, key: string) => void
-	gameData: IGameData
-	setGamePId: (pid: number | null) => void
+	pid: number | null
+	logs: string[]
+	setGamePid: (pid: number | null) => void
 	addGameLogs: (logs: string) => void
 	deleteGameLogs: () => void
 	startGame: (version_name: string) => void
@@ -15,12 +14,9 @@ interface IGameContext {
 }
 
 export const GameContext = createContext<IGameContext>({
-	setOption: () => {},
-	gameData: {
-		gamePId: null,
-		gameLogs: [],
-	},
-	setGamePId: () => {},
+	pid: null,
+	logs: [],
+	setGamePid: () => {},
 	addGameLogs: () => {},
 	deleteGameLogs: () => {},
 	startGame: () => {},
@@ -30,37 +26,24 @@ export const GameContext = createContext<IGameContext>({
 
 export const useGameContext = () => useContext(GameContext)
 
-interface IGameData {
-	gamePId: number | null
-	gameLogs: string[]
-}
-
 export default function GameProvider({ children }: { children: ReactNode }) {
-	const [gameData, setGameData] = useState<IGameData>({
-		gamePId: getValue('gamePId') || null,
-		gameLogs: getValue('gameLogs') || [],
-	})
+	const [pid, setPid] = useState<number | null>(null)
 	const [logs, setLogs] = useState<string[]>([])
 
-	const setOption = (value: any, key: string) => {
-		setGameData(prev => ({ ...prev, [key]: value }))
-		setValue(value, key)
-	}
-
-	const setGamePId = (value: number | null) => {
-		setOption(value, 'gamePId')
+	const setGamePid = (value: number | null) => {
+		setValue(value, 'gamePid')
+		setPid(value)
 	}
 
 	const addGameLogs = (value: string) => {
-		console.log(logs)
 		setLogs(prev => {
-			setOption([...prev, value], 'gameLogs')
+			setValue([...prev, value], 'gameLogs')
 			return [...prev, value]
 		})
 	}
 
 	const deleteGameLogs = () => {
-		setOption([], 'gameLogs')
+		setValue([], 'gameLogs')
 	}
 
 	const startGame = (version_name: string) => {
@@ -68,26 +51,26 @@ export default function GameProvider({ children }: { children: ReactNode }) {
 	}
 
 	const stopGame = () => {
-		setOption(null, 'gamePId')
+		setValue(null, 'gamePid')
 	}
 
 	const terminateGame = (PID: number) => {
 		terminateProcess(PID)
-		setOption(null, 'gamePId')
+		setGamePid(null)
 	}
 
 	const value = useMemo(
 		() => ({
-			setOption,
-			gameData,
-			setGamePId,
+			pid,
+			logs,
+			setGamePid,
 			addGameLogs,
 			deleteGameLogs,
 			startGame,
 			stopGame,
 			terminateGame,
 		}),
-		[gameData]
+		[pid, logs]
 	)
 
 	return <GameContext.Provider value={value}>{children}</GameContext.Provider>

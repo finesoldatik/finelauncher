@@ -24,7 +24,7 @@ const PlayPanel: FC<IPlayPanelProps> = ({ name }) => {
 		const unSubscribeStart = listen('game_process_started', event => {
 			console.log('Событие game_process_started:', event.payload)
 			gameContext.deleteGameLogs()
-			gameContext.setGamePId(Number(event.payload))
+			gameContext.setGamePid(Number(event.payload))
 		})
 		const unSubscribeEnd = listen('game_process_ended', event => {
 			console.log('Событие game_process_ended:', event.payload)
@@ -40,14 +40,11 @@ const PlayPanel: FC<IPlayPanelProps> = ({ name }) => {
 	}, [])
 
 	useEffect(() => {
-		if (
-			gameContext.gameData.gamePId === null &&
-			settingsContext.hideLauncherOnLaunchGame
-		) {
+		if (gameContext.pid === null && settingsContext.hideLauncherOnLaunchGame) {
 			appWindow.unminimize()
 			appWindow.setFocus()
 		}
-	}, [gameContext.gameData.gamePId, settingsContext.hideLauncherOnLaunchGame])
+	}, [gameContext.pid, settingsContext.hideLauncherOnLaunchGame])
 
 	return (
 		<div className='flex justify-end items-end h-[calc(100%-90%)]'>
