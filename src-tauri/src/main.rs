@@ -54,11 +54,21 @@ async fn reconnect_discord(
     client: tauri::State<'_, std::sync::Mutex<DiscordIpcClient>>,
     is_discord_connected: tauri::State<'_, std::sync::Mutex<bool>>,
 ) ->Result<(), String>{
-    if *is_discord_connected.lock().unwrap() == false {
-        return Err("Discord not connected".to_string());
+
+    if *is_discord_connected.lock().unwrap() == true {
+        client.lock().unwrap()
+            .reconnect().map_err(|err| format!("Failed to reconnect: {}", err))
+    } else {
+        *is_discord_connected.lock().unwrap() = false;
+        match client.lock().unwrap().connect() {
+            Ok(()) => {
+                *is_discord_connected.lock().unwrap() = true;
+                return Ok(())
+            }
+            Err(err) if format!("{}", err) == "Couldn't connect to the Discord IPC socket" => Ok(()),
+            Err(..) => Ok(()),
+        }
     }
-    client.lock().unwrap()
-        .reconnect().map_err(|err| format!("Failed to reconnect: {}", err))
 }
 
 fn main() {
