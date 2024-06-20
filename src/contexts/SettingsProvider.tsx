@@ -74,7 +74,7 @@ export default function SettingsProvider({
 	}
 
 	useEffect(() => {
-		setTab(getValue('tabId'))
+		setTab(Number(getValue('tabId')))
 	}, [])
 
 	useEffect(() => {
