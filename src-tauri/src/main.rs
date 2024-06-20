@@ -3,7 +3,7 @@
 
 use chrono::Utc;
 use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
-use std::{sync::{Arc, Mutex}};
+use std::{sync::{Mutex}};
 
 mod download;
 mod run;
@@ -28,7 +28,7 @@ use crate::unzip::unzip;
 #[tauri::command(rename_all = "snake_case")]
 async fn discord_presence(
     client: tauri::State<'_, std::sync::Mutex<DiscordIpcClient>>,
-    is_discord_connected: tauri::State<'_, Arc<Mutex<bool>>>,
+    is_discord_connected: tauri::State<'_, Mutex<bool>>,
     message: &str,
 ) ->Result<(), String>{
     let is_connected = is_discord_connected.lock().unwrap();
@@ -62,10 +62,10 @@ fn main() {
     let client_id = "1249433232915824751";
     let mut client = DiscordIpcClient::new(client_id).expect("Discord Rich Presence error");
 
-    let is_discord_connected = Arc::new(Mutex::new(false));
+    let mut is_discord_connected = false;
 
     match client.connect() {
-        Ok(()) => *is_discord_connected.lock().unwrap() = true,
+        Ok(()) => is_discord_connected = true,
         Err(err) if format!("{}", err) == "Couldn't connect to the Discord IPC socket" => (),
         Err(..) => (),
     };
@@ -76,8 +76,8 @@ fn main() {
         std::env::var("XDG_SESSION_TYPE").unwrap_or("x11".to_owned()),
     );
     tauri::Builder::default()
-        .manage(std::sync::Mutex::new(client))
-        .manage(is_discord_connected)
+        .manage(Mutex::new(client))
+        .manage(Mutex::new(is_discord_connected))
         .invoke_handler(tauri::generate_handler![
             discord_presence,
             reconnect_discord,
