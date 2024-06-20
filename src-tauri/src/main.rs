@@ -27,11 +27,11 @@ use crate::unzip::unzip;
 #[tauri::command(rename_all = "snake_case")]
 async fn discord_presence(
     client: tauri::State<'_, std::sync::Mutex<DiscordIpcClient>>,
-    is_discord_connected: tauri::State<'_, bool>,
+    is_discord_connected: tauri::State<'_, std::sync::Mutex<bool>>,
     message: &str,
 ) ->Result<(), String>{
 
-    if *is_discord_connected == false {
+    if *is_discord_connected.lock().unwrap() == false {
         return Err("Discord not connected".to_string());
     }
 
@@ -52,7 +52,11 @@ async fn discord_presence(
 #[tauri::command(rename_all = "snake_case")]
 async fn reconnect_discord(
     client: tauri::State<'_, std::sync::Mutex<DiscordIpcClient>>,
+    is_discord_connected: tauri::State<'_, std::sync::Mutex<bool>>,
 ) ->Result<(), String>{
+    if *is_discord_connected.lock().unwrap() == false {
+        return Err("Discord not connected".to_string());
+    }
     client.lock().unwrap()
         .reconnect().map_err(|err| format!("Failed to reconnect: {}", err))
 }
@@ -76,7 +80,7 @@ fn main() {
     );
     tauri::Builder::default()
         .manage(std::sync::Mutex::new(client))
-        .manage(is_discord_connected)
+        .manage(std::sync::Mutex::new(is_discord_connected))
         .invoke_handler(tauri::generate_handler![
             discord_presence,
             reconnect_discord,
