@@ -18,7 +18,7 @@ const Mod: FC<IModProps> = memo(({ mod, setCurrentModId, setActive }) => {
 
 	return (
 		<div
-			className='btn w-64 h-80 bg-base-200 shadow-xl rounded-none m-0.5 flex-grow flex-wrap'
+			className='flex grow btn min-w-64 h-80 bg-base-200 shadow-xl rounded-none m-0.5'
 			onClick={() => {
 				setCurrentModId(mod.id)
 				setActive(true)

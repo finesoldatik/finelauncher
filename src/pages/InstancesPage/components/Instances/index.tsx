@@ -1,5 +1,4 @@
 import Instance from '../Instance'
-import NewInstance from '../NewInstance'
 import NoInstances from '../NoInstances'
 import {
 	getInstalledInstances,
@@ -8,6 +7,7 @@ import {
 import { FC, useEffect, useState } from 'react'
 import { IVersion } from '../../../../utils/version'
 import LoadingInstances from '../LoadingInstances'
+import Navbar from '../Navbar'
 
 interface IVersionDisplay {
 	name: string
@@ -56,22 +56,24 @@ const Instances: FC = () => {
 	}, [])
 
 	return (
-		<div className='flex flex-row flex-wrap'>
-			<NewInstance />
+		<div>
+			<Navbar />
 			{isLoading && <LoadingInstances />}
 			{!isLoading && !instances.length && <NoInstances />}
-			{!isLoading && instances.length ? (
-				instances.map((el, idx) => (
-					<Instance
-						name={String(el?.name)}
-						version={String(el?.version.name)}
-						image={String(el?.image)}
-						key={idx}
-					/>
-				))
-			) : (
-				<></>
-			)}
+			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 p-1'>
+				{!isLoading && instances.length ? (
+					instances.map((el, idx) => (
+						<Instance
+							name={String(el?.name)}
+							version={String(el?.version.name)}
+							image={String(el?.image)}
+							key={idx}
+						/>
+					))
+				) : (
+					<></>
+				)}
+			</div>
 		</div>
 	)
 }

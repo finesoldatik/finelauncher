@@ -1,24 +1,30 @@
 import { FC } from 'react'
 
 const LoadingInstances: FC = () => {
-	console.log('LoadingInstances Render')
-	
+	console.log('NoInstances Render')
+
 	return (
-		<div className='btn w-64 h-64 bg-base-200 shadow-xl rounded-none m-0.5'>
-			<figure>
-				<img
-					className='mt-3'
-					src='/img/instance/loading-instances.png'
-					alt='version icon'
-					width={128}
-					height={128}
-				/>
-			</figure>
-			<div className='card-body p-0'>
-				<h3 className='card-title'>Инстансы загружаются</h3>
+		<div className='relative flex items-center justify-center w-full h-full bg-black bg-opacity-10'>
+			<div className='flex flex-col text-center'>
+				<figure className='flex justify-center'>
+					<img
+						className='mt-3'
+						src='/img/instance/loading-instances.png'
+						alt='version icon'
+						width={192}
+						height={192}
+					/>
+				</figure>
+				<div className='mt-6'>
+					<h1 className='text-2xl'>Инстансы загружаются ✨</h1>
+					<h3 className='text-lg'>
+						Это займет некоторое время..
+					</h3>
+				</div>
 			</div>
 		</div>
 	)
 }
 
 export default LoadingInstances
+

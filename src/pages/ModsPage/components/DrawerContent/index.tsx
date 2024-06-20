@@ -27,7 +27,7 @@ const DrawerContent: FC<IDrawerContentProps> = memo(({
 	return (
 		<div className='drawer-content w-[calc(100%-1px)]'>
 			{/* Page content here */}
-			<div className='flex justify-center mb-1 py-3 bg-base-300'>
+			<div className='flex justify-center mb-1 bg-base-300'>
 				<label htmlFor='my-drawer-4' className='drawer-button btn btn-primary'>
 					Изменить фильтры
 				</label>
@@ -77,7 +77,7 @@ const DrawerContent: FC<IDrawerContentProps> = memo(({
 					</button>
 				</div>
 			</div>
-			<div className='flex flex-row flex-wrap'>
+			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 p-1'>
 				{content.map(mod => {
 					return (
 						<Mod
