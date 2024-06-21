@@ -40,15 +40,27 @@ export default function HomePage() {
 						<h1 className='text-5xl font-bold'>Привет!</h1>
 						<p className='py-6'>
 							это главная страница, здесь ничего интересного, давай пойдем{' '}
-							<Link to='/instances' className='link link-secondary'>
+							<Link
+								to='/instances'
+								className='link link-secondary'
+								onClick={() => settingsContext.setTab(1)}
+							>
 								играть
 							</Link>{' '}
 							или{' '}
-							<Link to='/mods' className='link link-secondary'>
+							<Link
+								to='/mods'
+								className='link link-secondary'
+								onClick={() => settingsContext.setTab(2)}
+							>
 								выбирать моды
 							</Link>
 						</p>
-						<Link to='/instances' className='btn btn-primary'>
+						<Link
+							to='/instances'
+							className='btn btn-primary'
+							onClick={() => settingsContext.setTab(1)}
+						>
 							Начать играть
 						</Link>
 					</div>

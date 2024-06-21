@@ -28,11 +28,12 @@ const Footer: FC = () => {
 			<button
 				className='btn btn-accent btn-sm'
 				onClick={() => {
-					reconnectDiscordRPC()
-					discordPresence('Ковыряется в настройках')
+					reconnectDiscordRPC().then(() => {
+						discordPresence('Ковыряется в настройках')
+					})
 				}}
 			>
-				Перезапустить Дискорд Присутствие <FontAwesomeIcon icon={faDiscord} />
+				Перезагрузить Дискорд Активность <FontAwesomeIcon icon={faDiscord} />
 			</button>
 			<button
 				className='ml-1 btn btn-error btn-sm'

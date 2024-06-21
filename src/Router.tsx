@@ -3,6 +3,7 @@ import LoadingModal from './modals/LoadingModal'
 import Pages from './pages'
 import { Suspense } from 'react'
 import Overlay from './Overlay'
+import NotFound from './pages/NotFound'
 
 const router = createBrowserRouter([
 	{
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
 				<Pages.Layout />
 			</Suspense>
 		),
+		errorElement: <NotFound />,
 		children: [
 			{
 				path: '/',
