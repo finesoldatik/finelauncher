@@ -15,6 +15,37 @@ interface IVersionDisplay {
 	image: string
 }
 
+const loadInstances = async (
+	setLoading: (value: boolean) => void,
+	setInstances: (value: IVersionDisplay[] | undefined[]) => void
+) => {
+	setLoading(true)
+	const installedInstances = await getInstalledInstances()
+	Promise.all(
+		installedInstances.map(async instance => {
+			if (
+				instance.children?.find(value => {
+					return value.name === 'instance.json'
+				}) &&
+				instance.name
+			) {
+				const instanceData = await getInstanceData(String(instance.name))
+				return {
+					name: instanceData.name,
+					version: instanceData.version,
+					image: instanceData.icon,
+				}
+			}
+		})
+	).then(value => {
+		const filtered = value.filter(val => val !== undefined)
+		console.log(filtered)
+		//@ts-expect-error все работает, но всеравно на что-то ругается
+		setInstances(filtered)
+		setLoading(false)
+	})
+}
+
 const Instances: FC = () => {
 	console.log('Instances Render')
 
@@ -24,40 +55,12 @@ const Instances: FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false)
 
 	useEffect(() => {
-		const getInstances = async () => {
-			setLoading(true)
-			const installedInstances = await getInstalledInstances()
-			Promise.all(
-				installedInstances.map(async instance => {
-					if (
-						instance.children?.find(value => {
-							return value.name === 'instance.json'
-						}) &&
-						instance.name
-					) {
-						const instanceData = await getInstanceData(String(instance.name))
-						return {
-							name: instanceData.name,
-							version: instanceData.version,
-							image: instanceData.icon,
-						}
-					}
-				})
-			).then(value => {
-				const filtered = value.filter(val => val !== undefined)
-				console.log(filtered)
-				//@ts-expect-error все работает, но всеравно на что-то ругается
-				setInstances(filtered)
-				setLoading(false)
-			})
-		}
-
-		getInstances()
+		loadInstances(setLoading, setInstances)
 	}, [])
 
 	return (
 		<div>
-			<Navbar />
+			<Navbar loadInstances={() => loadInstances(setLoading, setInstances)} />
 			{isLoading && <LoadingInstances />}
 			{!isLoading && !instances.length && <NoInstances />}
 			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 p-1'>

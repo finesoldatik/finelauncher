@@ -3,7 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Navbar: FC = () => {
+interface INavbarProps {
+	loadInstances: () => void
+}
+
+const Navbar: FC<INavbarProps> = ({ loadInstances }) => {
 	const navigate = useNavigate()
 
 	return (
@@ -17,7 +21,10 @@ const Navbar: FC = () => {
 				</button>
 			</div>
 			<div className='flex-none'>
-				<div className='btn bg-base-200 btn-square btn-ghost'>
+				<div
+					className='btn bg-base-200 btn-square btn-ghost'
+					onClick={() => loadInstances()}
+				>
 					<FontAwesomeIcon icon={faRotateRight} />
 				</div>
 			</div>

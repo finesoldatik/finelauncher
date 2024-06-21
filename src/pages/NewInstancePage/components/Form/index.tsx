@@ -11,7 +11,11 @@ interface INewInstance {
 	version: string
 }
 
-const Form: FC = () => {
+interface IFormProps {
+	setModalActive: (value: boolean) => void
+}
+
+const Form: FC<IFormProps> = ({ setModalActive }) => {
 	console.log('Form Render')
 
 	const {
@@ -21,7 +25,7 @@ const Form: FC = () => {
 	} = useForm<INewInstance>()
 
 	const [versions, setVersions] = useState<IVersion[]>([])
-	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isLoading, setLoading] = useState<boolean>(true)
 	const [isDownloading, setDownloading] = useState<boolean>(false)
 	const [progress, setProgress] = useState<number>(0)
 
@@ -36,7 +40,7 @@ const Form: FC = () => {
 				releases = versionWrapper.getLinuxVersions()
 
 			setVersions(releases)
-			setIsLoading(false)
+			setLoading(false)
 		}
 		versionWrapper.updateRepositories().then(() => getVersions())
 	}, [])
@@ -52,6 +56,7 @@ const Form: FC = () => {
 					data.name
 				).then(() => {
 					setDownloading(false)
+					setModalActive(true)
 				})
 			}
 		})
