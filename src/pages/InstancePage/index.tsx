@@ -7,10 +7,12 @@ import TitleContent from './components/TitleContent'
 import PlayPanel from './components/PlayPanel'
 import MainContent from './components/MainContent'
 import { discordPresence } from '../../utils/discordRPC'
+import { useSettingsContext } from '../../contexts/SettingsProvider'
 
 export default function InstancePage() {
 	console.log('InstancePage Render')
-	discordPresence('Сидит в инстансе')
+
+	const settingsContext = useSettingsContext()
 
 	const params = useParams<{ name: string }>()
 
@@ -19,6 +21,12 @@ export default function InstancePage() {
 	const gameContext = useGameContext()
 
 	useEffect(() => {
+		discordPresence(
+			settingsContext.translation.translatable(
+				'instancePage.discordPresence.title'
+			)
+		)
+
 		getInstanceData(String(params.name)).then(value => {
 			setData(value)
 		})
@@ -39,12 +47,16 @@ export default function InstancePage() {
 	return (
 		<div className='h-full'>
 			<TitleContent
+				settingsContext={settingsContext}
 				icon={String(data?.icon)}
 				name={String(params.name)}
 				versionName={String(data?.version.name)}
 			/>
-			<MainContent name={String(params.name)} />
-			<PlayPanel name={String(params.name)} />
+			<MainContent
+				settingsContext={settingsContext}
+				name={String(params.name)}
+			/>
+			<PlayPanel settingsContext={settingsContext} name={String(params.name)} />
 		</div>
 	)
 }

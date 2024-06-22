@@ -7,28 +7,34 @@ import {
 	useEffect,
 } from 'react'
 import { getValue, setValue } from '../utils/localStorage'
+import TranslatableText from '../utils/TranslatableText'
 
-interface ISettingsContext {
+export interface ISettingsContext {
 	theme: string
+	translation: TranslatableText
 	homePageAnimation: number
 	hideLauncherOnLaunchGame: boolean
 	tabId: number
-	setTab: (value: number) => void
 	setTheme: (value: string) => void
+	setTranslation: (value: TranslatableText) => void
 	setHomeAnimation: (value: number) => void
 	setHideLauncher: (value: boolean) => void
+	setTab: (value: number) => void
 	resetSettings: () => void
 }
 
 export const SettingsContext = createContext<ISettingsContext>({
 	theme: 'dark',
+	translation: new TranslatableText(),
 	homePageAnimation: 0,
 	hideLauncherOnLaunchGame: false,
 	tabId: 0,
-	setTab: () => {},
+
 	setTheme: () => {},
+	setTranslation: () => {},
 	setHomeAnimation: () => {},
 	setHideLauncher: () => {},
+	setTab: () => {},
 	resetSettings: () => {},
 })
 
@@ -39,7 +45,12 @@ export default function SettingsProvider({
 }: {
 	children: ReactNode
 }) {
+	console.log('SettingsProvider Render')
+
 	const [theme, setTheme] = useState<string>(getValue('theme') || 'dark')
+	const [translation, setTranslation] = useState<TranslatableText>(
+		new TranslatableText()
+	)
 	const [tabId, setTabId] = useState<number>(0)
 	const [homePageAnimation, setHomePageAnimation] = useState(
 		getValue('homePageAnimation') || 0
@@ -84,16 +95,18 @@ export default function SettingsProvider({
 	const value = useMemo(
 		() => ({
 			theme,
+			translation,
 			homePageAnimation,
 			hideLauncherOnLaunchGame,
 			tabId,
-			setTab,
 			setTheme,
+			setTranslation,
 			setHomeAnimation,
 			setHideLauncher,
+			setTab,
 			resetSettings,
 		}),
-		[theme, tabId]
+		[theme, translation, tabId]
 	)
 
 	return (

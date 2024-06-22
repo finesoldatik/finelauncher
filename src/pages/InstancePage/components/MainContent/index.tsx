@@ -1,18 +1,20 @@
 import { FC } from 'react'
 import ControlPanel from '../ControlPanel'
 import ModsContainer from '../ModsContainer'
+import { ISettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface IMainContentProps {
+	settingsContext: ISettingsContext
 	name: string
 }
 
-const MainContent: FC<IMainContentProps> = ({ name }) => {
+const MainContent: FC<IMainContentProps> = ({ settingsContext, name }) => {
 	console.log('MainContent Render')
 
 	return (
 		<div className='bg-base-200 p-3 h-[64%]'>
-			<ControlPanel name={name} />
-			<ModsContainer name={name} />
+			<ControlPanel settingsContext={settingsContext} name={name} />
+			<ModsContainer settingsContext={settingsContext} name={name} />
 		</div>
 	)
 }

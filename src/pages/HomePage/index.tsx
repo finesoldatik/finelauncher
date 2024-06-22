@@ -5,21 +5,18 @@ import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
 import { items } from '../../components/Sidebar/data'
 import { discordPresence } from '../../utils/discordRPC'
-import { getThemeContent, getThemes } from '../../utils/themeManager'
 
 export default function HomePage() {
 	console.log('HomePage Render')
-	discordPresence('В лаунчере')
 
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()
 
 	useEffect(() => {
-		console.log('themes', getThemes())
-		console.log('getThemeContent', getThemeContent('theme'))
-	}, [])
+		discordPresence(
+			settingsContext.translation.translatable('homePage.discordPresence.title')
+		)
 
-	useEffect(() => {
 		if (settingsContext.tabId !== 0) {
 			navigate(items[settingsContext.tabId || 0].link)
 			console.log('page changed to:', items[settingsContext.tabId || 0].link)
@@ -37,23 +34,29 @@ export default function HomePage() {
 			<div className='hero w-full min-h-screen bg-base-200'>
 				<div className='hero-content text-center'>
 					<div className='max-w-md'>
-						<h1 className='text-5xl font-bold'>Привет!</h1>
+						<h1 className='text-5xl font-bold'>
+							{settingsContext.translation.translatable('homePage.greeting')}
+						</h1>
 						<p className='py-6'>
-							это главная страница, здесь ничего интересного, давай пойдем{' '}
+							{settingsContext.translation.translatable('homePage.description')}{' '}
 							<Link
 								to='/instances'
 								className='link link-secondary'
 								onClick={() => settingsContext.setTab(1)}
 							>
-								играть
+								{settingsContext.translation.translatable(
+									'homePage.links.play'
+								)}
 							</Link>{' '}
-							или{' '}
+							{settingsContext.translation.translatable(
+								'homePage.description.or'
+							)}{' '}
 							<Link
 								to='/mods'
 								className='link link-secondary'
 								onClick={() => settingsContext.setTab(2)}
 							>
-								выбирать моды
+								{settingsContext.translation.translatable('homePage.links.mod')}
 							</Link>
 						</p>
 						<Link
@@ -61,7 +64,9 @@ export default function HomePage() {
 							className='btn btn-primary'
 							onClick={() => settingsContext.setTab(1)}
 						>
-							Начать играть
+							{settingsContext.translation.translatable(
+								'homePage.buttons.play'
+							)}
 						</Link>
 					</div>
 				</div>

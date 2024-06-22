@@ -1,7 +1,12 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
+import { ISettingsContext } from '../../../../contexts/SettingsProvider'
 
-const NoInstances: FC = () => {
+interface INoInstancesProps {
+	settingsContext: ISettingsContext
+}
+
+const NoInstances: FC<INoInstancesProps> = ({ settingsContext }) => {
 	console.log('NoInstances Render')
 
 	return (
@@ -17,11 +22,21 @@ const NoInstances: FC = () => {
 					/>
 				</figure>
 				<div className='mt-6'>
-					<h1 className='text-2xl'>Инстансы не найдены 😢</h1>
+					<h1 className='text-2xl'>
+						{settingsContext.translation.translatable(
+							'instancesPage.notfound.title'
+						)}{' '}
+						😢
+					</h1>
 					<h3 className='text-lg'>
-						Давайте{' '}
+						{settingsContext.translation.translatable(
+							'instancesPage.notfound.description'
+						)}{' '}
 						<Link className='link link-primary' to='/new-instance'>
-							создадим новый?
+							{settingsContext.translation.translatable(
+								'instancesPage.notfound.links.create'
+							)}
+							?
 						</Link>
 					</h3>
 				</div>

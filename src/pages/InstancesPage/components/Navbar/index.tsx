@@ -2,12 +2,14 @@ import { faRotateRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ISettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface INavbarProps {
+	settingsContext: ISettingsContext
 	loadInstances: () => void
 }
 
-const Navbar: FC<INavbarProps> = ({ loadInstances }) => {
+const Navbar: FC<INavbarProps> = ({ settingsContext, loadInstances }) => {
 	const navigate = useNavigate()
 
 	return (
@@ -17,7 +19,9 @@ const Navbar: FC<INavbarProps> = ({ loadInstances }) => {
 					className='btn bg-base-200 btn-ghost text-xl'
 					onClick={() => navigate('/new-instance')}
 				>
-					Создать
+					{settingsContext.translation.translatable(
+						'instancesPage.buttons.create'
+					)}
 				</button>
 			</div>
 			<div className='flex-none'>

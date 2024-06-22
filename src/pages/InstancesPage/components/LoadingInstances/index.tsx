@@ -1,6 +1,11 @@
 import { FC } from 'react'
+import { ISettingsContext } from '../../../../contexts/SettingsProvider'
 
-const LoadingInstances: FC = () => {
+interface ILoadingInstancesProps {
+	settingsContext: ISettingsContext
+}
+
+const LoadingInstances: FC<ILoadingInstancesProps> = ({ settingsContext }) => {
 	console.log('NoInstances Render')
 
 	return (
@@ -16,9 +21,17 @@ const LoadingInstances: FC = () => {
 					/>
 				</figure>
 				<div className='mt-6'>
-					<h1 className='text-2xl'>Инстансы загружаются ✨</h1>
+					<h1 className='text-2xl'>
+						{settingsContext.translation.translatable(
+							'instancesPage.loading.title'
+						)}{' '}
+						✨
+					</h1>
 					<h3 className='text-lg'>
-						Это займет некоторое время..
+						{settingsContext.translation.translatable(
+							'instancesPage.loading.description'
+						)}
+						..
 					</h3>
 				</div>
 			</div>
@@ -27,4 +40,3 @@ const LoadingInstances: FC = () => {
 }
 
 export default LoadingInstances
-

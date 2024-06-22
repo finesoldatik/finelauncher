@@ -1,12 +1,14 @@
 import { FC } from 'react'
+import { ISettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface ITitleContentProps {
+	settingsContext: ISettingsContext,
 	icon: string
 	name: string
 	versionName: string
 }
 
-const TitleContent: FC<ITitleContentProps> = ({ icon, name, versionName }) => {
+const TitleContent: FC<ITitleContentProps> = ({ settingsContext, icon, name, versionName }) => {
 	console.log('TitleContent Render')
   
 	return (
@@ -14,8 +16,18 @@ const TitleContent: FC<ITitleContentProps> = ({ icon, name, versionName }) => {
 			<img height={160} src={icon} alt='version icon' />
 			<div className='flex items-center ml-2 text-xl'>
 				<div>
-					<h1>Имя: {name}</h1>
-					<h1>Версия: {versionName}</h1>
+					<h1>
+						{settingsContext.translation.translatable(
+							'instancePage.titleContent.fields.name'
+						)}
+						: {name}
+					</h1>
+					<h1>
+						{settingsContext.translation.translatable(
+							'instancePage.titleContent.fields.version'
+						)}
+						: {versionName}
+					</h1>
 				</div>
 			</div>
 		</div>

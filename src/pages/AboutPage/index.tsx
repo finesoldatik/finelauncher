@@ -10,9 +10,9 @@ import { LAUNCHER_DISCORD, LAUNCHER_GITHUB, VOXELWORLD } from '../../constants'
 export default function AboutPage() {
 	const [contributors, setContributors] = useState<IContributor[]>([])
 
-	discordPresence('Разглядывает страничку "О нас"')
-
 	useEffect(() => {
+		discordPresence('Разглядывает страничку "О нас"')
+
 		const contributorsWrapper = new ContributorsWrapper()
 		contributorsWrapper.getContributors().then(value => {
 			console.log(value)

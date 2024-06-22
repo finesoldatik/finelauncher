@@ -8,6 +8,7 @@ import { FC, useEffect, useState } from 'react'
 import { IVersion } from '../../../../utils/version'
 import LoadingInstances from '../LoadingInstances'
 import Navbar from '../Navbar'
+import { ISettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface IVersionDisplay {
 	name: string
@@ -17,7 +18,7 @@ interface IVersionDisplay {
 
 const loadInstances = async (
 	setLoading: (value: boolean) => void,
-	setInstances: (value: IVersionDisplay[] | undefined[]) => void
+	setInstances: (value: (IVersionDisplay | undefined)[]) => void
 ) => {
 	setLoading(true)
 	const installedInstances = await getInstalledInstances()
@@ -40,16 +41,20 @@ const loadInstances = async (
 	).then(value => {
 		const filtered = value.filter(val => val !== undefined)
 		console.log(filtered)
-		//@ts-expect-error все работает, но всеравно на что-то ругается
+
 		setInstances(filtered)
 		setLoading(false)
 	})
 }
 
-const Instances: FC = () => {
+interface IInstancesProps {
+	settingsContext: ISettingsContext
+}
+
+const Instances: FC<IInstancesProps> = ({ settingsContext }) => {
 	console.log('Instances Render')
 
-	const [instances, setInstances] = useState<IVersionDisplay[] | undefined[]>(
+	const [instances, setInstances] = useState<(IVersionDisplay | undefined)[]>(
 		[]
 	)
 	const [isLoading, setLoading] = useState<boolean>(false)
@@ -60,9 +65,14 @@ const Instances: FC = () => {
 
 	return (
 		<div>
-			<Navbar loadInstances={() => loadInstances(setLoading, setInstances)} />
-			{isLoading && <LoadingInstances />}
-			{!isLoading && !instances.length && <NoInstances />}
+			<Navbar
+				settingsContext={settingsContext}
+				loadInstances={() => loadInstances(setLoading, setInstances)}
+			/>
+			{isLoading && <LoadingInstances settingsContext={settingsContext} />}
+			{!isLoading && !instances.length && (
+				<NoInstances settingsContext={settingsContext} />
+			)}
 			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 p-1'>
 				{!isLoading && instances.length ? (
 					instances.map((el, idx) => (

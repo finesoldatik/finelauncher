@@ -27,6 +27,8 @@ export const GameContext = createContext<IGameContext>({
 export const useGameContext = () => useContext(GameContext)
 
 export default function GameProvider({ children }: { children: ReactNode }) {
+	console.log('GameProvider Render')
+
 	const [pid, setPid] = useState<number | null>(null)
 	const [logs, setLogs] = useState<string[]>([])
 
