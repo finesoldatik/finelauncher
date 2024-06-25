@@ -5,7 +5,7 @@ import { useQuery } from 'react-query'
 import ModSkeleton from '../ModSkeleton'
 import DrawerContent from '../DrawerContent'
 import DrawerSide from '../DrawerSide'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 export interface IParams {
 	sort: number
@@ -33,12 +33,10 @@ const fetchMods = async (params: IParams) => {
 	return result
 }
 
-interface IModsProps {
-	settingsContext: ISettingsContext
-}
-
-const Mods: FC<IModsProps> = memo(({ settingsContext }) => {
+const Mods: FC = memo(() => {
 	console.log('Mods Render')
+
+	const settingsContext = useSettingsContext()
 
 	const [params, setParams] = useState<IParams>({
 		sort: 1,
@@ -87,16 +85,11 @@ const Mods: FC<IModsProps> = memo(({ settingsContext }) => {
 					title='drawer'
 				/>
 				<DrawerContent
-					settingsContext={settingsContext}
 					content={data.content}
 					setParams={setParams}
 					params={params}
 				/>
-				<DrawerSide
-					settingsContext={settingsContext}
-					tags={data.tags}
-					setParams={setParams}
-				/>
+				<DrawerSide tags={data.tags} setParams={setParams} />
 			</div>
 		</div>
 	)

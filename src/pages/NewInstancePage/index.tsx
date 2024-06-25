@@ -1,11 +1,21 @@
 import Form from './components/Form'
 import { discordPresence } from '../../utils/discordRPC'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SuccessModal from '../../modals/SuccessModal'
+import { useSettingsContext } from '../../contexts/SettingsProvider'
 
 export default function NewInstancePage() {
 	console.log('NewInstacePage Render')
-	discordPresence('Создает новый инстанс')
+
+	const settingsContext = useSettingsContext()
+
+	useEffect(() => {
+		discordPresence(
+			settingsContext.translation.translatable(
+				'newInstancePage.discordPresence.title'
+			)
+		)
+	}, [])
 
 	const [modalActive, setModalActive] = useState<boolean>(false)
 
@@ -14,8 +24,8 @@ export default function NewInstancePage() {
 			<Form setModalActive={setModalActive} />
 			<SuccessModal
 				active={modalActive}
-				title='Инстанс успешно создан! 🥳'
-				btnTitle='Инстансы'
+				title={settingsContext.translation.translatable('newInstancePage.instanceCreated.title') + '! 🥳'}
+				btnTitle={settingsContext.translation.translatable('newInstancePage.instanceCreated.buttons.instances')}
 				btnLink='/instances'
 			/>
 		</>

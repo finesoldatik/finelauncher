@@ -4,15 +4,16 @@ import { faGear, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { deleteInstance } from '../../../../utils/download'
 import { useNavigate } from 'react-router-dom'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface IControlPanelProps {
-	settingsContext: ISettingsContext
 	name: string
 }
 
-const ControlPanel: FC<IControlPanelProps> = ({ settingsContext, name }) => {
+const ControlPanel: FC<IControlPanelProps> = ({ name }) => {
 	console.log('ControlPanel Render')
+
+	const settingsContext = useSettingsContext()
 
 	const navigate = useNavigate()
 

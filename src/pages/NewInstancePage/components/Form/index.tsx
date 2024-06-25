@@ -5,6 +5,7 @@ import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { os } from '@tauri-apps/api'
 import { listen } from '@tauri-apps/api/event'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface INewInstance {
 	name: string
@@ -17,6 +18,8 @@ interface IFormProps {
 
 const Form: FC<IFormProps> = ({ setModalActive }) => {
 	console.log('Form Render')
+
+	const settingsContext = useSettingsContext()
 
 	const {
 		register,
@@ -78,15 +81,23 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 			<form className='flex flex-col w-1/3' onSubmit={handleSubmit(onSubmit)}>
 				<label className='form-control w-full'>
 					<div className='label'>
-						<span className='label-text'>До 12 символов</span>
+						<span className='label-text'>
+							{settingsContext.translation.translatable(
+								'newInstancePage.fields.name.limit'
+							)}
+						</span>
 					</div>
 					<input
 						{...register('name', {
-							required: 'Заполните это поле!',
+							required: settingsContext.translation.translatable(
+								'newInstancePage.fields.error'
+							),
 							maxLength: 12,
 						})}
 						type='text'
-						placeholder='Введите имя инстанса'
+						placeholder={settingsContext.translation.translatable(
+							'newInstancePage.fields.name.placeholder'
+						)}
 						className='input input-bordered input-primary w-full my-2'
 						disabled={isDownloading}
 					/>
@@ -97,7 +108,9 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 
 				<select
 					{...register('version', {
-						required: 'Заполните это поле!',
+						required: settingsContext.translation.translatable(
+							'newInstancePage.fields.error'
+						),
 					})}
 					className='select select-primary w-full my-2'
 					title='select'
@@ -105,7 +118,9 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 					defaultValue=''
 				>
 					<option value='' disabled>
-						Выберите версию игры
+						{settingsContext.translation.translatable(
+							'newInstancePage.fields.version.placeholder'
+						)}
 					</option>
 					<optgroup label='Voxel Engine'>
 						{versions
@@ -144,7 +159,9 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 					type='submit'
 					disabled={isDownloading}
 				>
-					Создать
+					{settingsContext.translation.translatable(
+						'newInstancePage.buttons.create'
+					)}
 				</button>
 			</form>
 		</div>

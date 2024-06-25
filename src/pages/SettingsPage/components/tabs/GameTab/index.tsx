@@ -12,7 +12,7 @@ const GameTab: FC<ITabProps> = ({ currentTab, setCurrentTab }) => {
 			currentTab={currentTab}
 			setCurrentTab={setCurrentTab}
 		>
-			<h1>Пока-что опций нет</h1>
+			<h1>Пока-что опций нет | Перевода под все поддерживаемые языки нет ибо нет необходимости</h1>
 		</Tab>
 	)
 }

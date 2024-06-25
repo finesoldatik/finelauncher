@@ -1,16 +1,17 @@
 import { FC } from 'react'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface ITitleContentProps {
-	settingsContext: ISettingsContext,
 	icon: string
 	name: string
 	versionName: string
 }
 
-const TitleContent: FC<ITitleContentProps> = ({ settingsContext, icon, name, versionName }) => {
+const TitleContent: FC<ITitleContentProps> = ({ icon, name, versionName }) => {
 	console.log('TitleContent Render')
-  
+
+	const settingsContext = useSettingsContext()
+
 	return (
 		<div className='flex flex-row bg-base-300 p-2 h-[26%]'>
 			<img height={160} src={icon} alt='version icon' />

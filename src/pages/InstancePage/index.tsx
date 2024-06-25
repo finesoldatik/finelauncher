@@ -47,16 +47,14 @@ export default function InstancePage() {
 	return (
 		<div className='h-full'>
 			<TitleContent
-				settingsContext={settingsContext}
 				icon={String(data?.icon)}
 				name={String(params.name)}
 				versionName={String(data?.version.name)}
 			/>
 			<MainContent
-				settingsContext={settingsContext}
 				name={String(params.name)}
 			/>
-			<PlayPanel settingsContext={settingsContext} name={String(params.name)} />
+			<PlayPanel name={String(params.name)} />
 		</div>
 	)
 }

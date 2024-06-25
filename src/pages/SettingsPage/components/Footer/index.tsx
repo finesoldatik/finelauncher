@@ -18,10 +18,15 @@ const Footer: FC = () => {
 	return (
 		<div className='flex flex-row items-center mb-2'>
 			<p className='text-1xl ml-2 mt-4'>
-				Спасибо за использование {LAUNCHER_NAME}!{' '}
-				<FontAwesomeIcon icon={faHeart} color='red' /> ({LAUNCHER_VERSION}){' '}
+				{settingsContext.translation.translatable(
+					'settingsPage.footer.thanksForUsing'
+				)}{' '}
+				{LAUNCHER_NAME}! <FontAwesomeIcon icon={faHeart} color='red' /> (
+				{LAUNCHER_VERSION}){' '}
 				<Link className='link link-primary' to='/about'>
-					О нас
+					{settingsContext.translation.translatable(
+						'settingsPage.footer.aboutUs'
+					)}
 				</Link>
 			</p>
 			<div className='flex flex-grow'></div>
@@ -33,7 +38,10 @@ const Footer: FC = () => {
 					})
 				}}
 			>
-				Перезагрузить Дискорд Активность <FontAwesomeIcon icon={faDiscord} />
+				{settingsContext.translation.translatable(
+					'settingsPage.footer.restartDiscordActivity'
+				)}{' '}
+				<FontAwesomeIcon icon={faDiscord} />
 			</button>
 			<button
 				className='ml-1 btn btn-error btn-sm'
@@ -42,7 +50,9 @@ const Footer: FC = () => {
 					settingsContext.resetSettings()
 				}}
 			>
-				Сбросить настройки
+				{settingsContext.translation.translatable(
+					'settingsPage.footer.resetSettings'
+				)}
 			</button>
 		</div>
 	)

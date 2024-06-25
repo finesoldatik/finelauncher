@@ -5,18 +5,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { IParams } from '../Mods'
 import ModModal from '../../../../modals/ModModal'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface IDrawerContentProps {
-	settingsContext: ISettingsContext
 	content: IContent[]
 	setParams: (value: SetStateAction<IParams>) => void
 	params: IParams
 }
 
 const DrawerContent: FC<IDrawerContentProps> = memo(
-	({ settingsContext, content, setParams, params }) => {
+	({ content, setParams, params }) => {
 		console.log('DrawerContent Render')
+
+		const settingsContext = useSettingsContext()
 
 		const [active, setActive] = useState<boolean>(false)
 		const [currentModId, setCurrentModId] = useState<number>()

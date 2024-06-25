@@ -1,12 +1,10 @@
 import { FC } from 'react'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
-interface ILoadingInstancesProps {
-	settingsContext: ISettingsContext
-}
-
-const LoadingInstances: FC<ILoadingInstancesProps> = ({ settingsContext }) => {
+const LoadingInstances: FC = () => {
 	console.log('NoInstances Render')
+
+	const settingsContext = useSettingsContext()
 
 	return (
 		<div className='relative flex items-center justify-center w-full h-full bg-black bg-opacity-10'>

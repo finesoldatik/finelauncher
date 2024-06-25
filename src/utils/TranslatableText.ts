@@ -26,7 +26,7 @@ export default class TranslatableText {
 
 	setLanguage(id: string) {
 		this.language = id
-		setValue('language', id)
+		setValue(id, 'language')
 		console.log('Changed language to', id)
 	}
 

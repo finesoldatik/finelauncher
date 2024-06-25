@@ -6,6 +6,7 @@ import {
 	faHeart,
 	faUser,
 } from '@fortawesome/free-solid-svg-icons'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface IModProps {
 	mod: IContent
@@ -15,6 +16,8 @@ interface IModProps {
 
 const Mod: FC<IModProps> = memo(({ mod, setCurrentModId, setActive }) => {
 	console.log('Mod Render')
+
+	const settingsContext = useSettingsContext()
 
 	return (
 		<div
@@ -60,11 +63,15 @@ const Mod: FC<IModProps> = memo(({ mod, setCurrentModId, setActive }) => {
 				</label>
 				<div className='w-56 text-sm breadcrumbs'>
 					<ul>
-						<li>теги:</li>
+						<li>
+							{settingsContext.translation.translatable('modsPage.mod.tags')}:
+						</li>
 						{mod.tags.length ? (
 							mod.tags.map(tag => <li key={tag.id}>{tag.title}</li>)
 						) : (
-							<li>нет</li>
+							<li>
+								{settingsContext.translation.translatable('modsPage.mod.noTags')}
+							</li>
 						)}
 					</ul>
 				</div>

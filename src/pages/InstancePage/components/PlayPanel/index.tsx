@@ -1,16 +1,17 @@
 import { FC, useEffect, useState } from 'react'
 import { useGameContext } from '../../../../contexts/GameProvider'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 import { appWindow } from '@tauri-apps/api/window'
 import { listen } from '@tauri-apps/api/event'
 
 interface IPlayPanelProps {
-	settingsContext: ISettingsContext
 	name: string
 }
 
-const PlayPanel: FC<IPlayPanelProps> = ({ settingsContext, name }) => {
+const PlayPanel: FC<IPlayPanelProps> = ({ name }) => {
 	console.log('PlayPanel Render')
+
+	const settingsContext = useSettingsContext()
 
 	const [progress, setProgress] = useState<number>(0)
 

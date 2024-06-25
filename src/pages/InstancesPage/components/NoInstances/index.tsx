@@ -1,13 +1,11 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
-interface INoInstancesProps {
-	settingsContext: ISettingsContext
-}
-
-const NoInstances: FC<INoInstancesProps> = ({ settingsContext }) => {
+const NoInstances: FC = () => {
 	console.log('NoInstances Render')
+
+	const settingsContext = useSettingsContext()
 
 	return (
 		<div className='relative flex items-center justify-center w-full h-full bg-black bg-opacity-10'>

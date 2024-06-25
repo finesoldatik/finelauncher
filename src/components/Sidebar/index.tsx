@@ -19,6 +19,7 @@ const Sidebar: FC = () => {
 						<Item
 							element={{
 								...el,
+								tooltip: settingsContext.translation.translatable(el.tooltip),
 								active: settingsContext.tabId,
 								setActive: settingsContext.setTab,
 							}}
@@ -32,6 +33,7 @@ const Sidebar: FC = () => {
 						<Item
 							element={{
 								...el,
+								tooltip: settingsContext.translation.translatable(el.tooltip),
 								active: settingsContext.tabId,
 								setActive: settingsContext.setTab,
 							}}

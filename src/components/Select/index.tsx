@@ -9,7 +9,8 @@ interface ISelectProps {
 	title: string
 	options: IOption[]
 	setChangedValue: (value: IOption) => void
-	disabled: boolean
+	defaultValue?: string
+	disabled?: boolean
 	styles?: string
 }
 
@@ -17,11 +18,12 @@ const Select: FC<ISelectProps> = ({
 	title,
 	options,
 	setChangedValue,
+	defaultValue,
 	disabled,
 	styles,
 }) => {
 	console.log('Select Render')
-	
+
 	return (
 		<select
 			className={`select select-primary w-full ${styles}`}
@@ -36,7 +38,7 @@ const Select: FC<ISelectProps> = ({
 					value: String(option?.value),
 				})
 			}}
-			defaultValue=''
+			defaultValue={defaultValue ? defaultValue : ''}
 		>
 			<option value='' disabled>
 				{title}

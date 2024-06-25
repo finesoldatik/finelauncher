@@ -14,5 +14,5 @@ export default function ModsPage() {
 		)
 	}, [])
 
-	return <Mods settingsContext={settingsContext} />
+	return <Mods />
 }

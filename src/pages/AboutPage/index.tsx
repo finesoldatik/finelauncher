@@ -11,9 +11,10 @@ export default function AboutPage() {
 	const [contributors, setContributors] = useState<IContributor[]>([])
 
 	useEffect(() => {
-		discordPresence('Разглядывает страничку "О нас"')
+		discordPresence('Интересуется лаунчером')
 
 		const contributorsWrapper = new ContributorsWrapper()
+
 		contributorsWrapper.getContributors().then(value => {
 			console.log(value)
 			setContributors(value)
@@ -23,6 +24,10 @@ export default function AboutPage() {
 	return (
 		<>
 			<h1 className='flex justify-center text-5xl my-2'>О нас</h1>
+			<h3 className='text-xl'>
+				(в ближайшем времени страница будет полностью переработана, ранее был
+				всего-лишь её набросок)
+			</h3>
 
 			<div className='flex flex-row mt-1 ml-2'>
 				<p className='text-lg mr-2'>Загляните к нам в</p>

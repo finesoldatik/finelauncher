@@ -4,15 +4,16 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import { getInstanceContent } from '../../../../utils/instanceManager'
-import { ISettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../contexts/SettingsProvider'
 
 interface IModsContainerProps {
-	settingsContext: ISettingsContext
 	name: string
 }
 
-const ModsContainer: FC<IModsContainerProps> = ({ settingsContext, name }) => {
+const ModsContainer: FC<IModsContainerProps> = ({ name }) => {
 	console.log('ModsContainer Render')
+
+	const settingsContext = useSettingsContext()
 
 	const [mods, setMods] = useState<string[]>([])
 

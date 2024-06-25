@@ -16,5 +16,5 @@ export default function InstancesPage() {
 		)
 	}, [])
 
-	return <Instances settingsContext={settingsContext} />
+	return <Instances />
 }
