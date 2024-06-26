@@ -45,19 +45,25 @@ export default class TranslatableText {
 		const files = (await fs.readDir(translationsDir)).filter(f => !f.children)
 
 		files.forEach(async file => {
-			const basename = await path.basename(file.name as string)
 			const translation = (await fs
 				.readTextFile(file.path)
 				.then(JSON.parse)) as Translation
 
-			this.translations.set(basename, translation)
+			this.translations.set(String(file.name), translation)
 		})
 	}
 
 	translatable(id: string) {
-		return (
-			this.getCurrentTranslation()[id] ?? this.getDefaultTranslation()[id] ?? id
-		)
+		let translation: string
+		try {
+			translation =
+				this.getCurrentTranslation()[id] ??
+				this.getDefaultTranslation()[id] ??
+				id
+		} catch (error) {
+			translation = this.getDefaultTranslation()[id] ?? id
+		}
+		return translation
 	}
 
 	private getCurrentTranslation() {

@@ -5,6 +5,7 @@ import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
 import { items } from '../../components/Sidebar/data'
 import { discordPresence } from '../../utils/discordRPC'
+import { loadCustomThemes } from '../../utils/themeManager'
 
 export default function HomePage() {
 	console.log('HomePage Render')
@@ -16,6 +17,8 @@ export default function HomePage() {
 		discordPresence(
 			settingsContext.translation.translatable('homePage.discordPresence.title')
 		)
+
+		loadCustomThemes()
 
 		if (settingsContext.tabId !== 0) {
 			navigate(items[settingsContext.tabId || 0].link)
