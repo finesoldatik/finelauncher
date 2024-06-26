@@ -1,4 +1,4 @@
-import { FC, SetStateAction, memo, useState } from 'react'
+import { FC, SetStateAction, memo } from 'react'
 import { ITag } from '../../ModsPage.types'
 import { IParams } from '../Mods'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider'
@@ -8,17 +8,12 @@ interface IDrawerSideProps {
 	setParams: (value: SetStateAction<IParams>) => void
 }
 
-interface ISort {
-	id: number
-	label: string
-}
-
 const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
 	console.log('DrawerSide Render')
 
 	const settingsContext = useSettingsContext()
 
-	const [sorts, setSorts] = useState<ISort[]>([
+	const sorts = [
 		{
 			id: 1,
 			label: settingsContext.translation.translatable(
@@ -37,7 +32,7 @@ const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
 				'modsPage.drawerSide.filters.byDate'
 			),
 		},
-	])
+	]
 
 	return (
 		<div className='drawer-side'>
