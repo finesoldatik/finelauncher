@@ -4,12 +4,15 @@ import './index.css'
 import SettingsProvider from './contexts/SettingsProvider'
 import GameProvider from './contexts/GameProvider'
 import { ReactQueryProvider } from './contexts/ReactQueryProvider'
+import AlertProvider from './contexts/AlertProvider'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<SettingsProvider>
 		<GameProvider>
 			<ReactQueryProvider>
-				<Router />
+				<AlertProvider>
+					<Router />
+				</AlertProvider>
 			</ReactQueryProvider>
 		</GameProvider>
 	</SettingsProvider>

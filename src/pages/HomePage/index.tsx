@@ -6,12 +6,14 @@ import { useEffect } from 'react'
 import { items } from '../../components/Sidebar/data'
 import { discordPresence } from '../../utils/discordRPC'
 import { loadCustomThemes } from '../../utils/themeManager'
+import { useAlertContext } from '../../contexts/AlertProvider'
 
 export default function HomePage() {
 	console.log('HomePage Render')
 
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()
+	const alertContext = useAlertContext()
 
 	useEffect(() => {
 		discordPresence(
@@ -23,6 +25,13 @@ export default function HomePage() {
 		if (settingsContext.tabId !== 0) {
 			navigate(items[settingsContext.tabId || 0].link)
 			console.log('page changed to:', items[settingsContext.tabId || 0].link)
+
+			alertContext.addAlert({
+				id: 0,
+				active: true,
+				title: 'Добро пожаловать!',
+				description: 'Рады тебя видеть!',
+			})
 		}
 	}, [])
 
