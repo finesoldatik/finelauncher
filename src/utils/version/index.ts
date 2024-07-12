@@ -3,7 +3,8 @@ import util from './Util'
 
 export const defaultRepos = [
   {
-    name: 'VE',
+    name: 'Voxel Engine',
+    icon: 've.png',
     owner: 'MihailRis',
     repository: 'VoxelEngine-Cpp',
     releases: [],
@@ -23,7 +24,29 @@ export const defaultRepos = [
     }
   },
   {
-    name: 'RVE',
+    name: 'Voxel Engine DEBRIS',
+    icon: 'debris.jpg',
+    owner: 'R0STUS',
+    repository: 'Voxel-Engine_DEBRIS',
+    releases: [],
+    buildCommands: {
+      'linux': [
+        'mkdir -p build',
+        '@build cmake -DCMAKE_BUILD_TYPE=Release ..',
+        '@build cmake --build .',
+        "build/VoxelEngine",
+      ],
+      'win32': [
+        '!mkdir build',
+        '@build cmake -DCMAKE_BUILD_TYPE=Release -DVOXELENGINE_BUILD_WINDOWS_VCPKG=ON ..',
+        '@build cmake --build . --config Release',
+        "build/Release/VoxelEngine.exe",
+      ]
+    }
+  },
+  {
+    name: 'Rusty Voxel Engine',
+    icon: 'rve.png',
     owner: 'wampal',
     repository: 'RustyVoxelEngine',
     releases: [],
@@ -52,6 +75,8 @@ export interface IAsset {
 export interface IRepository {
   /** Repository name */
   name: string
+  /** Repository icon name */
+  icon: string
   /** Repository owner */
   owner: string
   /** GitHub repository name */
@@ -84,7 +109,6 @@ export default class VersionWrapper {
   }
 
   async updateRepositories() {
-    console.log(this.repositories)
     for (const i in this.repositories) {
       const repository = this.repositories[i]
       const response = await axios.get(`https://api.github.com/repos/${repository.owner}/${repository.repository}/releases`).catch(() => {})
@@ -106,8 +130,9 @@ export default class VersionWrapper {
   private getPlatformVersions = (
     platformCheckCallback: platformCheckCallback
   ) => {
-    const versions: IVersion[] = []
+    const repositories: { name: String, versions: IVersion}[] = []
     this.repositories.forEach(repository => {
+      const versions: IVersion[] = []
       repository.releases.forEach(release => {
         release.assets.forEach(asset => {
           if (platformCheckCallback(asset)) {
@@ -121,9 +146,10 @@ export default class VersionWrapper {
           }
         })
       })
+      repositories.push({ name: repository.name, versions })
     })
-    console.log('versions:', versions)
-    return versions
+    console.log('repositories:', repositories)
+    return repositories
   }
 
   getWindowsVersions = () => this.getPlatformVersions(util.isWindows)
