@@ -27,7 +27,7 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 		formState: { errors },
 	} = useForm<INewInstance>()
 
-	const [versions, setVersions] = useState<IVersion[]>([])
+	const [versions, setVersions] = useState<{ name: String, versions: IVersion[] }>([])
 	const [isLoading, setLoading] = useState<boolean>(true)
 	const [isDownloading, setDownloading] = useState<boolean>(false)
 	const [progress, setProgress] = useState<number>(0)
@@ -55,7 +55,7 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 			if (!value) {
 				setDownloading(true)
 				downloadVersion(
-					versions.find(ver => ver.url == data?.version)!,
+					versions.flatMap(repository => repository.versions).find(ver => ver.url == data?.version)!,
 					data.name
 				).then(() => {
 					setDownloading(false)
@@ -122,24 +122,17 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 							'newInstancePage.fields.version.placeholder'
 						)}
 					</option>
-					<optgroup label='Voxel Engine'>
-						{versions
-							.filter(value => value.repository.name === 'VE')
-							.map(version => (
-								<option value={version.url} key={version.url}>
-									{version.name}
-								</option>
-							))}
-					</optgroup>
-					<optgroup label='Rusty Voxel Engine'>
-						{versions
-							.filter(value => value.repository.name === 'RVE')
-							.map(version => (
-								<option value={version.url} key={version.url}>
-									{version.name}
-								</option>
-							))}
-					</optgroup>
+					{versions
+						.map(repository => (
+							<optgroup key={repository.name} label={repository.name}>
+								{repository.versions
+									.map(version => (
+										<option value={version.url} key={version.url}>
+											{version.name}
+										</option>
+									))}
+							</optgroup>
+						))}
 				</select>
 
 				{errors?.version && (

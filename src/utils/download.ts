@@ -61,7 +61,7 @@ export const downloadVersion = async (
   else if (platform !== 'win32') outFileName = 'version.AppImage'
   else outFileName = ''
 
-  const icon = `/img/instance/${version.repository?.name.toLowerCase()}.png`
+  const icon = `/img/instance/${version.repository?.icon}`
   const instanceData: InstanceData = {
     name: instanceName,
     version,
@@ -73,7 +73,11 @@ export const downloadVersion = async (
 
   if (version.git) {
     instanceData.platform = null
-    return new shell.Command('git', ['clone', version.url, await path.join(instancePath, 'game')]).execute().then(
+    console.log('git', ['clone', version.url, await path.join(instancePath, 'game')])
+    const clone = new shell.Command('git', ['clone', version.url, await path.join(instancePath, 'game')])
+    clone.stdout.on("data", out => console.log(out))
+    clone.stderr.on("data", err => console.error(err))
+    return clone.execute().then(
       () => {
         path.join(instancePath, 'game/content')
           .then(contentPath => fs.createDir(contentPath, { recursive: true }))
