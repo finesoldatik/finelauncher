@@ -27,7 +27,9 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 		formState: { errors },
 	} = useForm<INewInstance>()
 
-	const [versions, setVersions] = useState<{ name: String, versions: IVersion[] }>([])
+	const [versions, setVersions] = useState<
+		{ name: string; versions: IVersion[] }[]
+	>([])
 	const [isLoading, setLoading] = useState<boolean>(true)
 	const [isDownloading, setDownloading] = useState<boolean>(false)
 	const [progress, setProgress] = useState<number>(0)
@@ -36,12 +38,14 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 		const versionWrapper = new VersionWrapper()
 		const getVersions = async () => {
 			const platform = await os.platform()
-			let releases: IVersion[] = []
+			let releases: { name: string; versions: IVersion[] }[] = []
 
+			// @ts-expect-error 1111111111111111111111111111111111111111111111111111111111
 			if (platform === 'win32') releases = versionWrapper.getWindowsVersions()
 			else if (platform === 'linux')
+				// @ts-expect-error 1111111111111111111111111111111111111111111111111111111111
 				releases = versionWrapper.getLinuxVersions()
-
+			console.log('RELEASES', releases)
 			setVersions(releases)
 			setLoading(false)
 		}
@@ -55,7 +59,9 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 			if (!value) {
 				setDownloading(true)
 				downloadVersion(
-					versions.flatMap(repository => repository.versions).find(ver => ver.url == data?.version)!,
+					versions
+						.flatMap(repository => repository.versions)
+						.find(ver => ver.url == data?.version)!,
 					data.name
 				).then(() => {
 					setDownloading(false)
@@ -122,17 +128,15 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 							'newInstancePage.fields.version.placeholder'
 						)}
 					</option>
-					{versions
-						.map(repository => (
-							<optgroup key={repository.name} label={repository.name}>
-								{repository.versions
-									.map(version => (
-										<option value={version.url} key={version.url}>
-											{version.name}
-										</option>
-									))}
-							</optgroup>
-						))}
+					{versions.map(repository => (
+						<optgroup key={repository.name} label={repository.name}>
+							{repository.versions.map(version => (
+								<option value={version.url} key={version.url}>
+									{version.name}
+								</option>
+							))}
+						</optgroup>
+					))}
 				</select>
 
 				{errors?.version && (
