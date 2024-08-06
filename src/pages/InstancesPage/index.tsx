@@ -11,7 +11,7 @@ export default function InstancesPage() {
 	useEffect(() => {
 		discordPresence(
 			settingsContext.translation.translatable(
-				'instances.discordPresence.title'
+				'instancesPage.discordPresence.title'
 			)
 		)
 	}, [])
