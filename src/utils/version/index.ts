@@ -130,7 +130,7 @@ export default class VersionWrapper {
   private getPlatformVersions = (
     platformCheckCallback: platformCheckCallback
   ) => {
-    const repositories: { name: String, versions: IVersion}[] = []
+    const repositories: { name: string, versions: IVersion[] }[] = []
     this.repositories.forEach(repository => {
       const versions: IVersion[] = []
       repository.releases.forEach(release => {

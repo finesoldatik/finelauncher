@@ -40,10 +40,8 @@ const Form: FC<IFormProps> = ({ setModalActive }) => {
 			const platform = await os.platform()
 			let releases: { name: string; versions: IVersion[] }[] = []
 
-			// @ts-expect-error 1111111111111111111111111111111111111111111111111111111111
 			if (platform === 'win32') releases = versionWrapper.getWindowsVersions()
 			else if (platform === 'linux')
-				// @ts-expect-error 1111111111111111111111111111111111111111111111111111111111
 				releases = versionWrapper.getLinuxVersions()
 			console.log('RELEASES', releases)
 			setVersions(releases)
