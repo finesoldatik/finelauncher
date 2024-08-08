@@ -112,13 +112,13 @@ jobs:
             src-tauri/release/bundle/msi/*.msi
             src-tauri/release/bundle/nsis/*.exe
 
-      # - name: CI Upload macOS
-      #   if: ${{ github.ref_type == 'branch' && matrix.platform == 'macos-latest' }}
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: 'macOS Installer'
-      #     path: |
-      #       src-tauri/release/bundle/dmg/*.dmg
+      - name: CI Upload macOS
+        if: ${{ github.ref_type == 'branch' && matrix.platform == 'macos-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'macOS Installer'
+          path: |
+            src-tauri/release/bundle/dmg/*.dmg
 
       - name: CI Upload Linux
         if: ${{ github.ref_type == 'branch' && matrix.platform == 'ubuntu-latest' }}
