@@ -108,7 +108,7 @@ export default function DownloadModModal({
 			).then(value => {
 				const filtered = value.filter(val => val !== undefined)
 				console.log(filtered)
-				setInstances(filtered)
+				setInstances(filtered ? filtered : [{ label: '', value: '' }])
 				setLoading(false)
 			})
 		}
