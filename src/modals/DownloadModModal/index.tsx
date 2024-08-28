@@ -153,9 +153,10 @@ export default function DownloadModModal({
 							title='select'
 							disabled={isLoading}
 							onChange={event => {
-								const option = instances.find(
-									option => option.value === event.target.value
-								)
+								const option = instances.find(option => {
+									if (!option) return
+									option.value === event.target.value
+								})
 								setInstance({
 									label: String(option?.label),
 									value: String(option?.value),
@@ -168,6 +169,7 @@ export default function DownloadModModal({
 								Выберите версию игры
 							</option>
 							{instances.map((version, idx) => {
+								if (!version) return
 								console.log(version)
 								return (
 									<option value={version.value} key={idx}>
