@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export interface IContributor {
+export interface Contributor {
 	avatar_url: string
 	contributions: number
 	events_url: string
@@ -25,14 +25,6 @@ export interface IContributor {
 const defaultUrl: string =
 	'https://api.github.com/repos/finesoldatik/finelauncher/contributors?anon=1'
 
-export default class ContributorsWrapper {
-	url: string
-
-	constructor(url: string = defaultUrl) {
-		this.url = url
-	}
-
-	async getContributors() {
-		return (await axios.get(this.url)).data as IContributor[]
-	}
+export async function getContributors() {
+	return (await axios.get(defaultUrl)).data as Contributor[]
 }

@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { openInFileManager } from '../../../../utils/instanceManager'
+import { openInFileManager } from '../../../../../utils/instanceManager'
 import { faGear, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { deleteInstance } from '../../../../utils/download'
+import { deleteInstance } from '../../../../../utils/download'
 import { useNavigate } from 'react-router-dom'
-import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../../contexts/SettingsProvider'
 
 interface IControlPanelProps {
 	name: string

@@ -1,38 +1,91 @@
-import { FC, SetStateAction, memo } from 'react'
-import { ITag } from '../../ModsPage.types'
-import { IParams } from '../Mods'
+import { FC, SetStateAction, memo, useMemo, useState } from 'react'
+import { IParams as IModParams } from '../Mods'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { useQuery } from 'react-query'
+import { getTags } from '../../../../utils/voxelworld'
 
 interface IDrawerSideProps {
-	tags: ITag[]
-	setParams: (value: SetStateAction<IParams>) => void
+	setModParams: (value: SetStateAction<IModParams>) => void
 }
 
-const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
+interface IParams {
+	type: 'mod' | 'world' | 'texturepack'
+}
+
+const fetchTags = async (params: IParams) => {
+	console.log('fetchMod')
+
+	const data = await getTags('v1', {
+		params: {
+			type: params.type,
+		},
+	})
+
+	const result = data.data.data
+
+	return result
+}
+
+const DrawerSide: FC<IDrawerSideProps> = memo(({ setModParams }) => {
 	console.log('DrawerSide Render')
 
 	const settingsContext = useSettingsContext()
 
-	const sorts = [
+	// @ts-expect-error НАДО БУДЕТ ЗДЕСЬ ЗАЮЗАТЬ СЕТПАРАМС
+	const [params, setParams] = useState<IParams>({
+		type: 'mod',
+	})
+
+	const { data, isLoading, isError } = useQuery(
+		['tags'],
+		() => fetchTags(params),
 		{
-			id: 1,
-			label: settingsContext.translation.translatable(
-				'modsPage.drawerSide.filters.byPopularity'
-			),
-		},
-		{
-			id: 2,
-			label: settingsContext.translation.translatable(
-				'modsPage.drawerSide.filters.byLikes'
-			),
-		},
-		{
-			id: 3,
-			label: settingsContext.translation.translatable(
-				'modsPage.drawerSide.filters.byDate'
-			),
-		},
-	]
+			keepPreviousData: true,
+			refetchOnWindowFocus: false,
+		}
+	)
+
+	const sorts = useMemo(
+		() => [
+			{
+				id: 1,
+				label: settingsContext.translation.translatable(
+					'modsPage.drawerSide.filters.byPopularity'
+				),
+			},
+			{
+				id: 2,
+				label: settingsContext.translation.translatable(
+					'modsPage.drawerSide.filters.byLikes'
+				),
+			},
+			{
+				id: 3,
+				label: settingsContext.translation.translatable(
+					'modsPage.drawerSide.filters.byDate'
+				),
+			},
+		],
+		[settingsContext.translation]
+	)
+
+	if (isLoading) {
+		return <div className='skeleton tut nada'></div>
+	}
+
+	if (isError) {
+		return (
+			<p>{settingsContext.translation.translatable('modsPage.mods.error')}</p>
+		)
+	}
+
+	if (!data) {
+		return (
+			<p>{settingsContext.translation.translatable('modsPage.mods.noData')}</p>
+		)
+	}
+
+	console.log(data)
 
 	return (
 		<div className='drawer-side'>
@@ -67,7 +120,7 @@ const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
 										defaultChecked={sort.id === 1}
 										className='radio radio-primary'
 										onChange={event =>
-											setParams(prev => ({
+											setModParams(prev => ({
 												...prev,
 												page: 1,
 												sort: Number(event.target.value),
@@ -85,7 +138,7 @@ const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
 								'modsPage.drawerSide.tags'
 							)}
 						</h2>
-						{tags.map(tag => (
+						{data.map(tag => (
 							<div className='form-control' key={tag.id}>
 								<label className='label cursor-pointer'>
 									<span className='label-text'>{tag.title}</span>
@@ -96,7 +149,7 @@ const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
 											console.log('start')
 											console.log('tag.id', tag.id)
 											if (event.target.checked)
-												setParams(prev => {
+												setModParams(prev => {
 													prev.tags.push(tag.id)
 													console.log(prev.tags)
 
@@ -107,7 +160,7 @@ const DrawerSide: FC<IDrawerSideProps> = memo(({ tags, setParams }) => {
 													}
 												})
 											else
-												setParams(prev => {
+												setModParams(prev => {
 													prev.tags.splice(prev.tags.indexOf(tag.id))
 													console.log(prev.tags)
 

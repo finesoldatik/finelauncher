@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { useGameContext } from '../../../../contexts/GameProvider'
-import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { useGameContext } from '../../../../../contexts/GameProvider'
+import { useSettingsContext } from '../../../../../contexts/SettingsProvider'
 import { appWindow } from '@tauri-apps/api/window'
 import { listen } from '@tauri-apps/api/event'
 

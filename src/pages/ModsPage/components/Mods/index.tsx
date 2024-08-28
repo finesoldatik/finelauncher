@@ -1,14 +1,14 @@
 import { FC, memo, useState } from 'react'
-import { IMods } from '../../ModsPage.types'
-import ModWrapper from '../../../../utils/mod/Wrapper'
 import { useQuery } from 'react-query'
 import ModSkeleton from '../ModSkeleton'
 import DrawerContent from '../DrawerContent'
 import DrawerSide from '../DrawerSide'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { getMods } from '../../../../utils/voxelworld'
 
 export interface IParams {
-	sort: number
+	sort: 1 | 2 | 3 | 4 | number
+	sortOrder: 'desc' | 'asc'
 	page: number
 	value: string
 	tags: number[]
@@ -17,18 +17,17 @@ export interface IParams {
 const fetchMods = async (params: IParams) => {
 	console.log('fetchMod')
 
-	const modWrapper = new ModWrapper()
-
-	const { data } = await modWrapper.getMods({
+	const data = await getMods('v1', {
 		params: {
 			sort: params.sort,
+			sortOrder: params.sortOrder,
 			page: params.page,
 			title: params.value ? params.value : undefined,
 			tag_id: params.tags ? params.tags : undefined,
 		},
 	})
 
-	const result: IMods = data.data
+	const result = data.data.data
 
 	return result
 }
@@ -40,6 +39,7 @@ const Mods: FC = memo(() => {
 
 	const [params, setParams] = useState<IParams>({
 		sort: 1,
+		sortOrder: 'desc',
 		page: 1,
 		value: '',
 		tags: [],
@@ -84,12 +84,8 @@ const Mods: FC = memo(() => {
 					className='drawer-toggle'
 					title='drawer'
 				/>
-				<DrawerContent
-					content={data.content}
-					setParams={setParams}
-					params={params}
-				/>
-				<DrawerSide tags={data.tags} setParams={setParams} />
+				<DrawerContent content={data} setParams={setParams} params={params} />
+				<DrawerSide setModParams={setParams} />
 			</div>
 		</div>
 	)

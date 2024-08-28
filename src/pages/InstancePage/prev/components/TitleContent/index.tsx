@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { useSettingsContext } from '../../../../../contexts/SettingsProvider'
 
 interface ITitleContentProps {
 	icon: string

@@ -1,5 +1,6 @@
 import { fs, invoke, os, path, shell } from '@tauri-apps/api'
 import { IVersion } from '../utils/version'
+import { deleteDir } from './download'
 
 // Util
 
@@ -157,6 +158,10 @@ export const saveInstanceData = async function (
 			.join(v, 'instance.json')
 			.then(p => fs.writeTextFile(p, JSON.stringify(data)))
 	)
+}
+
+export const deleteInstance = async (version: string) => {
+	return deleteDir(await getInstancePath(version))
 }
 
 export interface InstanceData {

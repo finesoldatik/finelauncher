@@ -1,4 +1,3 @@
-import { IContent } from '../../ModsPage.types'
 import { FC, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -7,9 +6,10 @@ import {
 	faUser,
 } from '@fortawesome/free-solid-svg-icons'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { Mod as IMod } from '../../../../utils/voxelworld/voxelworld.interface'
 
 interface IModProps {
-	mod: IContent
+	mod: IMod
 	setCurrentModId: (value: number) => void
 	setActive: (value: boolean) => void
 }
@@ -70,7 +70,9 @@ const Mod: FC<IModProps> = memo(({ mod, setCurrentModId, setActive }) => {
 							mod.tags.map(tag => <li key={tag.id}>{tag.title}</li>)
 						) : (
 							<li>
-								{settingsContext.translation.translatable('modsPage.mod.noTags')}
+								{settingsContext.translation.translatable(
+									'modsPage.mod.noTags'
+								)}
 							</li>
 						)}
 					</ul>

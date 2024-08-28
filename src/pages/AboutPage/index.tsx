@@ -3,19 +3,17 @@ import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import ContributorsWrapper, { IContributor } from '../../utils/contributors'
+import { Contributor, getContributors } from '../../utils/contributors'
 import { discordPresence } from '../../utils/discordRPC'
 import { LAUNCHER_DISCORD, LAUNCHER_GITHUB, VOXELWORLD } from '../../constants'
 
 export default function AboutPage() {
-	const [contributors, setContributors] = useState<IContributor[]>([])
+	const [contributors, setContributors] = useState<Contributor[]>([])
 
 	useEffect(() => {
 		discordPresence('Интересуется лаунчером')
 
-		const contributorsWrapper = new ContributorsWrapper()
-
-		contributorsWrapper.getContributors().then(value => {
+		getContributors().then(value => {
 			console.log(value)
 			setContributors(value)
 		})

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './DownloadModModal.module.css'
-import { IMod } from '../ModModal/ModModal.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { IOption } from '../../components/Select'
 import {
@@ -18,7 +17,7 @@ import { listen } from '@tauri-apps/api/event'
 interface IDownloadModModalProps {
 	active: boolean
 	setActive: (value: boolean) => void
-	mod: IMod
+	mod: any
 	modDownloadUrl: string
 }
 
@@ -66,7 +65,7 @@ export default function DownloadModModal({
 							String(instance?.value),
 							String(value?.name)
 						)
-						if (modData.id === mod.content.id) {
+						if (modData.id === mod.id) {
 							console.log('exists?', true)
 							setExists(true)
 						}
@@ -109,7 +108,6 @@ export default function DownloadModModal({
 			).then(value => {
 				const filtered = value.filter(val => val !== undefined)
 				console.log(filtered)
-				//@ts-expect-error все работает, но всеравно на что-то ругается
 				setInstances(filtered)
 				setLoading(false)
 			})
@@ -128,7 +126,7 @@ export default function DownloadModModal({
 		if (instance?.value && !isExists) {
 			if (downloadBtnRef.current) downloadBtnRef.current.disabled = true
 
-			downloadMod(modDownloadUrl, instance.value, mod.content.id).then(() => {
+			downloadMod(modDownloadUrl, instance.value, mod.id).then(() => {
 				if (downloadBtnRef.current) downloadBtnRef.current.disabled = false
 			})
 		}

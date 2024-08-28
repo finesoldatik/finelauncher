@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react'
-import { deleteMod } from '../../../../utils/download'
+import { deleteMod } from '../../../../../utils/download'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
-import { getInstanceContent } from '../../../../utils/instanceManager'
-import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { getInstanceContent } from '../../../../../utils/instanceManager'
+import { useSettingsContext } from '../../../../../contexts/SettingsProvider'
 
 interface IModsContainerProps {
 	name: string

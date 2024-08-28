@@ -2,8 +2,9 @@
 // import { setMods } from '../../pages/ModsPage/components/Mod/Mod.interface'
 // import { IMods } from '../../pages/ModsPage/ModsPage.interface'
 import { fs, path } from '@tauri-apps/api'
-import { getInstancePath, normalizeFilename } from '../instanceManager'
+import { getInstancePath, normalizeFilename } from './instanceManager'
 import { FileEntry } from '@tauri-apps/api/fs'
+import { deleteDir } from './download'
 
 // type getModsByTag = (
 // 	modWrapper: ModWrapper,
@@ -55,14 +56,24 @@ export const modExists = async (instanceName: string, modName: string) => {
 }
 
 const findMods = (file: FileEntry) => {
-	if (file.children) {
+	if (file.name === 'package.json') return file
+	else if (file.children) {
 		const children = file.children.filter(value => {
 			if (value.name === 'package.json') return value
+			else {
+				if (!value.children) return
+				const children1 = value.children.filter(value => {
+					console.log(value, value.name === 'package.json')
+					if (value.name === 'package.json') return value
+				})
+
+				console.log(children1)
+
+				if (children1.length) return children1[0]
+			}
 		})
 
-		if (children.length) return children
-	} else {
-		if (file.name === 'package.json') return file
+		if (children.length) return children[0]
 	}
 }
 
@@ -75,9 +86,11 @@ export const saveMods = async (
 	const { fs, path } = await import('@tauri-apps/api')
 	const files = await fs.readDir(modPath, { recursive: true })
 
-	const mods = files.filter(file => findMods(file))
+	const mods = files.map(value => findMods(value))
+	console.log(mods)
 
 	mods.forEach(async mod => {
+		if (!mod) return
 		if (mod.name === 'package.json') {
 			const data = JSON.parse(await fs.readTextFile(mod.path))
 
@@ -161,6 +174,12 @@ export const saveModData = async function (
 		path
 			.join(v, 'game', 'content', modName, 'mod.json')
 			.then(p => fs.writeTextFile(p, JSON.stringify(data)))
+	)
+}
+
+export const deleteMod = async (version: string, mod: string) => {
+	return deleteDir(
+		await path.join(await getInstancePath(version), 'game/content', mod)
 	)
 }
 

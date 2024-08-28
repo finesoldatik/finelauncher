@@ -1,14 +1,14 @@
 import { FC, SetStateAction, memo, useRef, useState } from 'react'
-import { IContent } from '../../ModsPage.types'
 import Mod from '../Mod'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { IParams } from '../Mods'
 import ModModal from '../../../../modals/ModModal'
 import { useSettingsContext } from '../../../../contexts/SettingsProvider'
+import { Mod as IMod } from '../../../../utils/voxelworld/voxelworld.interface'
 
 interface IDrawerContentProps {
-	content: IContent[]
+	content: IMod[]
 	setParams: (value: SetStateAction<IParams>) => void
 	params: IParams
 }
@@ -90,16 +90,14 @@ const DrawerContent: FC<IDrawerContentProps> = memo(
 					</div>
 				</div>
 				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 p-1'>
-					{content.map(mod => {
-						return (
-							<Mod
-								mod={mod}
-								setCurrentModId={setCurrentModId}
-								setActive={setActive}
-								key={mod.id}
-							/>
-						)
-					})}
+					{content.map(mod => (
+						<Mod
+							mod={mod}
+							setCurrentModId={setCurrentModId}
+							setActive={setActive}
+							key={mod.id}
+						/>
+					))}
 				</div>
 				{active && (
 					<ModModal

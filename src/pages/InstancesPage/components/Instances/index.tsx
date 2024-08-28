@@ -9,13 +9,13 @@ import { IVersion } from '../../../../utils/version'
 import LoadingInstances from '../LoadingInstances'
 import Navbar from '../Navbar'
 
-interface IVersionDisplay {
+export interface IVersionDisplay {
 	name: string
 	version: IVersion
 	image: string
 }
 
-const loadInstances = async (
+export const loadInstances = async (
 	setLoading: (value: boolean) => void,
 	setInstances: (value: (IVersionDisplay | undefined)[]) => void
 ) => {

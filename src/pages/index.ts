@@ -12,7 +12,7 @@ import { lazy } from 'react'
 const Layout = lazy(() => import('../Layout.tsx'))
 const About = lazy(() => import('./AboutPage'))
 const Home = lazy(() => import('./HomePage'))
-const Instances = lazy(() => import('./InstancesPage'))
+const Instances = lazy(() => import('./InstancePage'))
 const NewInstance = lazy(() => import('./NewInstancePage'))
 const Instance = lazy(() => import('./InstancePage'))
 const Mods = lazy(() => import('./ModsPage'))
