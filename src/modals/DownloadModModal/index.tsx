@@ -39,7 +39,7 @@ export default function DownloadModModal({
 
 	const [instance, setInstance] = useState<IOption>()
 
-	const [instances, setInstances] = useState<IOption[]>([])
+	const [instances, setInstances] = useState<(IOption | undefined)[]>([])
 	const [isLoading, setLoading] = useState<boolean>(true)
 	const [isExists, setExists] = useState<boolean>(false)
 	const [downloaded, setDownloaded] = useState<boolean>(false)
@@ -108,7 +108,7 @@ export default function DownloadModModal({
 			).then(value => {
 				const filtered = value.filter(val => val !== undefined)
 				console.log(filtered)
-				setInstances(filtered ? filtered : [{ label: '', value: '' }])
+				setInstances(filtered)
 				setLoading(false)
 			})
 		}
