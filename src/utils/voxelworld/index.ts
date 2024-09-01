@@ -26,7 +26,7 @@ export async function getMods(
 	version: APIVersion = 'v1',
 	config?: ModsParams
 ): Promise<ModsResponse> {
-	return await axios.get(`${baseUrl}/${version}/mods`, config)
+	return (await axios.get(`${baseUrl}/${version}/mods`, config)).data
 }
 
 // Mod
@@ -35,7 +35,7 @@ export async function getMod(
 	version: APIVersion = 'v1',
 	id: number
 ): Promise<ModDetailResponse> {
-	return await axios.get(`${baseUrl}/${version}/mods/${id}`)
+	return (await axios.get(`${baseUrl}/${version}/mods/${id}`)).data
 }
 
 // Tags
@@ -44,35 +44,35 @@ export async function getTags(
 	version: APIVersion = 'v1',
 	config?: TagParams
 ): Promise<TagResponse> {
-	return await axios.get(`${baseUrl}/${version}/tags`, config)
+	return (await axios.get(`${baseUrl}/${version}/tags`, config)).data
 }
 
 export async function getTexturepacks(
 	version: APIVersion = 'v1',
 	config?: TexturepacksParams
 ): Promise<TexturepacksResponse> {
-	return await axios.get(`${baseUrl}/${version}/texturepacks`, config)
+	return (await axios.get(`${baseUrl}/${version}/texturepacks`, config)).data
 }
 
 export async function getTexturepack(
 	version: APIVersion = 'v1',
 	id: number
 ): Promise<TexturepackDetailResponse> {
-	return await axios.get(`${baseUrl}/${version}/texturepacks/${id}`)
+	return (await axios.get(`${baseUrl}/${version}/texturepacks/${id}`)).data
 }
 
 export async function getWorlds(
 	version: APIVersion = 'v1',
 	config?: WorldsParams
 ): Promise<WorldsResponse> {
-	return await axios.get(`${baseUrl}/${version}/worlds`, config)
+	return (await axios.get(`${baseUrl}/${version}/worlds`, config)).data
 }
 
 export async function getWorld(
 	version: APIVersion = 'v1',
 	id: number
 ): Promise<WorldDetailResponse> {
-	return await axios.get(`${baseUrl}/${version}/worlds/${id}`)
+	return (await axios.get(`${baseUrl}/${version}/worlds/${id}`)).data
 }
 
 export async function getVersions(
@@ -80,7 +80,7 @@ export async function getVersions(
 	id: number,
 	config: VersionsParams
 ): Promise<VersionsResponse> {
-	return await axios.get(`${baseUrl}/${version}/versions/${id}`, config)
+	return (await axios.get(`${baseUrl}/${version}/versions/${id}`, config)).data
 }
 
 export async function getVersion(
@@ -89,8 +89,10 @@ export async function getVersion(
 	version_id: number,
 	config?: VersionDetailParams
 ): Promise<VersionDetailResponse> {
-	return await axios.get(
-		`${baseUrl}/${version}/versions/${project_id}/${version_id}`,
-		config
-	)
+	return (
+		await axios.get(
+			`${baseUrl}/${version}/versions/${project_id}/${version_id}`,
+			config
+		)
+	).data
 }

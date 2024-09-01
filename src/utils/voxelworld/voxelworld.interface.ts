@@ -20,12 +20,9 @@ export interface ModsParams {
 //// Response
 
 export interface ModsResponse {
-	data: {
-		data: Mod[]
-
-		links: Links
-		meta: Meta
-	}
+	data: Mod[]
+	links: Links
+	meta: Meta
 }
 
 //// Other
@@ -76,19 +73,17 @@ interface MetaLinks {
 
 export interface ModDetailResponse {
 	data: {
-		data: {
-			id: number
-			author: Author
-			title: string
-			description: string
-			downloads: number
-			likes: number
-			isLiked: null
-			tags: Tag[]
+		id: number
+		author: Author
+		title: string
+		description: string
+		downloads: number
+		likes: number
+		isLiked: null
+		tags: Tag[]
 
-			pathLogo: string
-			detail_description: DetailDescription
-		}
+		pathLogo: string
+		detail_description: DetailDescription
 	}
 }
 
@@ -150,12 +145,10 @@ export interface TexturepacksParams {
 //// Response
 
 export interface TexturepacksResponse {
-	data: {
-		data: Texturepack[]
-		links: Links
+	data: Texturepack[]
+	links: Links
 
-		meta: Meta
-	}
+	meta: Meta
 }
 
 //// Other
@@ -180,18 +173,16 @@ interface Texturepack {
 
 export interface TexturepackDetailResponse {
 	data: {
-		data: {
-			id: number
-			author: Author
-			title: string
-			description: string
-			downloads: number
-			likes: number
-			isLiked: null
-			tags: Tag[]
-			pathLogo: string
-			detail_description: TexturepackDetailDescription
-		}
+		id: number
+		author: Author
+		title: string
+		description: string
+		downloads: number
+		likes: number
+		isLiked: null
+		tags: Tag[]
+		pathLogo: string
+		detail_description: TexturepackDetailDescription
 	}
 }
 
@@ -219,11 +210,9 @@ export interface VersionsParams {
 //// Response
 
 export interface VersionsResponse {
-	data: {
-		data: Version[]
-		links: Links
-		meta: Meta
-	}
+	data: Version[]
+	links: Links
+	meta: Meta
 }
 
 //// Other
@@ -269,16 +258,14 @@ export interface VersionDetailParams {
 
 export interface VersionDetailResponse {
 	data: {
-		data: {
-			id: number
-			status: VersionStatus
-			version_number: string
-			path: string
-			changelog: string
-			engine: VersionEngine
-			engine_format: string
-			created_at: string
-		}
+		id: number
+		status: VersionStatus
+		version_number: string
+		path: string
+		changelog: string
+		engine: VersionEngine
+		engine_format: string
+		created_at: string
 	}
 }
 
@@ -302,11 +289,9 @@ export interface WorldsParams {
 //// Response
 
 export interface WorldsResponse {
-	data: {
-		data: World[]
-		links: Links
-		meta: Meta
-	}
+	data: World[]
+	links: Links
+	meta: Meta
 }
 
 //// Other
@@ -350,17 +335,15 @@ interface Block {
 
 export interface WorldDetailResponse {
 	data: {
-		data: {
-			id: number
-			author: Author
-			title: string
-			description: string
-			downloads: number
-			likes: number
-			isLiked: null
-			tags: Tag[]
-			pathLogo: string
-			detail_description: DetailDescription
-		}
+		id: number
+		author: Author
+		title: string
+		description: string
+		downloads: number
+		likes: number
+		isLiked: null
+		tags: Tag[]
+		pathLogo: string
+		detail_description: DetailDescription
 	}
 }

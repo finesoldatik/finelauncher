@@ -13,7 +13,7 @@ const fetchMod = async (id: number) => {
 
 	console.log(data)
 
-	const result = data.data
+	const result = data
 
 	console.log('mod', result)
 
@@ -31,7 +31,7 @@ const fetchVersions = async (id: number) => {
 
 	console.log(data)
 
-	const result = data.data.reverse()
+	const result = data.reverse()
 
 	console.log('versions', result)
 
