@@ -1,25 +1,39 @@
+<div align="center">
+
+[![][logo-url]][discord-url]
+
 # finelauncher
 
-**finelauncher** - самый лучший, красивый, функциональный лаунчер для VE, существующий на данный момент. Наш лаунчер предлагает вам такую функциональность совершенно бесплатно:
+**Best launcher for [Voxel Core](https://github.com/MihailRis/VoxelEngine-Cpp)**
 
-- Создание, управление, настройка и запуск инстанса с любой существующей версией и даже сборкой из последних исходников github!
-- Поиск, фильтрация, выбор любых модификаций для игры, которые были загружены на voxelworld.ru
-- Кастомизация лаунчера и его базовая настройка.
-- Управление модификациями определённого инстанса.
+[![][commit]](https://github.com/saadeghi/daisyui)
+[![][license]](https://github.com/saadeghi/daisyui/blob/master/LICENSE)  
+[![][stars]](https://github.com/saadeghi/daisyui)
+[![][downloads]](https://www.npmjs.com/package/daisyui)
+[![][discord]](https://daisyui.com/discord/)
 
-**Лаунчер в разработке** и конечно же некоторые его версии могут быть нестабильными, которые позже исправляются. Если вы нашли какой-либо баг, либо хотите предложить идею, которую можно реализовать, то обратитесь к нам в [Discord](https://discord.com/invite/KU4dXuWBVv)
+</div>
 
-## Исходный код
+## Links
 
-**Для редактирования/просмотра исходного кода приложения** конечно же вы можете скачать исходный код и без моей помощи, но думаю вам нужно еще и запускать его? Если это так, то следуйте этой короткой инструкции:
+### [Official discord →](https://discord.com/invite/KU4dXuWBVv)
 
-- Скачайте и установите **Node js** [с **оффициального** сайта](https://nodejs.org/en)
-- Установите [**необходимые зависимости**](https://tauri.app/v1/guides/getting-started/prerequisites)
-- Скачайте **Исходный код**
-- **Распакуйте архив** и откройте код в **Вашем редакторе**
-- **Установите зависимости с помощью `npm install` или любого другого пакетного менеджера Node js.**
-- Запустите приложение в **dev** режиме с помощью `npx tauri dev`.
+<div align="center">
 
-После при желании вы можете и сбилдить проект, запустите `npx tauri build`.
+Contributors \
+\
+[![][contributors_img]][contributors]
 
-**ВАЖНО**: Любой **ваш билд** этого приложения не является оффициальным, его **распространение без разрешения разработчика** запрещено.
+</div>
+
+[logo-url]: https://raw.githubusercontent.com/finesoldatik/finelauncher/refs/heads/main/src-tauri/icons/Square150x150Logo.png
+[discord-url]: https://discord.com/invite/KU4dXuWBVv
+
+[commit]: https://img.shields.io/github/last-commit/finesoldatik/finelauncher?label=Last%20commit&color=blue
+[license]: https://img.shields.io/github/license/finesoldatik/finelauncher?label=License&color=blue
+[stars]: https://badgen.net/github/stars/finesoldatik/finelauncher?label=GitHub%20stars&color=blue
+[downloads]: https://img.shields.io/github/downloads/finesoldatik/finelauncher/total.svg?label=Downloads&color=blue
+[discord]: https://badgen.net/discord/members/KU4dXuWBVv?label=Discord&color=blue
+
+[contributors_img]: https://contrib.rocks/image?repo=finesoldatik/finelauncher&columns=25&anon=1&max=300
+[contributors]: https://github.com/finesoldatik/finelauncher/graphs/contributors
