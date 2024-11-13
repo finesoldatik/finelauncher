@@ -18,10 +18,6 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <Pages.Home />,
-			},
-			{
-				path: '/instances',
 				element: <Pages.Instances />,
 			},
 			{
@@ -33,7 +29,7 @@ const router = createBrowserRouter([
 				element: <Pages.NewInstance />,
 			},
 			{
-				path: '/voxelworld:instance',
+				path: '/voxelworld/:instance',
 				element: <Pages.VoxelWorld />,
 			},
 			{

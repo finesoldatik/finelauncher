@@ -1,16 +1,14 @@
-import Theme from "../../components/Theme";
+import Theme from '../../components/Theme'
+import { themes } from '../../constants'
 
 export default function Settings() {
 	return (
 		<>
-			<div className='flex gap-3 bg-base-300 p-10'>
-				<Theme name='cmyk' />
-				<Theme name='light' />
-				<Theme name='dark' />
-				<Theme name='bumblebee' />
-				<Theme name='cupcake' />
-				<Theme name='retro' />
+			<div className='flex flex-row flex-wrap gap-3 bg-base-300 p-10'>
+				{themes.map(val => (
+					<Theme name={val} key={val} />
+				))}
 			</div>
-		ы</>
+		</>
 	)
 }

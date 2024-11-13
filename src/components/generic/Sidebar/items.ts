@@ -1,16 +1,14 @@
-import { faHouse, faGamepad, faGear, faCircleDown, faDownload } from '@fortawesome/free-solid-svg-icons'
+import {
+	faGamepad,
+	faGear,
+	faDownload,
+} from '@fortawesome/free-solid-svg-icons'
 
 export const topItems = [
 	{
-		id: 0,
-		icon: faHouse,
-		link: '/',
-		tooltip: 'homePage.tooltip',
-	},
-	{
 		id: 1,
 		icon: faGamepad,
-		link: '/instances',
+		link: '/',
 		tooltip: 'instancesPage.tooltip',
 	},
 ]
