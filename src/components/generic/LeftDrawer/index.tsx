@@ -9,7 +9,12 @@ interface LeftDrawerProps {
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function LeftDrawer({ title, children, isOpen, setIsOpen }: LeftDrawerProps) {
+export default function LeftDrawer({
+	title,
+	children,
+	isOpen,
+	setIsOpen,
+}: LeftDrawerProps) {
 	const toggleDrawer = () => {
 		setIsOpen(prev => !prev)
 	}
@@ -26,7 +31,7 @@ export default function LeftDrawer({ title, children, isOpen, setIsOpen }: LeftD
 				<div>{children}</div>
 			</div>
 			<button
-				title='x'
+				title='Скрыть'
 				onClick={toggleDrawer}
 				className='absolute top-4 right-4'
 			>

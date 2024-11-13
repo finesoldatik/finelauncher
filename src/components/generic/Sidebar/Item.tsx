@@ -33,8 +33,10 @@ export default function Item({ element }: ItemProps) {
 				}
 				to={element.link}
 				onClick={() => {
-					if (element.icon != faDownload) element.setActive(element.id)
-					else element.setIsOpen(prev => !prev)
+					if (element.icon != faDownload) {
+						element.setActive(element.id)
+						element.setIsOpen(false)
+					} else element.setIsOpen(prev => !prev)
 				}}
 			>
 				<FontAwesomeIcon icon={element.icon} />

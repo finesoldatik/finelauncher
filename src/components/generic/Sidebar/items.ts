@@ -15,13 +15,13 @@ export const topItems = [
 
 export const bottomItems = [
 	{
-		id: 3,
+		id: 2,
 		icon: faDownload,
 		link: '#',
 		tooltip: 'settingsPage.tooltip',
 	},
 	{
-		id: 4,
+		id: 3,
 		icon: faGear,
 		link: '/settings',
 		tooltip: 'settingsPage.tooltip',

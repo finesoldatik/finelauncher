@@ -1,6 +1,6 @@
 import { getValue, setValue } from './localStorage'
 
-import Languages from './Languages'
+import languages from '../../public/languages'
 import { path } from '@tauri-apps/api'
 import * as fs from '@tauri-apps/plugin-fs'
 import { getLauncherPath } from './instanceManager'
@@ -33,7 +33,7 @@ export default class TranslatableText {
 
 	async reloadLanguages() {
 		// Default languages
-		this.translations = new Map(Object.entries(Languages))
+		this.translations = new Map(Object.entries(languages))
 
 		const translationsDir = await path.join(
 			await getLauncherPath(),
