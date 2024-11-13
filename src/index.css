@@ -25,9 +25,9 @@ body {
 	position: relative;
 }
 
-#root {
+.window {
 	display: flex;
-	
+
 	justify-content: space-around;
 
 	min-width: 100%;

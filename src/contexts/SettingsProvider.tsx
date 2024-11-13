@@ -6,34 +6,32 @@ import {
 	useMemo,
 	useEffect,
 } from 'react'
-import { getValue, setValue } from '../utils/localStorage'
-import TranslatableText from '../utils/TranslatableText'
+import { getValue, setValue } from '../services/localStorage'
+// import TranslatableText from '../utils/TranslatableText'
 
 export interface ISettingsContext {
 	theme: string
-	translation: TranslatableText
-	homePageAnimation: number
+	// translation: TranslatableText
 	hideLauncherOnLaunchGame: boolean
 	tabId: number
 	setTheme: (value: string) => void
-	setTranslation: (value: TranslatableText) => void
+	// setTranslation: (value: TranslatableText) => void
 	setHomeAnimation: (value: number) => void
-	setHideLauncher: (value: boolean) => void
+	setHideLauncherOnLaunchGame: (value: boolean) => void
 	setTab: (value: number) => void
 	resetSettings: () => void
 }
 
 export const SettingsContext = createContext<ISettingsContext>({
 	theme: 'dark',
-	translation: new TranslatableText(),
-	homePageAnimation: 0,
+	// translation: new TranslatableText(),
 	hideLauncherOnLaunchGame: false,
 	tabId: 0,
 
 	setTheme: () => {},
-	setTranslation: () => {},
+	// setTranslation: () => {},
 	setHomeAnimation: () => {},
-	setHideLauncher: () => {},
+	setHideLauncherOnLaunchGame: () => {},
 	setTab: () => {},
 	resetSettings: () => {},
 })
@@ -48,9 +46,9 @@ export default function SettingsProvider({
 	console.log('SettingsProvider Render')
 
 	const [theme, setTheme] = useState<string>(getValue('theme') || 'dark')
-	const [translation, setTranslation] = useState<TranslatableText>(
-		new TranslatableText()
-	)
+	// const [translation, setTranslation] = useState<TranslatableText>(
+	// 	new TranslatableText()
+	// )
 	const [tabId, setTabId] = useState<number>(0)
 	const [homePageAnimation, setHomePageAnimation] = useState(
 		getValue('homePageAnimation') || 0
@@ -95,18 +93,18 @@ export default function SettingsProvider({
 	const value = useMemo(
 		() => ({
 			theme,
-			translation,
+			// translation,
 			homePageAnimation,
 			hideLauncherOnLaunchGame,
 			tabId,
 			setTheme,
-			setTranslation,
+			// setTranslation,
 			setHomeAnimation,
-			setHideLauncher,
+			setHideLauncherOnLaunchGame: setHideLauncher,
 			setTab,
 			resetSettings,
 		}),
-		[theme, translation, tabId]
+		[theme, tabId] // translation,
 	)
 
 	return (

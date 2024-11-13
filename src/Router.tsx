@@ -1,23 +1,20 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import LoadingModal from './modals/LoadingModal'
+// import LoadingModal from './modals/LoadingModal'
 import Pages from './pages'
 import { Suspense } from 'react'
-import Overlay from './Overlay'
-import NotFound from './pages/NotFound'
+import './index.css'
+
+// <LoadingModal />
 
 const router = createBrowserRouter([
 	{
-		path: '/overlay',
-		element: <Overlay />,
-	},
-	{
 		path: '',
 		element: (
-			<Suspense fallback={<LoadingModal />}>
+			<Suspense fallback={<></>}>
 				<Pages.Layout />
 			</Suspense>
 		),
-		errorElement: <NotFound />,
+		errorElement: <Pages.NotFound />,
 		children: [
 			{
 				path: '/',
@@ -29,15 +26,15 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/instances/:name',
-				element: <Pages.Instance />,
+				element: <Pages.Instances />,
 			},
 			{
 				path: '/new-instance',
 				element: <Pages.NewInstance />,
 			},
 			{
-				path: '/mods',
-				element: <Pages.Mods />,
+				path: '/voxelworld:instance',
+				element: <Pages.VoxelWorld />,
 			},
 			{
 				path: '/settings',

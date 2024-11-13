@@ -6,17 +6,17 @@
 
 **Best launcher for [Voxel Core](https://github.com/MihailRis/VoxelEngine-Cpp)**
 
-[![][commit]]()
-[![][license]]()  
-[![][stars]]()
-[![][downloads]]()
-[![][discord]](https://discord.com/invite/uzrJwm8pTK)
+[![][commit]](https://github.com/saadeghi/daisyui)
+[![][license]](https://github.com/saadeghi/daisyui/blob/master/LICENSE)  
+[![][stars]](https://github.com/saadeghi/daisyui)
+[![][downloads]](https://www.npmjs.com/package/daisyui)
+[![][discord]](https://daisyui.com/discord/)
 
 </div>
 
 ## Links
 
-### [Official discord →](https://discord.com/invite/uzrJwm8pTK)
+### [Official discord →](https://discord.com/invite/KU4dXuWBVv)
 
 <div align="center">
 
@@ -27,7 +27,7 @@ Contributors \
 </div>
 
 [logo-url]: https://raw.githubusercontent.com/finesoldatik/finelauncher/refs/heads/main/src-tauri/icons/Square150x150Logo.png
-[discord-url]: https://discord.com/invite/uzrJwm8pTK
+[discord-url]: https://discord.com/invite/KU4dXuWBVv
 
 [commit]: https://img.shields.io/github/last-commit/finesoldatik/finelauncher?label=Last%20commit&color=blue
 [license]: https://img.shields.io/github/license/finesoldatik/finelauncher?label=License&color=blue
