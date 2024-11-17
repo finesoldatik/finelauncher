@@ -1,6 +1,6 @@
 import { getValue, setValue } from './localStorage'
 
-import languages from '../../public/languages'
+import languages from '../languages'
 import { path } from '@tauri-apps/api'
 import * as fs from '@tauri-apps/plugin-fs'
 import { getLauncherPath } from './instanceManager'

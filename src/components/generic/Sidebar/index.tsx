@@ -1,8 +1,9 @@
 import Item from './Item'
-import { topItems, bottomItems } from './items.ts'
+import { topItems, bottomItems, items } from './items.ts'
 import { useSettingsContext } from '../../../contexts/SettingsProvider'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LeftDrawer from '../LeftDrawer/index.tsx'
+import { faNoteSticky } from '@fortawesome/free-solid-svg-icons'
 
 export default function Sidebar() {
 	console.log('Sidebar Render')
@@ -13,37 +14,56 @@ export default function Sidebar() {
 
 	return (
 		<>
-			<LeftDrawer isOpen={isOpen} setIsOpen={setIsOpen} title='Загрузки'></LeftDrawer>
+			<LeftDrawer
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+				title='Загрузки'
+			></LeftDrawer>
 			<div
 				className='flex flex-col justify-between flex-grow-0 flex-shrink-0 basis-12 h-screen bg-base-300 z-[1000]'
 				onContextMenu={event => event.preventDefault()}
 			>
 				<div className='flex join join-vertical mt-1'>
-					{topItems.map(el => (
+					{topItems.map((el, idx) => (
 						<Item
 							element={{
 								...el,
 								tooltip: '1', //settingsContext.translation.translatable(el.tooltip)
-								active: settingsContext.tabId,
-								setActive: settingsContext.setTab,
+								active: settingsContext.currentPage,
+								setActive: settingsContext.setPage,
 								setIsOpen: setIsOpen,
 							}}
-							key={el.id}
+							key={idx}
 						/>
 					))}
+					{!items.filter(val => val.link == settingsContext.currentPage)
+						.length ? (
+						<Item
+							element={{
+								icon: faNoteSticky,
+								link: settingsContext.currentPage,
+								tooltip: '1', //settingsContext.translation.translatable('anotherPage.tooltip')
+								active: settingsContext.currentPage,
+								setActive: settingsContext.setPage,
+								setIsOpen: setIsOpen,
+							}}
+						/>
+					) : (
+						<></>
+					)}
 				</div>
 
 				<div className='flex join join-vertical mb-1'>
-					{bottomItems.map(el => (
+					{bottomItems.map((el, idx) => (
 						<Item
 							element={{
 								...el,
 								tooltip: '1', //settingsContext.translation.translatable(el.tooltip)
-								active: settingsContext.tabId,
-								setActive: settingsContext.setTab,
+								active: settingsContext.currentPage,
+								setActive: settingsContext.setPage,
 								setIsOpen: setIsOpen,
 							}}
-							key={el.id}
+							key={idx}
 						/>
 					))}
 				</div>

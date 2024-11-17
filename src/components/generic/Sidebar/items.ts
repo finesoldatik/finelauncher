@@ -6,7 +6,6 @@ import {
 
 export const topItems = [
 	{
-		id: 1,
 		icon: faGamepad,
 		link: '/',
 		tooltip: 'instancesPage.tooltip',
@@ -15,13 +14,11 @@ export const topItems = [
 
 export const bottomItems = [
 	{
-		id: 2,
 		icon: faDownload,
 		link: '#',
 		tooltip: 'settingsPage.tooltip',
 	},
 	{
-		id: 3,
 		icon: faGear,
 		link: '/settings',
 		tooltip: 'settingsPage.tooltip',

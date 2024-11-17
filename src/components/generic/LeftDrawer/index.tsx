@@ -25,6 +25,9 @@ export default function LeftDrawer({
                 transition-transform transform z-[999] ${
 									isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+48px)]'
 								}`}
+			style={{
+				transition: 'background-color 0.3s ease-out, color 0.1s ease',
+			}}
 		>
 			<div className='p-4'>
 				<h2 className='text-xl font-semibold mb-4'>{title}</h2>

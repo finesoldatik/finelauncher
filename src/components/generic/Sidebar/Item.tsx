@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 interface Element {
-	id: number
-	active: number
-	setActive: (value: number) => void
+	active: string
+	setActive: (value: string) => void
 	icon: IconDefinition
 	link: string
 	tooltip: string
@@ -27,14 +26,15 @@ export default function Item({ element }: ItemProps) {
 		>
 			<Link
 				className={
-					element.active === element.id
+					element.active === element.link
 						? `btn btn-sm btn-primary join-item w-full h-10`
 						: 'btn btn-sm join-item w-full'
 				}
 				to={element.link}
 				onClick={() => {
 					if (element.icon != faDownload) {
-						element.setActive(element.id)
+						console.log('SIDEBAR_ITEM > ELEMENT_LINK:', element.link)
+						element.setActive(element.link)
 						element.setIsOpen(false)
 					} else element.setIsOpen(prev => !prev)
 				}}

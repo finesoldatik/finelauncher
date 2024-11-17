@@ -7,32 +7,31 @@ import {
 	useEffect,
 } from 'react'
 import { getValue, setValue } from '../services/localStorage'
-// import TranslatableText from '../utils/TranslatableText'
+import TranslatableText from '../services/translatableText'
 
 export interface ISettingsContext {
 	theme: string
-	// translation: TranslatableText
+	translation: TranslatableText
+	currentPage: string
 	hideLauncherOnLaunchGame: boolean
-	tabId: number
+
 	setTheme: (value: string) => void
-	// setTranslation: (value: TranslatableText) => void
-	setHomeAnimation: (value: number) => void
+	setTranslation: (value: TranslatableText) => void
+	setPage: (value: string) => void
 	setHideLauncherOnLaunchGame: (value: boolean) => void
-	setTab: (value: number) => void
 	resetSettings: () => void
 }
 
 export const SettingsContext = createContext<ISettingsContext>({
 	theme: 'dark',
-	// translation: new TranslatableText(),
+	translation: new TranslatableText(),
+	currentPage: '/',
 	hideLauncherOnLaunchGame: false,
-	tabId: 0,
 
 	setTheme: () => {},
-	// setTranslation: () => {},
-	setHomeAnimation: () => {},
+	setTranslation: () => {},
+	setPage: () => {},
 	setHideLauncherOnLaunchGame: () => {},
-	setTab: () => {},
 	resetSettings: () => {},
 })
 
@@ -46,65 +45,52 @@ export default function SettingsProvider({
 	console.log('SettingsProvider Render')
 
 	const [theme, setTheme] = useState<string>(getValue('theme') || 'dark')
-	// const [translation, setTranslation] = useState<TranslatableText>(
-	// 	new TranslatableText()
-	// )
-	const [tabId, setTabId] = useState<number>(0)
-	const [homePageAnimation, setHomePageAnimation] = useState(
-		getValue('homePageAnimation') || 0
+	const [translation, setTranslation] = useState<TranslatableText>(
+		new TranslatableText()
 	)
-	const [hideLauncherOnLaunchGame, setHideLauncherOnLaunchGame] = useState(
-		getValue('hideLauncherOnLaunchGame') || false
-	)
+	const [currentPage, setCurrentPage] = useState<string>('/')
+
+	const [hideLauncherOnLaunchGame, setHideLauncherOnLaunchGame] =
+		useState<boolean>(getValue('hideLauncherOnLaunchGame') || false)
 
 	const resetSettings = () => {
-		setHomePageAnimation(0)
 		setHideLauncherOnLaunchGame(false)
 	}
 
-	const setHomeAnimation = (value: number) => {
-		setOption(value, 'homePageAnimation')
-		setHomePageAnimation(value)
-	}
-
 	const setHideLauncher = (value: boolean) => {
-		setOption(value, 'hideLauncherOnLaunchGame')
+		setValue('hideLauncherOnLaunchGame', value)
 		setHideLauncherOnLaunchGame(value)
 	}
 
-	const setOption = (value: any, key: string) => {
-		setValue(value, key)
-	}
-
-	const setTab = (value: number) => {
-		setOption(value, 'tabId')
-		setTabId(value)
+	const setPage = (value: string) => {
+		setValue('page', value)
+		setCurrentPage(value)
 	}
 
 	useEffect(() => {
-		setTab(Number(getValue('tabId')))
+		const page = String(getValue('page'))
+		console.log('SAVED_PAGE:', page)
+		setPage(page)
 	}, [])
 
 	useEffect(() => {
 		document.body.setAttribute('data-theme', theme)
-		setValue(theme, 'theme')
+		setValue('theme', theme)
 	}, [theme])
 
 	const value = useMemo(
 		() => ({
 			theme,
-			// translation,
-			homePageAnimation,
+			translation,
 			hideLauncherOnLaunchGame,
-			tabId,
+			currentPage,
 			setTheme,
-			// setTranslation,
-			setHomeAnimation,
+			setTranslation,
 			setHideLauncherOnLaunchGame: setHideLauncher,
-			setTab,
+			setPage,
 			resetSettings,
 		}),
-		[theme, tabId] // translation,
+		[theme, translation, currentPage]
 	)
 
 	return (
