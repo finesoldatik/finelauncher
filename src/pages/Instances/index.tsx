@@ -1,7 +1,8 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
 import { discordPresence } from '../../services/discordRPC'
+import InstancesMenu from '../../components/InstancesMenu'
 
 export default function Instances() {
 	console.log('InstancesPage Render')
@@ -9,7 +10,7 @@ export default function Instances() {
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()
 
-	const params = useParams<{ name: string | undefined }>()
+	const { name } = useParams<{ name: string | undefined }>()
 
 	useEffect(() => {
 		discordPresence('Смотрит новости 👀')
@@ -19,20 +20,26 @@ export default function Instances() {
 		navigate(settingsContext.currentPage)
 	}, [settingsContext.currentPage])
 
-	console.log('name', params.name)
+	console.log('name', name)
 
 	return (
-		<div>
-			<Link
-				className='btn btn-primary'
-				to={'/new-instance'}
-				onClick={() => settingsContext.setPage('/new-instance')}
-			>
-				New instance
-			</Link>
-			<Link className='btn btn-primary' to={'/instances/adasdsadas'}>
-				adasdsadas
-			</Link>
+		<div className='flex flex-row'>
+			<InstancesMenu
+				instances={[
+					{ name: 'Моя сборка', version: '0.20.3' },
+					{ name: 'Сборка №2', version: '0.20.3' },
+					{
+						name: 'названия в 33 символа максимум',
+						version: '0.20.3',
+					},
+					{ name: 'Сборка №233333', version: '0.20.3' },
+				]}
+			/>
+
+			<div className='w-full h-screen'>
+				{name}
+				<div></div>
+			</div>
 		</div>
 	)
 }

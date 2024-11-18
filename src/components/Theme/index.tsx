@@ -1,44 +1,31 @@
-import { useSettingsContext } from '../../contexts/SettingsProvider'
+interface ThemeProps {
+	name: string
+	activeTheme: string
+	setTheme: (value: string) => void
+}
 
-export default function Theme({ name }: { name: string }) {
-	const settingsContext = useSettingsContext()
-
+export default function Theme({ name, activeTheme, setTheme }: ThemeProps) {
 	return (
-		<button
-			className='outline-base-content text-start outline-offset-4'
-			data-act-class='[&amp;_svg]:visible'
-			data-set-theme={name}
-			onClick={() => {
-				settingsContext.setTheme(name)
-			}}
+		<div
+			className={`md:w-60 lg:max-w-48 outline-base-content text-start outline outline-2 rounded-[--rounded-btn] outline-offset-4 ${
+				activeTheme == name ? '!outline-base-content' : 'outline-transparent'
+			}`}
+			onClick={() => setTheme(name)}
 		>
-			<span
+			<div
 				className='bg-base-100 rounded-btn text-base-content block w-full cursor-pointer font-sans'
 				data-theme={name}
 			>
-				<span className='grid grid-cols-5 grid-rows-3'>
-					<span className='col-span-5 row-span-3 row-start-1 flex items-center gap-2 px-4 py-3'>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							width='16'
-							height='16'
-							viewBox='0 0 24 24'
-							fill='currentColor'
-							className='invisible h-3 w-3 shrink-0'
-						>
-							<path d='M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z'></path>
-						</svg>
-
-						<span className='flex-grow text-sm pr-5'>{name}</span>
-						<span className='flex h-full shrink-0 flex-wrap gap-1'>
-							<span className='bg-primary rounded-badge w-2'></span>
-							<span className='bg-secondary rounded-badge w-2'></span>
-							<span className='bg-accent rounded-badge w-2'></span>
-							<span className='bg-neutral rounded-badge w-2'></span>
-						</span>
-					</span>
-				</span>
-			</span>
-		</button>
+				<div className='flex flex-row justify-between items-center px-4 py-3'>
+					<span className='flex-grow text-sm pr-5'>{name}</span>
+					<div className='flex h-full shrink-0 flex-wrap gap-1'>
+						<div className='bg-primary rounded-badge w-3 h-3'></div>
+						<div className='bg-secondary rounded-badge w-3 h-3'></div>
+						<div className='bg-accent rounded-badge w-3 h-3'></div>
+						<div className='bg-neutral rounded-badge w-3 h-3'></div>
+					</div>
+				</div>
+			</div>
+		</div>
 	)
 }

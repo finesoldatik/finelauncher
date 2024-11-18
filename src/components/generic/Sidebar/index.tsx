@@ -1,7 +1,7 @@
 import Item from './Item'
 import { topItems, bottomItems, items } from './items.ts'
 import { useSettingsContext } from '../../../contexts/SettingsProvider'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import LeftDrawer from '../LeftDrawer/index.tsx'
 import { faNoteSticky } from '@fortawesome/free-solid-svg-icons'
 
@@ -26,27 +26,26 @@ export default function Sidebar() {
 				<div className='flex join join-vertical mt-1'>
 					{topItems.map((el, idx) => (
 						<Item
-							element={{
-								...el,
-								tooltip: '1', //settingsContext.translation.translatable(el.tooltip)
-								active: settingsContext.currentPage,
-								setActive: settingsContext.setPage,
-								setIsOpen: setIsOpen,
-							}}
+							icon={el.icon}
+							link={el.link}
+							tooltip={settingsContext.translation.translatable(el.tooltip)}
+							active={settingsContext.currentPage}
+							setActive={settingsContext.setPage}
+							setIsOpen={setIsOpen}
 							key={idx}
 						/>
 					))}
 					{!items.filter(val => val.link == settingsContext.currentPage)
 						.length ? (
 						<Item
-							element={{
-								icon: faNoteSticky,
-								link: settingsContext.currentPage,
-								tooltip: '1', //settingsContext.translation.translatable('anotherPage.tooltip')
-								active: settingsContext.currentPage,
-								setActive: settingsContext.setPage,
-								setIsOpen: setIsOpen,
-							}}
+							icon={faNoteSticky}
+							link={settingsContext.currentPage}
+							tooltip={settingsContext.translation.translatable(
+								'anotherPage.tooltip'
+							)}
+							active={settingsContext.currentPage}
+							setActive={settingsContext.setPage}
+							setIsOpen={setIsOpen}
 						/>
 					) : (
 						<></>
@@ -56,13 +55,12 @@ export default function Sidebar() {
 				<div className='flex join join-vertical mb-1'>
 					{bottomItems.map((el, idx) => (
 						<Item
-							element={{
-								...el,
-								tooltip: '1', //settingsContext.translation.translatable(el.tooltip)
-								active: settingsContext.currentPage,
-								setActive: settingsContext.setPage,
-								setIsOpen: setIsOpen,
-							}}
+							icon={el.icon}
+							link={el.link}
+							tooltip={settingsContext.translation.translatable(el.tooltip)}
+							active={settingsContext.currentPage}
+							setActive={settingsContext.setPage}
+							setIsOpen={setIsOpen}
 							key={idx}
 						/>
 					))}

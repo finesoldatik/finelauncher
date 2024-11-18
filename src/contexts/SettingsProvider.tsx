@@ -68,9 +68,14 @@ export default function SettingsProvider({
 	}
 
 	useEffect(() => {
-		const page = String(getValue('page'))
-		console.log('SAVED_PAGE:', page)
-		setPage(page)
+		const value = getValue('page')
+		if (value != null) {
+			const page = String(value)
+			console.log('SAVED_PAGE:', page)
+			setPage(page)
+		} else {
+			setPage('/')
+		}
 	}, [])
 
 	useEffect(() => {

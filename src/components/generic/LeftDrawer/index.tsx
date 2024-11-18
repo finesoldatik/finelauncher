@@ -22,11 +22,11 @@ export default function LeftDrawer({
 	return (
 		<div
 			className={`fixed top-0 left-12 w-64 h-full bg-base-200 shadow-lg
-                transition-transform transform z-[999] ${
-									isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+48px)]'
-								}`}
+                 transform z-[999] ${
+										isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+48px)]'
+									}`}
 			style={{
-				transition: 'background-color 0.3s ease-out, color 0.1s ease',
+				transition: 'background-color 0.3s ease-out, transform 0.2s ease-out',
 			}}
 		>
 			<div className='p-4'>

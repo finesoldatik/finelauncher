@@ -2,9 +2,16 @@ import {
 	faGamepad,
 	faGear,
 	faDownload,
+	IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
 
-export const topItems = [
+interface Item {
+	icon: IconDefinition
+	link: string
+	tooltip: string
+}
+
+export const topItems: Item[] = [
 	{
 		icon: faGamepad,
 		link: '/',
@@ -12,7 +19,7 @@ export const topItems = [
 	},
 ]
 
-export const bottomItems = [
+export const bottomItems: Item[] = [
 	{
 		icon: faDownload,
 		link: '#',
@@ -25,4 +32,4 @@ export const bottomItems = [
 	},
 ]
 
-export const items = [...topItems, ...bottomItems]
+export const items: Item[] = [...topItems, ...bottomItems]
