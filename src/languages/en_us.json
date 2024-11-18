@@ -3,5 +3,6 @@
 
 	"instancesPage.tooltip": "Instances",
 	"downloadsPage.tooltip": "Downloads",
-	"settingsPage.tooltip": "Settings"
+	"settingsPage.tooltip": "Settings",
+	"anotherPage.tooltip": "Another page"
 }

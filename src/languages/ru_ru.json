@@ -3,5 +3,6 @@
 
 	"instancesPage.tooltip": "Сборки",
 	"downloadsPage.tooltip": "Загрузки",
-	"settingsPage.tooltip": "Настройки"
+	"settingsPage.tooltip": "Настройки",
+	"anotherPage.tooltip": "Иная страница"
 }

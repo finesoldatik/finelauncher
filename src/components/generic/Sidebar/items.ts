@@ -23,7 +23,7 @@ export const bottomItems: Item[] = [
 	{
 		icon: faDownload,
 		link: '#',
-		tooltip: 'settingsPage.tooltip',
+		tooltip: 'downloadsPage.tooltip',
 	},
 	{
 		icon: faGear,
