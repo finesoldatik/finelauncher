@@ -1,16 +1,13 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-// import LoadingModal from './modals/LoadingModal'
 import Pages from './pages'
 import { Suspense } from 'react'
 import './index.css'
-
-// <LoadingModal />
 
 const router = createBrowserRouter([
 	{
 		path: '',
 		element: (
-			<Suspense fallback={<></>}>
+			<Suspense fallback={<div>Loading...</div>}>
 				<Pages.Layout />
 			</Suspense>
 		),

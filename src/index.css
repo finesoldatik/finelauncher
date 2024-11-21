@@ -28,20 +28,18 @@ body {
 
 .window {
 	display: flex;
-
 	justify-content: space-around;
-
 	min-width: 100%;
 	min-height: 100%;
 	position: relative;
+}
 
-	main {
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		flex: 1 0 0px;
-		overflow-y: auto;
-	}
+.window main {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	flex: 1 0 0px;
+	overflow-y: auto;
 }
 
 :root {
@@ -88,4 +86,36 @@ body {
 
 *::-webkit-scrollbar-track {
 	background-color: transparent; /* Сделать дорожку полосы прокрутки прозрачной */
+}
+
+/* Элементы анимации для переключения страниц */
+/* index.css или ваш основной CSS файл */
+
+/* Стартовые стили для анимации */
+.page-enter {
+	opacity: 0; /* Начинаем с полной прозрачности */
+}
+
+.page-enter-active {
+	opacity: 1; /* Страница будет становиться непрозрачной */
+	transition: opacity 400ms ease-in-out; /* Плавный переход за 300 мс */
+}
+
+/* Стили для выхода страницы */
+.page-exit {
+	opacity: 0; /* Начинаем с полной непрозрачности */
+}
+
+.page-exit-active {
+	opacity: 0; /* Страница будет исчезать (становиться прозрачной) */
+}
+
+/* Чтобы страницы не создавали переполнения */
+.page-container {
+	position: relative;
+	overflow: hidden;
+}
+
+.page {
+	transition: opacity 400ms ease-in-out; /* Плавное изменение прозрачности */
 }

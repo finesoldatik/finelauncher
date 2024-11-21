@@ -28,11 +28,11 @@ export default function Item({
 			data-tip={tooltip}
 		>
 			<Link
-				className={
+				className={`transition-all duration-200 ${
 					active === link
-						? `btn btn-sm btn-primary join-item w-full h-10`
+						? 'btn btn-sm btn-primary join-item w-full h-10'
 						: 'btn btn-sm join-item w-full'
-				}
+				}`}
 				to={link}
 				onClick={() => {
 					if (icon != faDownload) {

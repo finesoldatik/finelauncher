@@ -15,7 +15,9 @@ export default function InstanceMenuItem({
 				<div className='whitespace-nowrap overflow-hidden text-ellipsis'>
 					{name}
 				</div>
-				<div className='badge badge-primary badge-outline'>{version}</div>
+				<div className='badge bg-transparent border-transparent italic'>
+					{version}
+				</div>
 			</Link>
 		</li>
 	)
