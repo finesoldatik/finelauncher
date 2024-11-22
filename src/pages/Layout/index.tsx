@@ -1,10 +1,18 @@
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Sidebar from '../../components/generic/Sidebar'
-import { Outlet, useLocation } from 'react-router-dom'
-// import AlertsContainer from './components/NewAlert'
+import { Outlet } from 'react-router-dom'
+import { useSettingsContext } from '../../contexts/SettingsProvider'
+import { bottomItems, topItems } from '../../components/generic/Sidebar/items'
 
 export default function Layout() {
-	const location = useLocation()
+	const settingsContext = useSettingsContext()
+
+	console.log(
+		bottomItems.map(val => val.link).includes(settingsContext.currentPage)
+	)
+	console.log(
+		topItems.map(val => val.link).includes(settingsContext.currentPage)
+	)
 
 	return (
 		<div className='window'>
@@ -14,14 +22,30 @@ export default function Layout() {
 			<main>
 				<div className='overflow-hidden'>
 					<TransitionGroup>
-						<CSSTransition
-							key={location.pathname}
-							timeout={300}
-							classNames='page'
-							unmountOnExit
-						>
-							<Outlet />
-						</CSSTransition>
+						{topItems
+							.map(val => val.link)
+							.includes(settingsContext.currentPage) && (
+							<CSSTransition
+								key={settingsContext.currentPage}
+								timeout={300}
+								classNames='page-top'
+								unmountOnExit
+							>
+								<Outlet />
+							</CSSTransition>
+						)}
+						{bottomItems
+							.map(val => val.link)
+							.includes(settingsContext.currentPage) && (
+							<CSSTransition
+								key={settingsContext.currentPage}
+								timeout={300}
+								classNames='page-down'
+								unmountOnExit
+							>
+								<Outlet />
+							</CSSTransition>
+						)}
 					</TransitionGroup>
 				</div>
 			</main>

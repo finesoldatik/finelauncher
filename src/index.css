@@ -89,33 +89,46 @@ body {
 }
 
 /* Элементы анимации для переключения страниц */
-/* index.css или ваш основной CSS файл */
-
-/* Стартовые стили для анимации */
-.page-enter {
-	opacity: 0; /* Начинаем с полной прозрачности */
+/* Анимация вверх */
+.page-top-enter {
+	opacity: 0;
+	transform: translateY(-50px);
 }
 
-.page-enter-active {
-	opacity: 1; /* Страница будет становиться непрозрачной */
-	transition: opacity 400ms ease-in-out; /* Плавный переход за 300 мс */
+.page-top-enter-active {
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 500ms ease, transform 300ms ease;
 }
 
-/* Стили для выхода страницы */
-.page-exit {
-	opacity: 0; /* Начинаем с полной непрозрачности */
+.page-top-exit {
+	opacity: 1;
+	transform: translateY(0);
 }
 
-.page-exit-active {
-	opacity: 0; /* Страница будет исчезать (становиться прозрачной) */
+.page-top-exit-active {
+	opacity: 0;
+	transform: translateY(50px);
 }
 
-/* Чтобы страницы не создавали переполнения */
-.page-container {
-	position: relative;
-	overflow: hidden;
+/* Анимация вниз */
+.page-down-enter {
+	opacity: 0;
+	transform: translateY(50px);
 }
 
-.page {
-	transition: opacity 400ms ease-in-out; /* Плавное изменение прозрачности */
+.page-down-enter-active {
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 500ms ease, transform 300ms ease;
+}
+
+.page-down-exit {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.page-down-exit-active {
+	opacity: 0;
+	transform: translateY(-50px);
 }

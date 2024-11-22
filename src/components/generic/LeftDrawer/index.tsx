@@ -22,7 +22,7 @@ export default function LeftDrawer({
 	return (
 		<div
 			className={`fixed top-0 left-12 w-64 h-full bg-base-200 shadow-lg
-                 transform z-[999] ${
+                 transform z-[999] shadow-black ${
 										isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+48px)]'
 									}`}
 			style={{

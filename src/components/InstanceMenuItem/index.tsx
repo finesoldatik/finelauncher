@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom'
 interface InstanceMenuItemProps {
 	name: string
 	version: string
+	activeInstance: string
+	setActiveInstance: (value: string) => void
 }
 
 export default function InstanceMenuItem({
 	name,
 	version,
+	activeInstance,
+	setActiveInstance,
 }: InstanceMenuItemProps) {
 	return (
-		<li>
-			<Link to={`/instances/${name}`}>
+		<li
+			className={`rounded-lg ${activeInstance == name ? 'bg-base-300' : ''}`}
+		>
+			<Link to={`/instances/${name}`} onClick={() => setActiveInstance(name)}>
 				<div className='whitespace-nowrap overflow-hidden text-ellipsis'>
 					{name}
 				</div>
