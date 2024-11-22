@@ -2,6 +2,8 @@
 	"_name": "Русский",
 
 	"instancesPage.tooltip": "Сборки",
+	"instancesPage.Main": "Любуется красотой лаунчера ✨",
+	"instancesPage.Instance": "Разглядывает сборку 👀",
 	"downloadsPage.tooltip": "Загрузки",
 	"settingsPage.tooltip": "Настройки",
 	"anotherPage.tooltip": "Иная страница"

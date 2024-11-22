@@ -1,7 +1,10 @@
 import { invoke } from '@tauri-apps/api/core'
 
-export const update = async (message: string) => {
-	return invoke('discord_presence', { message })
+export const update = async (state: string, small_image: string = 've') => {
+	return invoke('discord_presence', {
+		state,
+		small_image,
+	})
 }
 
 export const isConnected = async (): Promise<boolean> => {

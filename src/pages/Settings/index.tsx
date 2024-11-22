@@ -14,6 +14,7 @@ export default function Settings() {
 	useEffect(() => {
 		DiscordRPC.isConnected().then(val => {
 			setRPCConnected(val)
+			if (val) DiscordRPC.update('Копается в настройках ✨')
 		})
 	}, [])
 
@@ -42,8 +43,12 @@ export default function Settings() {
 				</div>
 				<div>
 					<div
-						className='btn btn-primary btn-sm bg-[#5865F2] border-[#5865F2]'
-						onClick={() => DiscordRPC.reconnect()}
+						className='btn btn-sm hover:bg-[#5161F1] bg-[#5865F2] border-[#5865F2] text-gray-100'
+						onClick={() =>
+							DiscordRPC.reconnect().then(val =>
+								DiscordRPC.update('Копается в настройках ✨')
+							)
+						}
 					>
 						<FontAwesomeIcon
 							icon={faCircle}

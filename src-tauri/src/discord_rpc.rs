@@ -5,7 +5,8 @@ pub async fn discord_presence(
     client: tauri::State<'_, std::sync::Mutex<DiscordIpcClient>>,
     is_discord_connected: tauri::State<'_, std::sync::Mutex<bool>>,
     launch_timestamp: tauri::State<'_, std::sync::Mutex<u64>>,
-    message: &str,
+    state: &str,
+    small_image: &str
 ) -> Result<(), String> {
     println!("Discord connected? {:?}", is_discord_connected);
 
@@ -15,10 +16,10 @@ pub async fn discord_presence(
     
     let assets = activity::Assets::new()
         .large_image("logo")
-        .small_image("ve");
+        .small_image(small_image);
 
     let payload = activity::Activity::new()
-        .details(message)
+        .state(state) 
         .timestamps(activity::Timestamps::new().start((*launch_timestamp.lock().unwrap()).try_into().unwrap()))
         .assets(assets)
         .buttons(vec![activity::Button::new("Join Discord Server", "https://discord.com/invite/uzrJwm8pTK")]);
@@ -51,10 +52,14 @@ pub async fn reconnect_discord(
         *is_discord_connected.lock().unwrap() = false;
         match client.lock().unwrap().connect() {
             Ok(()) => {
+                println!("Discord Presence Connected!");
                 *is_discord_connected.lock().unwrap() = true;
                 return Ok(())
             }
-            Err(err) if format!("{}", err) == "Couldn't connect to the Discord IPC socket" => Ok(()),
+            Err(err) if format!("{}", err) == "Couldn't connect to the Discord IPC socket" => {
+                println!("Couldn't connect to the Discord IPC socket");
+                Ok(())
+            },
             Err(..) => Ok(()),
         }
     }

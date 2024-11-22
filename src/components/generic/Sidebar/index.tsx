@@ -37,16 +37,20 @@ export default function Sidebar() {
 					))}
 					{!items.filter(val => val.link == settingsContext.currentPage)
 						.length ? (
-						<Item
-							icon={faNoteSticky}
-							link={settingsContext.currentPage}
-							tooltip={settingsContext.translation.translatable(
-								'anotherPage.tooltip'
-							)}
-							active={settingsContext.currentPage}
-							setActive={settingsContext.setPage}
-							setIsOpen={setIsOpen}
-						/>
+						settingsContext.currentPage != '' ? (
+							<Item
+								icon={faNoteSticky}
+								link={settingsContext.currentPage}
+								tooltip={settingsContext.translation.translatable(
+									'anotherPage.tooltip'
+								)}
+								active={settingsContext.currentPage}
+								setActive={settingsContext.setPage}
+								setIsOpen={setIsOpen}
+							/>
+						) : (
+							<></>
+						)
 					) : (
 						<></>
 					)}

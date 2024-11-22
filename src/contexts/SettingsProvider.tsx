@@ -25,7 +25,7 @@ export interface ISettingsContext {
 export const SettingsContext = createContext<ISettingsContext>({
 	theme: 'dark',
 	translation: new TranslatableText(),
-	currentPage: '/',
+	currentPage: '',
 	hideLauncherOnLaunchGame: false,
 
 	setTheme: () => {},
@@ -48,7 +48,7 @@ export default function SettingsProvider({
 	const [translation, setTranslation] = useState<TranslatableText>(
 		new TranslatableText()
 	)
-	const [currentPage, setCurrentPage] = useState<string>('/')
+	const [currentPage, setCurrentPage] = useState<string>('')
 
 	const [hideLauncherOnLaunchGame, setHideLauncherOnLaunchGame] =
 		useState<boolean>(getValue('hideLauncherOnLaunchGame') || false)
