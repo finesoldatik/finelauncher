@@ -4,7 +4,7 @@ export const update = async (message: string) => {
 	return invoke('discord_presence', { message })
 }
 
-export const isConnected = async () => {
+export const isConnected = async (): Promise<boolean> => {
 	return invoke('is_connected', {})
 }
 

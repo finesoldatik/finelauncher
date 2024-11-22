@@ -8,6 +8,7 @@ use crate::run::{build_game, run_game, terminate_process};
 use crate::unzip::unzip;
 use crate::discord_rpc::{discord_presence, is_connected, reconnect_discord};
 use discord_rich_presence::{DiscordIpc, DiscordIpcClient};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 
 pub fn run() {
@@ -15,6 +16,11 @@ pub fn run() {
     let mut client = DiscordIpcClient::new(client_id).expect("Discord Rich Presence error");
 
     let mut is_discord_connected = false;
+
+    let launch_timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("Time went backwards")
+        .as_secs();
 
     match client.connect() {
         Ok(()) => is_discord_connected = true,
@@ -33,6 +39,7 @@ pub fn run() {
     tauri::Builder::default()
         .manage(std::sync::Mutex::new(client))
         .manage(std::sync::Mutex::new(is_discord_connected))
+        .manage(std::sync::Mutex::new(launch_timestamp))
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_shell::init())

@@ -55,11 +55,7 @@ export default function SettingsProvider({
 
 	const resetSettings = () => {
 		setHideLauncherOnLaunchGame(false)
-	}
-
-	const setHideLauncher = (value: boolean) => {
-		setValue('hideLauncherOnLaunchGame', value)
-		setHideLauncherOnLaunchGame(value)
+		setTheme('dark')
 	}
 
 	const setPage = (value: string) => {
@@ -83,6 +79,10 @@ export default function SettingsProvider({
 		setValue('theme', theme)
 	}, [theme])
 
+	useEffect(() => {
+		setValue('hideLauncherOnLaunchGame', hideLauncherOnLaunchGame)
+	}, [hideLauncherOnLaunchGame])
+
 	const value = useMemo(
 		() => ({
 			theme,
@@ -91,7 +91,7 @@ export default function SettingsProvider({
 			currentPage,
 			setTheme,
 			setTranslation,
-			setHideLauncherOnLaunchGame: setHideLauncher,
+			setHideLauncherOnLaunchGame,
 			setPage,
 			resetSettings,
 		}),

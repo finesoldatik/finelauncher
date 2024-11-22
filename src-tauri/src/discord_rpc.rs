@@ -1,10 +1,10 @@
 use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
-use std::time::{SystemTime, UNIX_EPOCH};
 
 #[tauri::command(rename_all = "snake_case")]
 pub async fn discord_presence(
     client: tauri::State<'_, std::sync::Mutex<DiscordIpcClient>>,
     is_discord_connected: tauri::State<'_, std::sync::Mutex<bool>>,
+    launch_timestamp: tauri::State<'_, std::sync::Mutex<u64>>,
     message: &str,
 ) -> Result<(), String> {
     println!("Discord connected? {:?}", is_discord_connected);
@@ -17,14 +17,9 @@ pub async fn discord_presence(
         .large_image("logo")
         .small_image("ve");
 
-    let timestamp = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .expect("Time went backwards")
-        .as_secs();
-
     let payload = activity::Activity::new()
         .details(message)
-        .timestamps(activity::Timestamps::new().start(timestamp.try_into().unwrap()))
+        .timestamps(activity::Timestamps::new().start((*launch_timestamp.lock().unwrap()).try_into().unwrap()))
         .assets(assets)
         .buttons(vec![activity::Button::new("Join Discord Server", "https://discord.com/invite/uzrJwm8pTK")]);
 
