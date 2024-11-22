@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { useEffect } from 'react'
-import { discordPresence } from '../../services/discordRPC'
+import * as DiscordRPC from '../../services/discordRPC'
 import InstancesMenu from '../../components/InstancesMenu'
 import veBg from '../../assets/images/ve/bg.png'
 import veIcon from '../../assets/images/ve/ve.png'
@@ -15,7 +15,8 @@ export default function Instances() {
 	const { name } = useParams<{ name: string | undefined }>()
 
 	useEffect(() => {
-		discordPresence('Смотрит новости 👀')
+		DiscordRPC.isConnected().then(val => console.log(val))
+		DiscordRPC.update('Смотрит новости 👀')
 	}, [])
 
 	useEffect(() => {

@@ -1,9 +1,13 @@
 import { invoke } from '@tauri-apps/api/core'
 
-export const discordPresence = async (message: string) => {
+export const update = async (message: string) => {
 	return invoke('discord_presence', { message })
 }
 
-export const reconnectDiscordRPC = async () => {
+export const isConnected = async () => {
+	return invoke('is_connected', {})
+}
+
+export const reconnect = async () => {
 	return invoke('reconnect_discord', {})
 }
