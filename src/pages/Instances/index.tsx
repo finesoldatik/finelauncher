@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import * as DiscordRPC from '../../services/discordRPC'
 import InstancesMenu from '../../components/InstancesMenu'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
@@ -34,6 +34,7 @@ export default function Instances() {
 	return (
 		<div className='flex flex-row'>
 			<InstancesMenu
+				name={String(name)}
 				instances={[
 					{ name: 'Моя сборка', version: 'v0.20.3' },
 					{ name: 'Сборка №2', version: 'v0.20.3' },

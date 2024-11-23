@@ -13,12 +13,14 @@ export interface ISettingsContext {
 	theme: string
 	translation: TranslatableText
 	currentPage: string
+	background: string
 	hideLauncherOnLaunchGame: boolean
 
-	setTheme: (value: string) => void
-	setTranslation: (value: TranslatableText) => void
+	setTheme: React.Dispatch<React.SetStateAction<string>>
+	setTranslation: React.Dispatch<React.SetStateAction<TranslatableText>>
 	setPage: (value: string) => void
-	setHideLauncherOnLaunchGame: (value: boolean) => void
+	setBackground: React.Dispatch<React.SetStateAction<string>>
+	setHideLauncherOnLaunchGame: React.Dispatch<React.SetStateAction<boolean>>
 	resetSettings: () => void
 }
 
@@ -26,11 +28,13 @@ export const SettingsContext = createContext<ISettingsContext>({
 	theme: 'dark',
 	translation: new TranslatableText(),
 	currentPage: '',
+	background: '',
 	hideLauncherOnLaunchGame: false,
 
 	setTheme: () => {},
 	setTranslation: () => {},
 	setPage: () => {},
+	setBackground: () => {},
 	setHideLauncherOnLaunchGame: () => {},
 	resetSettings: () => {},
 })
@@ -49,6 +53,10 @@ export default function SettingsProvider({
 		new TranslatableText()
 	)
 	const [currentPage, setCurrentPage] = useState<string>('')
+
+	const [background, setBackground] = useState<string>(
+		getValue('background') || 'day_1'
+	)
 
 	const [hideLauncherOnLaunchGame, setHideLauncherOnLaunchGame] =
 		useState<boolean>(getValue('hideLauncherOnLaunchGame') || false)
@@ -83,19 +91,26 @@ export default function SettingsProvider({
 		setValue('hideLauncherOnLaunchGame', hideLauncherOnLaunchGame)
 	}, [hideLauncherOnLaunchGame])
 
+	useEffect(() => {
+		setValue('background', background)
+	}, [background])
+
 	const value = useMemo(
 		() => ({
 			theme,
 			translation,
-			hideLauncherOnLaunchGame,
 			currentPage,
+			background,
+			hideLauncherOnLaunchGame,
+
 			setTheme,
 			setTranslation,
-			setHideLauncherOnLaunchGame,
 			setPage,
+			setBackground,
+			setHideLauncherOnLaunchGame,
 			resetSettings,
 		}),
-		[theme, translation, currentPage]
+		[theme, translation, currentPage, background]
 	)
 
 	return (

@@ -7,13 +7,6 @@ import { bottomItems, topItems } from '../../components/generic/Sidebar/items'
 export default function Layout() {
 	const settingsContext = useSettingsContext()
 
-	console.log(
-		bottomItems.map(val => val.link).includes(settingsContext.currentPage)
-	)
-	console.log(
-		topItems.map(val => val.link).includes(settingsContext.currentPage)
-	)
-
 	return (
 		<div className='window'>
 			{/* onContextMenu={event => event.preventDefault()} */}

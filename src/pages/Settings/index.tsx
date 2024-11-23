@@ -45,7 +45,7 @@ export default function Settings() {
 					<div
 						className='btn btn-sm hover:bg-[#5161F1] bg-[#5865F2] border-[#5865F2] text-gray-100'
 						onClick={() =>
-							DiscordRPC.reconnect().then(val =>
+							DiscordRPC.reconnect().then(() =>
 								DiscordRPC.update('Копается в настройках ✨')
 							)
 						}

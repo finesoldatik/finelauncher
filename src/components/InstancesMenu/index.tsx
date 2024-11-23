@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import InstanceMenuItem from '../InstanceMenuItem'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export interface Instance {
 	name: string
@@ -9,13 +9,18 @@ export interface Instance {
 }
 
 interface InstancesMenuProps {
+	name: string
 	instances: Instance[]
 }
 
-export default function InstancesMenu({ instances }: InstancesMenuProps) {
+export default function InstancesMenu({ name, instances }: InstancesMenuProps) {
 	const settingsContext = useSettingsContext()
 
-	const [activeInstance, setActiveInstance] = useState('')
+	const [activeInstance, setActiveInstance] = useState(name)
+
+	useEffect(() => {
+		setActiveInstance(name)
+	}, [name])
 
 	return (
 		<ul
@@ -37,7 +42,7 @@ export default function InstancesMenu({ instances }: InstancesMenuProps) {
 				<InstanceMenuItem
 					name={instance.name}
 					version={instance.version}
-					activeInstance={activeInstance}
+					activeInstance={String(activeInstance)}
 					setActiveInstance={setActiveInstance}
 					key={idx}
 				/>
