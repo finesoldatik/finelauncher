@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import * as DiscordRPC from '../../services/discordRPC'
 import InstancesMenu from '../../components/InstancesMenu'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import icon from '../../assets/images/icon.png'
 import {
 	backgrounds,
 	darkThemes,
@@ -29,7 +28,7 @@ export default function Main() {
 		<div
 			className='w-full h-screen flex relative bg-cover bg-no-repeat bg-center transition-all duration-300'
 			style={{
-				backgroundImage: `url(/src/assets/images/ve/bg/${settingsContext.background}.png)`,
+				backgroundImage: `url(/images/ve/bg/${settingsContext.background}.png)`,
 			}}
 		>
 			<div
@@ -69,7 +68,11 @@ export default function Main() {
 					<div className='w-full flex flex-row justify-between px-2 py-1'>
 						<div>
 							<div className='flex flex-row items-end gap-2'>
-								<img className='h-12 w-12 rounded-lg' src={icon} alt='icon' />
+								<img
+									className='h-12 w-12 rounded-lg'
+									src='/images/icon.png'
+									alt='icon'
+								/>
 								<h1 className='font-extrabold text-2xl text-gray-100'>
 									finelauncher
 								</h1>

@@ -1,6 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import veBg from '../../assets/images/ve/bg.png'
-import veIcon from '../../assets/images/ve/ve.png'
 import { faFolder, faGear, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 interface InstanceProps {
@@ -13,13 +11,13 @@ export default function Instance({ name }: InstanceProps) {
 			<div>
 				<div
 					className='flex relative bg-cover bg-no-repeat bg-center w-full h-36'
-					style={{ backgroundImage: `url(${veBg})` }}
+					style={{ backgroundImage: `url(/images/ve/bg.png)` }}
 				>
 					<div className='bg-black bg-opacity-30 h-full w-full'></div>
 					<div className='flex flex-row absolute top-16 w-full'>
 						<img
 							className='ml-1 w-32 h-32 mt-16 transition-all duration-200'
-							src={veIcon}
+							src='/images/ve/ve.png'
 							alt='icon'
 						/>
 						<div className='w-full h-full flex flex-col pt-[86px]'>
