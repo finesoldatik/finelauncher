@@ -85,7 +85,7 @@ export default function Main() {
 							<Link
 								to={launcherDiscord}
 								target='_blank'
-								className='btn btn-outline btn-sm hover:bg-[#5161F1] hover:border-[#5865F2] text-gray-100 border-[#5865F2]'
+								className='btn btn-outline btn-sm btn-neutral'
 							>
 								Discord
 							</Link>
@@ -93,7 +93,7 @@ export default function Main() {
 							<Link
 								to={launcherGithub}
 								target='_blank'
-								className='btn btn-outline btn-sm hover:bg-[#24292E] hover:border-[#24292E] text-gray-100 hover:text-gray-200 border-[#24292E]'
+								className='btn btn-outline btn-sm btn-neutral'
 							>
 								Github
 							</Link>
