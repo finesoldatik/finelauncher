@@ -2,9 +2,10 @@
 	"_name": "Русский",
 
 	"instancesPage.tooltip": "Сборки",
-	"instancesPage.Main": "Любуется красотой лаунчера ✨",
-	"instancesPage.Instance": "Разглядывает сборку 👀",
+	"instancesPage.DiscordRPC.Main": "Любуется красотой лаунчера ✨",
+	"instancesPage.DiscordRPC.Instance": "Разглядывает сборку 👀",
 	"downloadsPage.tooltip": "Загрузки",
 	"settingsPage.tooltip": "Настройки",
+	"settingsPage.DiscordRPC": "Копается в настройках ✨",
 	"anotherPage.tooltip": "Иная страница"
 }

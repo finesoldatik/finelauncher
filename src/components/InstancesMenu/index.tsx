@@ -25,9 +25,8 @@ export default function InstancesMenu({ name, instances }: InstancesMenuProps) {
 	return (
 		<ul
 			className='menu menu-md bg-base-200
-    flex flex-col flex-nowrap w-56 h-screen
-    overflow-y-auto overflow-x-hidden gap-2
-    resize-x overflow-auto min-w-56 max-w-96'
+    flex flex-col flex-nowrap w-full h-screen
+    overflow-y-auto overflow-x-hidden'
 		>
 			<li>
 				<Link

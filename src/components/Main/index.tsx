@@ -19,7 +19,9 @@ export default function Main() {
 		DiscordRPC.isConnected().then(val => {
 			if (val)
 				DiscordRPC.update(
-					settingsContext.translation.translatable('instancesPage.Main')
+					settingsContext.translation.translatable(
+						'instancesPage.DiscordRPC.Main'
+					)
 				)
 		})
 	}, [])
@@ -53,6 +55,7 @@ export default function Main() {
 											? 'bg-base-300'
 											: ''
 									}`}
+									key={background}
 									onClick={() => settingsContext.setBackground(background)}
 								>
 									<a>{background}</a>
