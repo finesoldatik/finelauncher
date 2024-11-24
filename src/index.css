@@ -107,7 +107,7 @@ body {
 }
 
 .page-top-exit-active {
-	opacity: 0.05;
+	opacity: 0;
 	transform: translateY(50px);
 }
 
@@ -129,7 +129,7 @@ body {
 }
 
 .page-down-exit-active {
-	opacity: 0.05;
+	opacity: 0;
 	transform: translateY(-50px);
 }
 
@@ -152,4 +152,26 @@ body {
 	opacity: 0;
 	transform: scale(0.9);
 	transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+/* Анимация инстансов окна */
+.instance-down-enter {
+	opacity: 0.5;
+	transform: translateY(50px);
+}
+
+.instance-down-enter-active {
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.instance-down-exit {
+	opacity: 0.5;
+	transform: translateY(0);
+}
+
+.instance-down-exit-active {
+	opacity: 0.05;
+	transform: translateY(-50px);
 }

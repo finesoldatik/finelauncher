@@ -18,7 +18,7 @@ export default function Resizer({
 	element1WidthAsPercentage = 50,
 	element2WidthAsPercentage = 50,
 	dividerWidthWInPixels = 8,
-	dividerBgColor = '#606060',
+	dividerBgColor = 'bg-base-100',
 	position = 'horizontal',
 	element1,
 	element2,
@@ -113,15 +113,15 @@ export default function Resizer({
 				<>
 					<div style={{ width: `${element1Width}%` }}>{element1}</div>
 					<div className='relative' onMouseDown={handleMouseDown}>
-						<div className='absolute left-0 w-3 h-full cursor-ew-resize z-50'></div>
+						<div className='absolute right-0 w-3 h-full cursor-ew-resize z-50'></div>
 						<div
-							className={`cursor-ew-resize z-50 bg-[${dividerBgColor}]`}
+							className={`cursor-ew-resize h-full z-50 ${dividerBgColor}`}
 							style={{
 								width: `${dividerWidth}px`,
 								marginLeft: `-${dividerWidth / 2}px`, // Центрируем визуально
 							}}
 						/>
-						<div className='absolute right-0 w-3 h-full cursor-ew-resize z-50'></div>
+						<div className='absolute left-0 w-3 h-full cursor-ew-resize z-50'></div>
 					</div>
 					<div style={{ width: `${element2Width}%` }}>{element2}</div>
 				</>
@@ -131,7 +131,7 @@ export default function Resizer({
 					<div className='relative' onMouseDown={handleMouseDown}>
 						<div className='absolute top-0 h-3 w-full cursor-ns-resize z-50'></div>
 						<div
-							className={`cursor-ns-resize z-50 bg-[${dividerBgColor}]`}
+							className={`cursor-ns-resize w-full z-50 ${dividerBgColor}`}
 							style={{
 								height: `${dividerWidth}px`,
 								marginTop: `-${dividerWidth / 2}px`, // Центрируем визуально

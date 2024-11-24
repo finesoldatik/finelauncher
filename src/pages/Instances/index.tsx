@@ -64,7 +64,7 @@ export default function Instances() {
 							<CSSTransition
 								key={name}
 								timeout={200}
-								classNames='page-down'
+								classNames='instance-down'
 								appear
 								nodeRef={instanceRef}
 							>
