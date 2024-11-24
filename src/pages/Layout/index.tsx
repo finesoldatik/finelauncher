@@ -3,9 +3,13 @@ import Sidebar from '../../components/generic/Sidebar'
 import { Outlet } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { bottomItems, topItems } from '../../components/generic/Sidebar/items'
+import { useRef } from 'react'
 
 export default function Layout() {
 	const settingsContext = useSettingsContext()
+
+	const pageTopRef = useRef(null)
+	const pageDownRef = useRef(null)
 
 	return (
 		<div className='window'>
@@ -20,11 +24,14 @@ export default function Layout() {
 							.includes(settingsContext.currentPage) && (
 							<CSSTransition
 								key={settingsContext.currentPage}
-								timeout={300}
+								timeout={200}
 								classNames='page-top'
-								unmountOnExit
+								appear
+								nodeRef={pageTopRef}
 							>
-								<Outlet />
+								<div ref={pageTopRef}>
+									<Outlet />
+								</div>
 							</CSSTransition>
 						)}
 						{bottomItems
@@ -32,11 +39,14 @@ export default function Layout() {
 							.includes(settingsContext.currentPage) && (
 							<CSSTransition
 								key={settingsContext.currentPage}
-								timeout={300}
+								timeout={200}
 								classNames='page-down'
-								unmountOnExit
+								appear
+								nodeRef={pageDownRef}
 							>
-								<Outlet />
+								<div ref={pageDownRef}>
+									<Outlet />
+								</div>
 							</CSSTransition>
 						)}
 					</TransitionGroup>

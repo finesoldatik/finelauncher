@@ -8,7 +8,6 @@ pub async fn discord_presence(
     state: &str,
     small_image: &str
 ) -> Result<(), String> {
-    println!("Discord connected? {:?}", is_discord_connected);
 
     if *is_discord_connected.lock().unwrap() == false {
         return Err("Discord not connected".to_string());

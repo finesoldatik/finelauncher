@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import * as DiscordRPC from '../../services/discordRPC'
 import InstancesMenu from '../../components/InstancesMenu'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
@@ -13,6 +13,8 @@ export default function Instances() {
 
 	const navigate = useNavigate()
 	const settingsContext = useSettingsContext()
+
+	const instanceRef = useRef(null)
 
 	const { name } = useParams<{ name: string | undefined }>()
 
@@ -61,11 +63,14 @@ export default function Instances() {
 						<TransitionGroup>
 							<CSSTransition
 								key={name}
-								timeout={500}
+								timeout={200}
 								classNames='page-down'
-								unmountOnExit
+								appear
+								nodeRef={instanceRef}
 							>
-								{name ? <Instance name={name} /> : <Main />}
+								<div ref={instanceRef}>
+									{name ? <Instance name={name} /> : <Main />}
+								</div>
 							</CSSTransition>
 						</TransitionGroup>
 					</div>

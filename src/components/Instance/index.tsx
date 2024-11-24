@@ -9,10 +9,7 @@ export default function Instance({ name }: InstanceProps) {
 	return (
 		<div className='flex flex-col justify-between'>
 			<div>
-				<div
-					className='flex relative bg-cover bg-no-repeat bg-center w-full h-36'
-					style={{ backgroundImage: `url(/images/ve/bg.png)` }}
-				>
+				<div className='flex relative bg-cover bg-no-repeat bg-center w-full h-36 bg-[url(/images/ve/bg.png)]'>
 					<div className='bg-black bg-opacity-30 h-full w-full'></div>
 					<div className='flex flex-row absolute top-16 w-full'>
 						<img
@@ -23,7 +20,7 @@ export default function Instance({ name }: InstanceProps) {
 						<div className='w-full h-full flex flex-col pt-[86px]'>
 							<div className='flex flex-col flex-nowrap ml-2 text-xl w-[60%] transition-all duration-500'>
 								<h1 className='whitespace-nowrap overflow-hidden text-ellipsis'>
-									AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA{name}
+									{name}
 								</h1>
 								<h1 className='whitespace-nowrap overflow-hidden text-ellipsis'>
 									v0.20.3

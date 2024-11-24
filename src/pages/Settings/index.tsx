@@ -1,7 +1,7 @@
 import Theme from '../../components/Theme'
 import { themes } from '../../constants'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import * as DiscordRPC from '../../services/discordRPC'
 
 export default function Settings() {
