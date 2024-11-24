@@ -45,7 +45,7 @@ export default function Instance({ name }: InstanceProps) {
 				</div>
 			</div>
 
-			<div className='w-full h-screen py-1 px-2 mt-[122px] bg-base-200 border-l-base-300 border-l-2 transition-all duration-100'>
+			<div className='w-full h-screen py-1 px-2 mt-[122px] bg-base-200 transition-all duration-100'>
 				<div>тут хз че</div>
 			</div>
 		</div>
