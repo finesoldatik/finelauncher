@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 interface Item {
+	id: number
 	icon: IconDefinition
 	link: string
 	tooltip: string
@@ -13,6 +14,7 @@ interface Item {
 
 export const topItems: Item[] = [
 	{
+		id: 0,
 		icon: faGamepad,
 		link: '/',
 		tooltip: 'instancesPage.tooltip',
@@ -21,11 +23,13 @@ export const topItems: Item[] = [
 
 export const bottomItems: Item[] = [
 	{
+		id: 1,
 		icon: faDownload,
 		link: '#',
 		tooltip: 'downloadsPage.tooltip',
 	},
 	{
+		id: 2,
 		icon: faGear,
 		link: '/settings',
 		tooltip: 'settingsPage.tooltip',

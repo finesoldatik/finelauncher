@@ -26,7 +26,7 @@ const router = createBrowserRouter([
 				element: <Pages.NewInstance />,
 			},
 			{
-				path: '/voxelworld/:instance',
+				path: '/voxelworld/:instanceName',
 				element: <Pages.VoxelWorld />,
 			},
 			{

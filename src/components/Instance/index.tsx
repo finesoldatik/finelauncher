@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFolder, faGear, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
 
 interface InstanceProps {
 	name: string
@@ -46,7 +47,11 @@ export default function Instance({ name }: InstanceProps) {
 			</div>
 
 			<div className='w-full h-screen py-1 px-2 mt-[122px] bg-base-200 transition-all duration-100'>
-				<div>тут хз че</div>
+				<div>
+					<Link to={`/voxelworld/${name}`} className='btn btn-primary'>
+						VoxelWorld
+					</Link>
+				</div>
 			</div>
 		</div>
 	)

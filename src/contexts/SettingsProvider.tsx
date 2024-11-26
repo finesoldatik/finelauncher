@@ -9,33 +9,45 @@ import {
 import { getValue, setValue } from '../services/localStorage'
 import TranslatableText from '../services/translatableText'
 
-export interface ISettingsContext {
+export interface SettingsContext {
 	theme: string
 	translation: TranslatableText
+	currentTab: number
 	currentPage: string
 	background: string
 	hideLauncherOnLaunchGame: boolean
+	fallingSnowflakes: boolean
+	snowflakeCount: number
 
 	setTheme: React.Dispatch<React.SetStateAction<string>>
 	setTranslation: React.Dispatch<React.SetStateAction<TranslatableText>>
-	setPage: (value: string) => void
+	setCurrentTab: React.Dispatch<React.SetStateAction<number>>
+	setCurrentPage: React.Dispatch<React.SetStateAction<string>>
 	setBackground: React.Dispatch<React.SetStateAction<string>>
 	setHideLauncherOnLaunchGame: React.Dispatch<React.SetStateAction<boolean>>
+	setFallingSnowflakes: React.Dispatch<React.SetStateAction<boolean>>
+	setSnowflakeCount: React.Dispatch<React.SetStateAction<number>>
 	resetSettings: () => void
 }
 
-export const SettingsContext = createContext<ISettingsContext>({
+export const SettingsContext = createContext<SettingsContext>({
 	theme: 'dark',
 	translation: new TranslatableText(),
+	currentTab: 0,
 	currentPage: '',
 	background: '',
 	hideLauncherOnLaunchGame: false,
+	fallingSnowflakes: false,
+	snowflakeCount: 0,
 
 	setTheme: () => {},
 	setTranslation: () => {},
-	setPage: () => {},
+	setCurrentTab: () => {},
+	setCurrentPage: () => {},
 	setBackground: () => {},
 	setHideLauncherOnLaunchGame: () => {},
+	setFallingSnowflakes: () => {},
+	setSnowflakeCount: () => {},
 	resetSettings: () => {},
 })
 
@@ -52,7 +64,12 @@ export default function SettingsProvider({
 	const [translation, setTranslation] = useState<TranslatableText>(
 		new TranslatableText()
 	)
-	const [currentPage, setCurrentPage] = useState<string>('')
+
+	const [currentTab, setCurrentTab] = useState<number>(getValue('tab') || 0)
+
+	const [currentPage, setCurrentPage] = useState<string>(
+		getValue('page') || '/'
+	)
 
 	const [background, setBackground] = useState<string>(
 		getValue('background') || 'day_1'
@@ -61,26 +78,28 @@ export default function SettingsProvider({
 	const [hideLauncherOnLaunchGame, setHideLauncherOnLaunchGame] =
 		useState<boolean>(getValue('hideLauncherOnLaunchGame') || false)
 
-	const resetSettings = () => {
-		setHideLauncherOnLaunchGame(false)
-		setTheme('dark')
-	}
+	const [fallingSnowflakes, setFallingSnowflakes] = useState<boolean>(
+		getValue('fallingSnowflakes') || false
+	)
 
-	const setPage = (value: string) => {
-		setValue('page', value)
-		setCurrentPage(value)
+	const [snowflakeCount, setSnowflakeCount] = useState<number>(
+		getValue('snowflakeCount') || 300
+	)
+
+	const resetSettings = () => {
+		setTheme('dark')
+		setBackground('day_1')
+		setHideLauncherOnLaunchGame(false)
+		setFallingSnowflakes(false)
 	}
 
 	useEffect(() => {
-		const value = getValue('page')
-		if (value != null) {
-			const page = String(value)
-			console.log('SAVED_PAGE:', page)
-			setPage(page)
-		} else {
-			setPage('/')
-		}
-	}, [])
+		setValue('tab', currentTab)
+	}, [currentTab])
+
+	useEffect(() => {
+		setValue('page', currentPage)
+	}, [currentPage])
 
 	useEffect(() => {
 		document.body.setAttribute('data-theme', theme)
@@ -88,29 +107,51 @@ export default function SettingsProvider({
 	}, [theme])
 
 	useEffect(() => {
+		setValue('background', background)
+	}, [background])
+
+	useEffect(() => {
 		setValue('hideLauncherOnLaunchGame', hideLauncherOnLaunchGame)
 	}, [hideLauncherOnLaunchGame])
 
 	useEffect(() => {
-		setValue('background', background)
-	}, [background])
+		setValue('fallingSnowflakes', fallingSnowflakes)
+	}, [fallingSnowflakes])
+
+	useEffect(() => {
+		setValue('snowflakeCount', snowflakeCount)
+	}, [snowflakeCount])
 
 	const value = useMemo(
 		() => ({
 			theme,
 			translation,
+			currentTab,
 			currentPage,
 			background,
 			hideLauncherOnLaunchGame,
+			fallingSnowflakes,
+			snowflakeCount,
 
 			setTheme,
 			setTranslation,
-			setPage,
+			setCurrentTab,
+			setCurrentPage,
 			setBackground,
 			setHideLauncherOnLaunchGame,
+			setFallingSnowflakes,
+			setSnowflakeCount,
 			resetSettings,
 		}),
-		[theme, translation, currentPage, background]
+		[
+			theme,
+			translation,
+			currentPage,
+			background,
+			hideLauncherOnLaunchGame,
+			fallingSnowflakes,
+			snowflakeCount,
+		]
 	)
 
 	return (

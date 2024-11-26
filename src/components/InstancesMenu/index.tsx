@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { useSettingsContext } from '../../contexts/SettingsProvider'
 import InstanceMenuItem from '../InstanceMenuItem'
 import { useEffect, useState } from 'react'
 
@@ -14,8 +13,6 @@ interface InstancesMenuProps {
 }
 
 export default function InstancesMenu({ name, instances }: InstancesMenuProps) {
-	const settingsContext = useSettingsContext()
-
 	const [activeInstance, setActiveInstance] = useState(name)
 
 	useEffect(() => {
@@ -29,11 +26,7 @@ export default function InstancesMenu({ name, instances }: InstancesMenuProps) {
     overflow-y-auto overflow-x-hidden'
 		>
 			<li>
-				<Link
-					className='btn btn-ghost'
-					to={'/new-instance'}
-					onClick={() => settingsContext.setPage('/new-instance')}
-				>
+				<Link className='btn btn-ghost' to='/new-instance'>
 					Создать сборку
 				</Link>
 			</li>
@@ -42,7 +35,7 @@ export default function InstancesMenu({ name, instances }: InstancesMenuProps) {
 					name={instance.name}
 					version={instance.version}
 					activeInstance={String(activeInstance)}
-					setActiveInstance={setActiveInstance}
+					setActiveInstance={() => setActiveInstance(instance.name)}
 					key={idx}
 				/>
 			))}

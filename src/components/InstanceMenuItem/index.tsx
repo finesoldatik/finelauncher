@@ -4,7 +4,7 @@ interface InstanceMenuItemProps {
 	name: string
 	version: string
 	activeInstance: string
-	setActiveInstance: (value: string) => void
+	setActiveInstance: () => void
 }
 
 export default function InstanceMenuItem({
@@ -14,10 +14,8 @@ export default function InstanceMenuItem({
 	setActiveInstance,
 }: InstanceMenuItemProps) {
 	return (
-		<li
-			className={`rounded-lg ${activeInstance == name ? 'bg-base-300' : ''}`}
-		>
-			<Link to={`/instances/${name}`} onClick={() => setActiveInstance(name)}>
+		<li className={`rounded-lg ${activeInstance == name ? 'bg-base-300' : ''}`}>
+			<Link to={`/instances/${name}`} onClick={() => setActiveInstance()}>
 				<div className='whitespace-nowrap overflow-hidden text-ellipsis'>
 					{name}
 				</div>

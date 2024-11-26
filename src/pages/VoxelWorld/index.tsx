@@ -1,3 +1,3 @@
 export default function VoxelWorld() {
-	return <></>
+	return <>aaaaaaa</>
 }

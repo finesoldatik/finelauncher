@@ -3,7 +3,10 @@ import Sidebar from '../../components/generic/Sidebar'
 import { Outlet } from 'react-router-dom'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
 import { bottomItems, topItems } from '../../components/generic/Sidebar/items'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
+import SnowflakeAnimation from '../../components/generic/SnowflakeAnimation'
+
+const handleContextMenu = (_event: any) => {} //event.preventDefault()
 
 export default function Layout() {
 	const settingsContext = useSettingsContext()
@@ -11,17 +14,29 @@ export default function Layout() {
 	const pageTopRef = useRef(null)
 	const pageDownRef = useRef(null)
 
-	return (
-		<div className='window'>
-			{/* onContextMenu={event => event.preventDefault()} */}
+	const page = useMemo(
+		() => ({
+			isTop: topItems
+				.map(val => val.link)
+				.includes(settingsContext.currentPage),
+			isBottom: bottomItems
+				.map(val => val.link)
+				.includes(settingsContext.currentPage),
+		}),
+		[settingsContext.currentPage]
+	)
 
-			<Sidebar />
-			<main>
-				<div className='overflow-hidden'>
+	return (
+		<>
+			{settingsContext.fallingSnowflakes && (
+				<SnowflakeAnimation snowflakeCount={settingsContext.snowflakeCount} />
+			)}
+			<div className='window' onContextMenu={handleContextMenu}>
+				<Sidebar />
+
+				<main>
 					<TransitionGroup>
-						{topItems
-							.map(val => val.link)
-							.includes(settingsContext.currentPage) && (
+						{page.isTop && (
 							<CSSTransition
 								key={settingsContext.currentPage}
 								timeout={200}
@@ -29,14 +44,12 @@ export default function Layout() {
 								appear
 								nodeRef={pageTopRef}
 							>
-								<div ref={pageTopRef}>
+								<div ref={pageTopRef} className='overflow-y-auto'>
 									<Outlet />
 								</div>
 							</CSSTransition>
 						)}
-						{bottomItems
-							.map(val => val.link)
-							.includes(settingsContext.currentPage) && (
+						{page.isBottom && (
 							<CSSTransition
 								key={settingsContext.currentPage}
 								timeout={200}
@@ -44,14 +57,14 @@ export default function Layout() {
 								appear
 								nodeRef={pageDownRef}
 							>
-								<div ref={pageDownRef}>
+								<div ref={pageDownRef} className='overflow-y-auto'>
 									<Outlet />
 								</div>
 							</CSSTransition>
 						)}
 					</TransitionGroup>
-				</div>
-			</main>
-		</div>
+				</main>
+			</div>
+		</>
 	)
 }

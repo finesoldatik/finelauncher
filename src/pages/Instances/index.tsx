@@ -7,6 +7,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Instance from '../../components/Instance'
 import Main from '../../components/Main'
 import Resizer from '../../components/generic/Resizer'
+import { getValue } from '../../services/localStorage'
 
 export default function Instances() {
 	console.log('InstancesPage Render')
@@ -31,7 +32,7 @@ export default function Instances() {
 	}, [name])
 
 	useEffect(() => {
-		navigate(settingsContext.currentPage)
+		if (settingsContext.currentPage) navigate(settingsContext.currentPage)
 	}, [settingsContext.currentPage])
 
 	console.log('name', name)

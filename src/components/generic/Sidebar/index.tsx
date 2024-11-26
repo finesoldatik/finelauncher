@@ -1,16 +1,57 @@
+import React, { useMemo, useState } from 'react'
 import Item from './Item'
 import { topItems, bottomItems, items } from './items.ts'
 import { useSettingsContext } from '../../../contexts/SettingsProvider'
-import { useState } from 'react'
 import LeftDrawer from '../LeftDrawer/index.tsx'
 import { faNoteSticky } from '@fortawesome/free-solid-svg-icons'
 
-export default function Sidebar() {
+const Sidebar = React.memo(() => {
 	console.log('Sidebar Render')
 
 	const [isOpen, setIsOpen] = useState(false)
 
 	const settingsContext = useSettingsContext()
+
+	const filteredTopItems = useMemo(() => {
+		return topItems.map((el, idx) => (
+			<Item
+				id={el.id}
+				icon={el.icon}
+				link={el.link}
+				tooltip={settingsContext.translation.translatable(el.tooltip)}
+				active={settingsContext.currentTab}
+				setActive={(id, link) => {
+					settingsContext.setCurrentTab(id)
+					settingsContext.setCurrentPage(link)
+				}}
+				setIsOpen={setIsOpen}
+				key={idx}
+			/>
+		))
+	}, [settingsContext.currentPage, settingsContext.translation])
+
+	const filteredBottomItems = useMemo(() => {
+		return bottomItems.map((el, idx) => (
+			<Item
+				id={el.id}
+				icon={el.icon}
+				link={el.link}
+				tooltip={settingsContext.translation.translatable(el.tooltip)}
+				active={settingsContext.currentTab}
+				setActive={(id, link) => {
+					settingsContext.setCurrentTab(id)
+					settingsContext.setCurrentPage(link)
+				}}
+				setIsOpen={setIsOpen}
+				key={idx}
+			/>
+		))
+	}, [settingsContext.currentPage, settingsContext.translation])
+
+	const isAnotherPage = useMemo(
+		() => settingsContext.currentTab == items.length + 1,
+		[settingsContext.currentTab]
+	)
 
 	return (
 		<>
@@ -24,52 +65,33 @@ export default function Sidebar() {
 				onContextMenu={event => event.preventDefault()}
 			>
 				<div className='flex join join-vertical mt-1'>
-					{topItems.map((el, idx) => (
+					{filteredTopItems}
+					{isAnotherPage ? (
 						<Item
-							icon={el.icon}
-							link={el.link}
-							tooltip={settingsContext.translation.translatable(el.tooltip)}
-							active={settingsContext.currentPage}
-							setActive={settingsContext.setPage}
+							id={items.length + 1}
+							icon={faNoteSticky}
+							link={settingsContext.currentPage}
+							tooltip={settingsContext.translation.translatable(
+								'anotherPage.tooltip'
+							)}
+							active={settingsContext.currentTab}
+							setActive={(id, link) => {
+								settingsContext.setCurrentTab(id)
+								settingsContext.setCurrentPage(link)
+							}}
 							setIsOpen={setIsOpen}
-							key={idx}
 						/>
-					))}
-					{!items.filter(val => val.link == settingsContext.currentPage)
-						.length ? (
-						settingsContext.currentPage != '' ? (
-							<Item
-								icon={faNoteSticky}
-								link={settingsContext.currentPage}
-								tooltip={settingsContext.translation.translatable(
-									'anotherPage.tooltip'
-								)}
-								active={settingsContext.currentPage}
-								setActive={settingsContext.setPage}
-								setIsOpen={setIsOpen}
-							/>
-						) : (
-							<></>
-						)
 					) : (
 						<></>
 					)}
 				</div>
 
 				<div className='flex join join-vertical mb-1'>
-					{bottomItems.map((el, idx) => (
-						<Item
-							icon={el.icon}
-							link={el.link}
-							tooltip={settingsContext.translation.translatable(el.tooltip)}
-							active={settingsContext.currentPage}
-							setActive={settingsContext.setPage}
-							setIsOpen={setIsOpen}
-							key={idx}
-						/>
-					))}
+					{filteredBottomItems}
 				</div>
 			</div>
 		</>
 	)
-}
+})
+
+export default Sidebar
