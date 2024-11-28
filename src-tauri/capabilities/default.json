@@ -1,14 +1,16 @@
 {
-  "$schema": "../gen/schemas/desktop-schema.json",
-  "identifier": "default",
-  "description": "Capability for the main window",
-  "windows": [
-    "main"
-  ],
-  "permissions": [
-    "core:default",
-    "shell:allow-open",
-    "fs:default",
-    "os:default"
-  ]
+	"$schema": "../gen/schemas/desktop-schema.json",
+	"identifier": "default",
+	"description": "Capability for the main window",
+	"windows": ["main"],
+	"permissions": [
+		"core:default",
+		"shell:allow-execute",
+		"os:default",
+		"shell:default",
+		{
+			"identifier": "fs:default",
+			"allow": [{ "path": "$DOCUMENT/finelauncher/**" }]
+		}
+	]
 }

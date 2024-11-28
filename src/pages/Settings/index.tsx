@@ -7,7 +7,7 @@ import ConfirmModal from '../../components/generic/ConfirmModal'
 import Toggle from '../../components/generic/Toggle'
 
 export default function Settings() {
-	const settingsContext = useSettingsContext()
+	const { state, dispatch } = useSettingsContext()
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
@@ -17,7 +17,7 @@ export default function Settings() {
 		DiscordRPC.isConnected().then(val => {
 			if (val)
 				DiscordRPC.update(
-					settingsContext.translation.translatable('settingsPage.DiscordRPC')
+					state.translation.translatable('settingsPage.DiscordRPC')
 				)
 		})
 	}, [])
@@ -29,8 +29,13 @@ export default function Settings() {
 					{themes.map(val => (
 						<Theme
 							name={val}
-							activeTheme={settingsContext.theme}
-							setTheme={settingsContext.setTheme}
+							activeTheme={state.theme}
+							setTheme={() =>
+								dispatch({
+									type: 'SET_THEME',
+									payload: val,
+								})
+							}
 							key={val}
 						/>
 					))}
@@ -39,21 +44,27 @@ export default function Settings() {
 					<div className='w-2/3 h-full flex flex-col gap-2'>
 						<Toggle
 							title='Скрывать лаунчер при запуске игры'
-							isOn={settingsContext.hideLauncherOnLaunchGame}
+							isOn={state.hideLauncherOnLaunchGame}
 							onToggle={() =>
-								settingsContext.setHideLauncherOnLaunchGame(prev => !prev)
+								dispatch({
+									type: 'SET_HIDE_LAUNCHER',
+									payload: !state.hideLauncherOnLaunchGame,
+								})
 							}
 						/>
 						<Toggle
 							title='Падение снежинок'
-							isOn={settingsContext.fallingSnowflakes}
+							isOn={state.fallingSnowflakes}
 							onToggle={() =>
-								settingsContext.setFallingSnowflakes(prev => !prev)
+								dispatch({
+									type: 'SET_FALLING_SNOWFLAKES',
+									payload: !state.fallingSnowflakes,
+								})
 							}
 						/>
 						<div
 							className={`join join-horizontal ${
-								!settingsContext.fallingSnowflakes ? 'hidden' : ''
+								!state.fallingSnowflakes ? 'hidden' : ''
 							}`}
 						>
 							<input
@@ -61,7 +72,7 @@ export default function Settings() {
 								min='100'
 								max='1000'
 								step='100'
-								defaultValue={settingsContext.snowflakeCount}
+								defaultValue={state.snowflakeCount}
 								placeholder='Число снежинок (по умолчанию 300)'
 								className='join-item input input-sm input-bordered w-full max-w-xs'
 								ref={snowflakeCountInputRef}
@@ -77,9 +88,10 @@ export default function Settings() {
 										) {
 											snowflakeCountInputRef.current.value = '100'
 										} else {
-											settingsContext.setSnowflakeCount(
-												Number(snowflakeCountInputRef.current.value)
-											)
+											dispatch({
+												type: 'SET_SNOWFLAKE_COUNT',
+												payload: Number(snowflakeCountInputRef.current.value),
+											})
 											window.location.reload()
 										}
 									}
@@ -106,7 +118,7 @@ export default function Settings() {
 						isModalOpen={isModalOpen}
 						setIsModalOpen={setIsModalOpen}
 						onConfirm={() => {
-							settingsContext.resetSettings()
+							dispatch({ type: 'RESET_SETTINGS' })
 							window.location.reload()
 						}}
 					/>
@@ -117,9 +129,7 @@ export default function Settings() {
 						onClick={() =>
 							DiscordRPC.reconnect().then(() =>
 								DiscordRPC.update(
-									settingsContext.translation.translatable(
-										'settingsPage.DiscordRPC'
-									)
+									state.translation.translatable('settingsPage.DiscordRPC')
 								)
 							)
 						}

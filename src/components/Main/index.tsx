@@ -13,15 +13,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 export default function Main() {
-	const settingsContext = useSettingsContext()
+	const { state, dispatch } = useSettingsContext()
 
 	useEffect(() => {
 		DiscordRPC.isConnected().then(val => {
 			if (val)
 				DiscordRPC.update(
-					settingsContext.translation.translatable(
-						'instancesPage.DiscordRPC.Main'
-					)
+					state.translation.translatable('instancesPage.DiscordRPC.Main')
 				)
 		})
 	}, [])
@@ -30,13 +28,13 @@ export default function Main() {
 		<div
 			className='w-full h-screen flex relative bg-cover bg-no-repeat bg-center transition-all duration-300'
 			style={{
-				backgroundImage: `url(/images/ve/bg/${settingsContext.background}.png)`,
+				backgroundImage: `url(/images/ve/bg/${state.background}.png)`,
 			}}
 		>
 			<div
 				className={`w-full h-full flex flex-col justify-between bg-black ${
-					dayBackgrounds.includes(settingsContext.background)
-						? darkThemes.includes(settingsContext.theme)
+					dayBackgrounds.includes(state.background)
+						? darkThemes.includes(state.theme)
 							? 'bg-opacity-50'
 							: 'bg-opacity-30'
 						: 'bg-opacity-0'
@@ -51,12 +49,12 @@ export default function Main() {
 							{backgrounds.map(background => (
 								<li
 									className={`w-full rounded-lg ${
-										settingsContext.background == background
-											? 'bg-base-300'
-											: ''
+										state.background == background ? 'bg-base-300' : ''
 									}`}
 									key={background}
-									onClick={() => settingsContext.setBackground(background)}
+									onClick={() =>
+										dispatch({ type: 'SET_BACKGROUND', payload: background })
+									}
 								>
 									<a>{background}</a>
 								</li>

@@ -6,7 +6,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons'
 export interface ItemProps {
 	active: number
 	id: number
-	setActive: (id: number, link: string) => void
+	setActive: () => void
 	icon: IconDefinition
 	link: string
 	tooltip: string
@@ -39,7 +39,7 @@ export default function Item({
 				onClick={() => {
 					if (icon != faDownload) {
 						console.log('SIDEBAR_ITEM > ELEMENT_LINK:', link)
-						setActive(id, link)
+						setActive()
 						setIsOpen(false)
 					} else setIsOpen(prev => !prev)
 				}}

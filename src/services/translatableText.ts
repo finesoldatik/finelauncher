@@ -1,9 +1,9 @@
 import { getValue, setValue } from './localStorage'
 
 import languages from '../languages'
-// import { path } from '@tauri-apps/api'
-// import * as fs from '@tauri-apps/plugin-fs'
-// import { getLauncherPath } from './instanceManager'
+import * as path from '@tauri-apps/api/path'
+import * as fs from '@tauri-apps/plugin-fs'
+import { getLauncherPath } from './instanceManager'
 
 export type Translation = {
 	[index: string]: string | undefined
@@ -23,8 +23,8 @@ export default class TranslatableText {
 		this.translations = new Map()
 		this.translations = new Map(Object.entries(languages))
 
-		// 	this.reloadLanguages()
-		this.translations = new Map(Object.entries(languages)) //////////////////////////////////////////
+		this.reloadLanguages()
+		// this.translations = new Map(Object.entries(languages)) //////////////////////////////////////////
 	}
 
 	setLanguage(id: string) {
@@ -33,28 +33,28 @@ export default class TranslatableText {
 		console.log('Changed language to', id)
 	}
 
-	// async reloadLanguages() {
-	// 	// Default languages
-	// 	this.translations = new Map(Object.entries(languages))
+	async reloadLanguages() {
+		// Default languages
+		this.translations = new Map(Object.entries(languages))
 
-	// 	const translationsDir = await path.join(
-	// 		await getLauncherPath(),
-	// 		'languages'
-	// 	)
+		const translationsDir = await path.join(
+			await getLauncherPath(),
+			'languages'
+		)
 
-	// 	if (!(await fs.exists(translationsDir)))
-	// 		fs.mkdir(translationsDir, { recursive: true })
+		if (!(await fs.exists(translationsDir)))
+			fs.mkdir(translationsDir, { recursive: true })
 
-	// 	const files = (await fs.readDir(translationsDir)).filter(f => f.isFile)
+		const files = (await fs.readDir(translationsDir)).filter(f => f.isFile)
 
-	// 	files.forEach(async file => {
-	// 		const translation = (await fs
-	// 			.readTextFile(`${translationsDir}\\${file.name}`)
-	// 			.then(JSON.parse)) as Translation
+		files.forEach(async file => {
+			const translation = (await fs
+				.readTextFile(`${translationsDir}\\${file.name}`)
+				.then(JSON.parse)) as Translation
 
-	// 		this.translations.set(String(file.name), translation)
-	// 	})
-	// }
+			this.translations.set(String(file.name), translation)
+		})
+	}
 
 	translatable(id: string) {
 		let translation: string

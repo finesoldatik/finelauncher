@@ -1,15 +1,16 @@
-import {
+import React, {
 	createContext,
-	useState,
+	useReducer,
 	useContext,
-	ReactNode,
-	useMemo,
 	useEffect,
+	useMemo,
+	ReactNode,
+	useRef,
 } from 'react'
 import { getValue, setValue } from '../services/localStorage'
 import TranslatableText from '../services/translatableText'
 
-export interface SettingsContext {
+interface SettingsState {
 	theme: string
 	translation: TranslatableText
 	currentTab: number
@@ -18,37 +19,64 @@ export interface SettingsContext {
 	hideLauncherOnLaunchGame: boolean
 	fallingSnowflakes: boolean
 	snowflakeCount: number
-
-	setTheme: React.Dispatch<React.SetStateAction<string>>
-	setTranslation: React.Dispatch<React.SetStateAction<TranslatableText>>
-	setCurrentTab: React.Dispatch<React.SetStateAction<number>>
-	setCurrentPage: React.Dispatch<React.SetStateAction<string>>
-	setBackground: React.Dispatch<React.SetStateAction<string>>
-	setHideLauncherOnLaunchGame: React.Dispatch<React.SetStateAction<boolean>>
-	setFallingSnowflakes: React.Dispatch<React.SetStateAction<boolean>>
-	setSnowflakeCount: React.Dispatch<React.SetStateAction<number>>
-	resetSettings: () => void
 }
 
-export const SettingsContext = createContext<SettingsContext>({
-	theme: 'dark',
+const initialState: SettingsState = {
+	theme: getValue('theme') || 'dark',
 	translation: new TranslatableText(),
-	currentTab: 0,
-	currentPage: '',
-	background: '',
-	hideLauncherOnLaunchGame: false,
-	fallingSnowflakes: false,
-	snowflakeCount: 0,
+	currentTab: getValue('currentTab') || 0,
+	currentPage: getValue('currentPage') || '/',
+	background: getValue('background') || 'day_1',
+	hideLauncherOnLaunchGame: getValue('hideLauncherOnLaunchGame') || false,
+	fallingSnowflakes: getValue('fallingSnowflakes') || false,
+	snowflakeCount: getValue('snowflakeCount') || 300,
+}
 
-	setTheme: () => {},
-	setTranslation: () => {},
-	setCurrentTab: () => {},
-	setCurrentPage: () => {},
-	setBackground: () => {},
-	setHideLauncherOnLaunchGame: () => {},
-	setFallingSnowflakes: () => {},
-	setSnowflakeCount: () => {},
-	resetSettings: () => {},
+type SettingsAction =
+	| { type: 'SET_THEME'; payload: string }
+	| { type: 'SET_TRANSLATION'; payload: TranslatableText }
+	| { type: 'SET_TAB'; payload: number }
+	| { type: 'SET_PAGE'; payload: string }
+	| { type: 'SET_BACKGROUND'; payload: string }
+	| { type: 'SET_HIDE_LAUNCHER'; payload: boolean }
+	| { type: 'SET_FALLING_SNOWFLAKES'; payload: boolean }
+	| { type: 'SET_SNOWFLAKE_COUNT'; payload: number }
+	| { type: 'RESET_SETTINGS' }
+
+function settingsReducer(
+	state: SettingsState,
+	action: SettingsAction
+): SettingsState {
+	switch (action.type) {
+		case 'SET_THEME':
+			return { ...state, theme: action.payload }
+		case 'SET_TRANSLATION':
+			return { ...state, translation: action.payload }
+		case 'SET_TAB':
+			return { ...state, currentTab: action.payload }
+		case 'SET_PAGE':
+			return { ...state, currentPage: action.payload }
+		case 'SET_BACKGROUND':
+			return { ...state, background: action.payload }
+		case 'SET_HIDE_LAUNCHER':
+			return { ...state, hideLauncherOnLaunchGame: action.payload }
+		case 'SET_FALLING_SNOWFLAKES':
+			return { ...state, fallingSnowflakes: action.payload }
+		case 'SET_SNOWFLAKE_COUNT':
+			return { ...state, snowflakeCount: action.payload }
+		case 'RESET_SETTINGS':
+			return initialState
+		default:
+			return state
+	}
+}
+
+export const SettingsContext = createContext<{
+	state: SettingsState
+	dispatch: React.Dispatch<SettingsAction>
+}>({
+	state: initialState,
+	dispatch: () => {},
 })
 
 export const useSettingsContext = () => useContext(SettingsContext)
@@ -58,100 +86,51 @@ export default function SettingsProvider({
 }: {
 	children: ReactNode
 }) {
-	console.log('SettingsProvider Render')
+	const [state, dispatch] = useReducer(settingsReducer, initialState)
 
-	const [theme, setTheme] = useState<string>(getValue('theme') || 'dark')
-	const [translation, setTranslation] = useState<TranslatableText>(
-		new TranslatableText()
-	)
-
-	const [currentTab, setCurrentTab] = useState<number>(getValue('tab') || 0)
-
-	const [currentPage, setCurrentPage] = useState<string>(
-		getValue('page') || '/'
-	)
-
-	const [background, setBackground] = useState<string>(
-		getValue('background') || 'day_1'
-	)
-
-	const [hideLauncherOnLaunchGame, setHideLauncherOnLaunchGame] =
-		useState<boolean>(getValue('hideLauncherOnLaunchGame') || false)
-
-	const [fallingSnowflakes, setFallingSnowflakes] = useState<boolean>(
-		getValue('fallingSnowflakes') || false
-	)
-
-	const [snowflakeCount, setSnowflakeCount] = useState<number>(
-		getValue('snowflakeCount') || 300
-	)
-
-	const resetSettings = () => {
-		setTheme('dark')
-		setBackground('day_1')
-		setHideLauncherOnLaunchGame(false)
-		setFallingSnowflakes(false)
-	}
+	// Предыдущее состояние
+	const prevState = useRef<SettingsState>(initialState)
 
 	useEffect(() => {
-		setValue('tab', currentTab)
-	}, [currentTab])
+		Object.keys(initialState).forEach(key => {
+			const typedKey = key as keyof SettingsState
+			if (!getValue(key)) {
+				// Установка значений, которых нет в localStorage
+				if (key !== 'translation') {
+					setValue(key, initialState[typedKey])
+				}
+			}
+		})
+	}, [])
 
+	// Обновление только изменившихся значений
 	useEffect(() => {
-		setValue('page', currentPage)
-	}, [currentPage])
+		Object.keys(state).forEach(key => {
+			const typedKey = key as keyof SettingsState
+			if (state[typedKey] !== prevState.current[typedKey]) {
+				if (key !== 'translation') {
+					// Все кроме translation, потому что он у себя в классе обновляется
+					setValue(key, state[typedKey])
+				}
+			}
+		})
 
+		// Обновление предыдущего состояния
+		prevState.current = state
+	}, [state])
+
+	// Обновление темы
 	useEffect(() => {
-		document.body.setAttribute('data-theme', theme)
-		setValue('theme', theme)
-	}, [theme])
+		document.body.setAttribute('data-theme', state.theme)
+	}, [state.theme])
 
-	useEffect(() => {
-		setValue('background', background)
-	}, [background])
-
-	useEffect(() => {
-		setValue('hideLauncherOnLaunchGame', hideLauncherOnLaunchGame)
-	}, [hideLauncherOnLaunchGame])
-
-	useEffect(() => {
-		setValue('fallingSnowflakes', fallingSnowflakes)
-	}, [fallingSnowflakes])
-
-	useEffect(() => {
-		setValue('snowflakeCount', snowflakeCount)
-	}, [snowflakeCount])
-
+	// Мемоизация значения контекста
 	const value = useMemo(
 		() => ({
-			theme,
-			translation,
-			currentTab,
-			currentPage,
-			background,
-			hideLauncherOnLaunchGame,
-			fallingSnowflakes,
-			snowflakeCount,
-
-			setTheme,
-			setTranslation,
-			setCurrentTab,
-			setCurrentPage,
-			setBackground,
-			setHideLauncherOnLaunchGame,
-			setFallingSnowflakes,
-			setSnowflakeCount,
-			resetSettings,
+			state,
+			dispatch,
 		}),
-		[
-			theme,
-			translation,
-			currentPage,
-			background,
-			hideLauncherOnLaunchGame,
-			fallingSnowflakes,
-			snowflakeCount,
-		]
+		[state]
 	)
 
 	return (

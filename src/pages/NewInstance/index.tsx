@@ -1,3 +1,9 @@
+import Settings from '../Settings'
+
 export default function NewInstance() {
-	return <>aaaaaaa</>
+	return (
+		<>
+			<Settings />
+		</>
+	)
 }

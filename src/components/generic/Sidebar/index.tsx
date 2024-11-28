@@ -5,12 +5,12 @@ import { useSettingsContext } from '../../../contexts/SettingsProvider'
 import LeftDrawer from '../LeftDrawer/index.tsx'
 import { faNoteSticky } from '@fortawesome/free-solid-svg-icons'
 
-const Sidebar = React.memo(() => {
+export default function Sidebar() {
 	console.log('Sidebar Render')
 
 	const [isOpen, setIsOpen] = useState(false)
 
-	const settingsContext = useSettingsContext()
+	const { state, dispatch } = useSettingsContext()
 
 	const filteredTopItems = useMemo(() => {
 		return topItems.map((el, idx) => (
@@ -18,17 +18,17 @@ const Sidebar = React.memo(() => {
 				id={el.id}
 				icon={el.icon}
 				link={el.link}
-				tooltip={settingsContext.translation.translatable(el.tooltip)}
-				active={settingsContext.currentTab}
-				setActive={(id, link) => {
-					settingsContext.setCurrentTab(id)
-					settingsContext.setCurrentPage(link)
+				tooltip={state.translation.translatable(el.tooltip)}
+				active={state.currentTab}
+				setActive={() => {
+					dispatch({ type: 'SET_TAB', payload: el.id })
+					dispatch({ type: 'SET_PAGE', payload: el.link })
 				}}
 				setIsOpen={setIsOpen}
 				key={idx}
 			/>
 		))
-	}, [settingsContext.currentPage, settingsContext.translation])
+	}, [state.currentPage, state.translation])
 
 	const filteredBottomItems = useMemo(() => {
 		return bottomItems.map((el, idx) => (
@@ -36,21 +36,21 @@ const Sidebar = React.memo(() => {
 				id={el.id}
 				icon={el.icon}
 				link={el.link}
-				tooltip={settingsContext.translation.translatable(el.tooltip)}
-				active={settingsContext.currentTab}
-				setActive={(id, link) => {
-					settingsContext.setCurrentTab(id)
-					settingsContext.setCurrentPage(link)
+				tooltip={state.translation.translatable(el.tooltip)}
+				active={state.currentTab}
+				setActive={() => {
+					dispatch({ type: 'SET_TAB', payload: el.id })
+					dispatch({ type: 'SET_PAGE', payload: el.link })
 				}}
 				setIsOpen={setIsOpen}
 				key={idx}
 			/>
 		))
-	}, [settingsContext.currentPage, settingsContext.translation])
+	}, [state.currentPage, state.translation])
 
 	const isAnotherPage = useMemo(
-		() => settingsContext.currentTab == items.length + 1,
-		[settingsContext.currentTab]
+		() => state.currentTab == items.length + 1,
+		[state.currentTab]
 	)
 
 	return (
@@ -70,14 +70,12 @@ const Sidebar = React.memo(() => {
 						<Item
 							id={items.length + 1}
 							icon={faNoteSticky}
-							link={settingsContext.currentPage}
-							tooltip={settingsContext.translation.translatable(
-								'anotherPage.tooltip'
-							)}
-							active={settingsContext.currentTab}
-							setActive={(id, link) => {
-								settingsContext.setCurrentTab(id)
-								settingsContext.setCurrentPage(link)
+							link={state.currentPage}
+							tooltip={state.translation.translatable('anotherPage.tooltip')}
+							active={state.currentTab}
+							setActive={() => {
+								dispatch({ type: 'SET_TAB', payload: items.length + 1 })
+								dispatch({ type: 'SET_PAGE', payload: state.currentPage })
 							}}
 							setIsOpen={setIsOpen}
 						/>
@@ -92,6 +90,4 @@ const Sidebar = React.memo(() => {
 			</div>
 		</>
 	)
-})
-
-export default Sidebar
+}

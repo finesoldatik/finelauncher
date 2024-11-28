@@ -8,7 +8,7 @@ export const getValue: GetValue = key => {
 		return JSON.parse(storage)
 	}
 
-	return false
+	return undefined
 }
 
 export const setValue: SetValue = (key, value) => {

@@ -35,6 +35,7 @@ body {
 }
 
 .window main {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
@@ -98,7 +99,7 @@ body {
 .page-top-enter-active {
 	opacity: 1;
 	transform: translateY(0);
-	transition: opacity 200ms ease, transform 200ms ease;
+	transition: opacity 300ms ease, transform 300ms ease;
 }
 
 .page-top-exit {
@@ -120,7 +121,7 @@ body {
 .page-down-enter-active {
 	opacity: 1;
 	transform: translateY(0);
-	transition: opacity 200ms ease, transform 200ms ease;
+	transition: opacity 300ms ease, transform 300ms ease;
 }
 
 .page-down-exit {

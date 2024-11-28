@@ -1,7 +1,7 @@
 interface ThemeProps {
 	name: string
 	activeTheme: string
-	setTheme: (value: string) => void
+	setTheme: () => void
 }
 
 export default function Theme({ name, activeTheme, setTheme }: ThemeProps) {
@@ -10,7 +10,7 @@ export default function Theme({ name, activeTheme, setTheme }: ThemeProps) {
 			className={`md:w-60 lg:max-w-48 outline-base-content text-start outline outline-2 rounded-[--rounded-btn] outline-offset-4 ${
 				activeTheme == name ? '!outline-base-content' : 'outline-transparent'
 			}`}
-			onClick={() => setTheme(name)}
+			onClick={() => setTheme()}
 		>
 			<div
 				className='bg-base-100 rounded-btn text-base-content block w-full cursor-pointer font-sans'

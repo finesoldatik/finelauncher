@@ -10,9 +10,7 @@ export default function Browser({
 	className?: string
 }) {
 	return (
-		<div
-			className={`mockup-browser bg-base-300 border w-96 h-72 ${className}`}
-		>
+		<div className={`mockup-browser bg-base-300 border w-96 h-72 ${className}`}>
 			<div className='mockup-browser-toolbar'>
 				<div className='input'>{url}</div>
 			</div>

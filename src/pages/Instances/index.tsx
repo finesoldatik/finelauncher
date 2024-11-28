@@ -7,13 +7,12 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Instance from '../../components/Instance'
 import Main from '../../components/Main'
 import Resizer from '../../components/generic/Resizer'
-import { getValue } from '../../services/localStorage'
 
 export default function Instances() {
 	console.log('InstancesPage Render')
 
 	const navigate = useNavigate()
-	const settingsContext = useSettingsContext()
+	const { state } = useSettingsContext()
 
 	const instanceRef = useRef(null)
 
@@ -24,7 +23,7 @@ export default function Instances() {
 			DiscordRPC.isConnected().then(val => {
 				if (val)
 					DiscordRPC.update(
-						settingsContext.translation.translatable(
+						state.translation.translatable(
 							'instancesPage.DiscordRPC.Instance'
 						)
 					)
@@ -32,8 +31,8 @@ export default function Instances() {
 	}, [name])
 
 	useEffect(() => {
-		if (settingsContext.currentPage) navigate(settingsContext.currentPage)
-	}, [settingsContext.currentPage])
+		if (state.currentPage) navigate(state.currentPage)
+	}, [state.currentPage])
 
 	console.log('name', name)
 
