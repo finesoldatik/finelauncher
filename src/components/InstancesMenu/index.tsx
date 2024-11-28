@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import InstanceMenuItem from '../InstanceMenuItem'
 import { useEffect, useState } from 'react'
 import { useSettingsContext } from '../../contexts/SettingsProvider'
+import { items } from '../generic/Sidebar/items'
 
 export interface Instance {
 	name: string
@@ -32,12 +33,16 @@ export default function InstancesMenu({ name, instances }: InstancesMenuProps) {
 				<Link
 					className='btn btn-ghost'
 					to='/new-instance'
-					onClick={() =>
+					onClick={() => {
 						dispatch({
 							type: 'SET_PAGE',
 							payload: '/new-instance',
 						})
-					}
+						dispatch({
+							type: 'SET_TAB',
+							payload: items.length + 1,
+						})
+					}}
 				>
 					Создать сборку
 				</Link>
